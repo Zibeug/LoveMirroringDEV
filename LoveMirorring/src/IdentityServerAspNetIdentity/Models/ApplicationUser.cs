@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IdentityServerAspNetIdentity.Models
 {
@@ -17,6 +18,11 @@ namespace IdentityServerAspNetIdentity.Models
 
         [DataType(DataType.Date)]
         public DateTime Birthday { get; set; }
+
+        [Column("SEXEID")]
+        public short Sexeid { get; set; }
+
+        public bool QuizCompleted { get; set; }
 
         //public bool PictureConfirmed { get; set; }
 

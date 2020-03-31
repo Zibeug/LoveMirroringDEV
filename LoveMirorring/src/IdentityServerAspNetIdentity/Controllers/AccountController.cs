@@ -16,6 +16,7 @@ using IdentityServerAspNetIdentity.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace IdentityServerAspNetIdentity.Controllers
 {
@@ -39,7 +40,7 @@ namespace IdentityServerAspNetIdentity.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUpSend(ApplicationUser user)
         {
-            string connectionString = "Server=LOCALHOST\\SQLEXPRESS;Database=LoveMirroring;Trusted_Connection=True;MultipleActiveResultSets=true";
+            string connectionString = Startup.Configuration.GetConnectionString("DefaultConnection");
             var services = new ServiceCollection();
             services.AddLogging();
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -54,13 +55,14 @@ namespace IdentityServerAspNetIdentity.Controllers
                 using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
                     var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
-                    context.Database.Migrate();
 
                     var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
                     var checkUser = userMgr.FindByNameAsync(user.UserName).Result;
                     if (checkUser == null)
                     {
+                        user.Sexeid = 1;
+                        user.QuizCompleted = false;
                         checkUser = user;
                         var result = userMgr.CreateAsync(checkUser, user.PasswordHash).Result;
                         if (!result.Succeeded)
@@ -73,13 +75,7 @@ namespace IdentityServerAspNetIdentity.Controllers
 
                             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                            var callbackUrl = Url.Page(
-                                "/Account/ConfirmEmail",
-                                pageHandler: null,
-                                values: new { userId = user.Id, code = code},
-                                protocol: Request.Scheme);
-
-                            string url = "/Account/ConfirmEmail" + "?userId=" + user.Id + "&code=" + code;
+                            var callbackUrl = Url.Action("Account", "ConfirmEmail", new { userId = user.Id, code = code }, Request.Scheme);
 
                             string message = "Salut mon pote comment ca va ? si tu veux confirmer ton inscription c'est par <a href='" + callbackUrl + "'>ici</a>";
                             await _emailSender.SendEmailAsync(user.Email, "Confirmer votre Email", message);

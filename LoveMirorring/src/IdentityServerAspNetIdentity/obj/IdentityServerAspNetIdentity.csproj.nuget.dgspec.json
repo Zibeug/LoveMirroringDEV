@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\DEV\\Love-Mirroring\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj": {}
+    "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj": {}
   },
   "projects": {
-    "C:\\DEV\\Love-Mirroring\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj": {
+    "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\DEV\\Love-Mirroring\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj",
+        "projectUniqueName": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj",
         "projectName": "IdentityServerAspNetIdentity",
-        "projectPath": "C:\\DEV\\Love-Mirroring\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj",
+        "projectPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj",
         "packagesPath": "C:\\Users\\zibeu\\.nuget\\packages\\",
-        "outputPath": "C:\\DEV\\Love-Mirroring\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\obj\\",
+        "outputPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -42,6 +42,12 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "Bricelam.EntityFrameworkCore.Pluralizer": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
             "IdentityServer4.AspNetIdentity": {
               "target": "Package",
               "version": "[3.1.0, )"
@@ -64,15 +70,17 @@
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[3.1.2, )"
+              "version": "[3.1.3, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
               "version": "[3.1.0, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[3.1.0, )"
+              "version": "[3.1.3, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",

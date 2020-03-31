@@ -6,41 +6,52 @@
 <h1>Laissez nous établir votre plan de match</h1>
 <pre>@ViewBag.Json</pre>
 
-    <div class="container-fluid bg-info">
+@foreach (Question question in ViewData["questions"] as List<Question>)
+{
+    <div class="container-fluid bg-info" id="@question.QuestionId">
         <div class="modal-dialog">
-            @foreach (Question question in ViewData["questions"] as List<Question>)
-            {
-                <div class="modal-content">
 
-                    <div class="modal-header">
-                        <h3><span class="label label-warning" id="qid">@question.QuestionId</span>@question.QuestionText</h3>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-xs-3 col-xs-offset-5">
-                            <div id="loadbar" style="display: none;">
-                                <div class="blockG" id="rotateG_01"></div>
-                                <div class="blockG" id="rotateG_02"></div>
-                                <div class="blockG" id="rotateG_03"></div>
-                                <div class="blockG" id="rotateG_04"></div>
-                                <div class="blockG" id="rotateG_05"></div>
-                                <div class="blockG" id="rotateG_06"></div>
-                                <div class="blockG" id="rotateG_07"></div>
-                                <div class="blockG" id="rotateG_08"></div>
-                            </div>
-                        </div>
+            <div class="modal-content">
 
-                        <div class="quiz" id="quiz" data-toggle="buttons">
-                            <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name="q_answer" value="1">1 One</label>
-                            <label class="element-animation2 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name="q_answer" value="2">2 Two</label>
-                            <label class="element-animation3 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name="q_answer" value="3">3 Three</label>
-                            <label class="element-animation4 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name="q_answer" value="4">4 Four</label>
+                <div class="modal-header">
+                    <h3><span class="label label-warning" id="qid">@question.QuestionId</span>@question.QuestionText</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="col-xs-3 col-xs-offset-5">
+                        <div id="loadbar" style="display: none;">
+                            <div class="blockG" id="rotateG_01"></div>
+                            <div class="blockG" id="rotateG_02"></div>
+                            <div class="blockG" id="rotateG_03"></div>
+                            <div class="blockG" id="rotateG_04"></div>
+                            <div class="blockG" id="rotateG_05"></div>
+                            <div class="blockG" id="rotateG_06"></div>
+                            <div class="blockG" id="rotateG_07"></div>
+                            <div class="blockG" id="rotateG_08"></div>
                         </div>
                     </div>
-                    <div class="modal-footer text-muted">
-                        <span id="answer"></span>
+                    <div class="quiz" id="quiz" data-toggle="buttons">
+                        @foreach (Answer answer in ViewData["answer"] as List<Answer>)
+                        {
+                            if (question.QuestionId == answer.QuestionId)
+                            {
+                                <label class="element-animation1 btn btn-lg btn-primary btn-block">
+                                    <span class="btn-label">
+                                        <i class="glyphicon glyphicon-chevron-right"></i>
+                                    </span>
+                                    <input type="radio" name="q_answer" value="@answer.AnswerValue">@answer.AnswerText
+                                </label>
+                            }
+
+                        }
                     </div>
                 </div>
-            }
-            
+            </div>
         </div>
     </div>
+}
+<form asp-route="QuizSubmit">
+    <input type="hidden" id="score" value="" />
+    <div class="form-group">
+        <button class="btn btn-primary" name="button" value="QuizSubmit">Soumettre mes réponses</button>
+    </div>
+</form>

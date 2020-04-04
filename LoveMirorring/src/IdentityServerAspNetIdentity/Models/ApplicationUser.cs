@@ -24,6 +24,8 @@ namespace IdentityServerAspNetIdentity.Models
 
         public bool QuizCompleted { get; set; }
 
+
+
         //public bool PictureConfirmed { get; set; }
 
         //public bool ActiveProfile { get; set; }

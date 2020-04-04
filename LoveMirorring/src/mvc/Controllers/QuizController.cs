@@ -32,9 +32,12 @@ namespace mvc.Controllers
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Quiz");
+            string answerContent = await client.GetStringAsync(Configuration["URLAPI"] + "api/Quiz/answer");
             List<Question> result = JsonConvert.DeserializeObject<List<Question>>(content);
+            List<Answer> resultAnswer = JsonConvert.DeserializeObject<List<Answer>>(answerContent);
             //List<Question> questionList = new List<Question>();
             ViewData["questions"] = result;
+            ViewData["answer"] = resultAnswer;
             return View();
         }
     }

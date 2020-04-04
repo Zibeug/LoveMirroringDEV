@@ -1,4 +1,4 @@
-﻿@model IdentityServerAspNetIdentity.Models.ApplicationUser
+﻿@model IdentityServerAspNetIdentity.ViewModels.RegisterInput
 <div class="signup-page">
     <div class="page-header">
         <h1>Sign Up</h1>
@@ -12,7 +12,12 @@
                 </div>
                 
                 <div class="panel-body">
-
+                    @if(ViewData["error"] != null)
+                    {
+                        <div class="alert-danger">
+                            <p>@ViewData["error"].ToString();</p>
+                        </div>
+                    }
                     <form asp-route="SignUpSend">
                         <fieldset>
                             <div class="form-group">
@@ -22,6 +27,12 @@
                             <div class="form-group">
                                 <label asp-for="PasswordHash"></label>
                                 <input type="password" class="form-control" placeholder="Password" asp-for="PasswordHash" autocomplete="off">
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ConfirmPassword"></label>
+                                <input asp-for="ConfirmPassword" class="form-control" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="Email"></label>
@@ -57,8 +68,9 @@
 
                             <div class="form-group">
                                 <button class="btn btn-primary" name="button" value="signup">Sign Up</button>
-                                <button class="btn btn-default" name="button" value="cancel">Cancel</button>
+
                             </div>
+                            <p>You have already an account ? <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Sign in</a></p>
                         </fieldset>
                     </form>
                 </div>

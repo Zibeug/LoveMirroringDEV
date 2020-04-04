@@ -18,5 +18,7 @@ namespace IdentityServerAspNetIdentity.Models
         [ForeignKey(nameof(Id))]
         [InverseProperty(nameof(AspNetUser.UsersExternalServices))]
         public virtual AspNetUser IdNavigation { get; set; }
+
+        
     }
 }

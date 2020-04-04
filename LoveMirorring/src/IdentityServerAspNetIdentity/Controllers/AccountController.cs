@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using IdentityServerAspNetIdentity.ViewModels;
+using System.Text.Encodings.Web;
 
 namespace IdentityServerAspNetIdentity.Controllers
 {
@@ -38,72 +40,79 @@ namespace IdentityServerAspNetIdentity.Controllers
 
         [Route("SignUpSend", Name = "SignUpSend")]
         [HttpPost]
-        public async Task<IActionResult> SignUpSend(ApplicationUser user)
+        public async Task<IActionResult> SignUpSend(RegisterInput input)
         {
-            string connectionString = Startup.Configuration.GetConnectionString("DefaultConnection");
-            var services = new ServiceCollection();
-            services.AddLogging();
-            services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseSqlServer(connectionString));
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
-            using (var serviceProvider = services.BuildServiceProvider())
+            ApplicationUser user = new ApplicationUser();
+            try
             {
-                using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                string connectionString = Startup.Configuration.GetConnectionString("DefaultConnection");
+                var services = new ServiceCollection();
+                services.AddLogging();
+                services.AddDbContext<ApplicationDbContext>(options =>
+                   options.UseSqlServer(connectionString));
+
+                services.AddIdentity<ApplicationUser, IdentityRole>()
+                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddDefaultTokenProviders();
+
+                using (var serviceProvider = services.BuildServiceProvider())
                 {
-                    var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
-
-                    var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-
-                    var checkUser = userMgr.FindByNameAsync(user.UserName).Result;
-                    if (checkUser == null)
+                    using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
                     {
-                        user.Sexeid = 1;
-                        user.QuizCompleted = false;
-                        checkUser = user;
-                        var result = userMgr.CreateAsync(checkUser, user.PasswordHash).Result;
-                        if (!result.Succeeded)
+                        var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+
+                        var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+                        var checkUser = userMgr.FindByNameAsync(input.UserName).Result;
+                        if (checkUser == null)
                         {
-                            throw new Exception(result.Errors.First().Description);
+                            if(input.ConfirmPassword != input.PasswordHash)
+                            {
+                                throw new Exception("Votre formulaire comporte des erreurs");
+                            }
+                            else
+                            {
+                                user = input;
+                            }
+                            user.Sexeid = 1;
+                            user.QuizCompleted = false;
+                            checkUser = user;
+                            var result = userMgr.CreateAsync(checkUser, user.PasswordHash).Result;
+                            if (!result.Succeeded)
+                            {
+                                throw new Exception(result.Errors.First().Description);
+                            }
+                            else
+                            {
+                                //_logger.LogInformation("User created a new account with password.");
+
+                                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, Request.Scheme);
+
+                                string message = "Salut mon pote comment ca va ? si tu veux confirmer ton inscription c'est par <a href='" + callbackUrl + "'>ici</a>";
+                                await _emailSender.SendEmailAsync(user.Email, "Confirmer votre Email", message);
+
+                            }
+                          
+                            Log.Debug($"{checkUser.UserName} created");
                         }
                         else
                         {
-                            //_logger.LogInformation("User created a new account with password.");
-
-                            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                            var callbackUrl = Url.Action("Account", "ConfirmEmail", new { userId = user.Id, code = code }, Request.Scheme);
-
-                            string message = "Salut mon pote comment ca va ? si tu veux confirmer ton inscription c'est par <a href='" + callbackUrl + "'>ici</a>";
-                            await _emailSender.SendEmailAsync(user.Email, "Confirmer votre Email", message);
-
+                            throw new Exception("Votre nom d'utilisateur est déjà pris");
                         }
-                        
-
-                        //result = userMgr.AddClaimsAsync(checkUser, new Claim[]{
-                        //    new Claim(JwtClaimTypes.Name, checkUser.UserName),
-                        //    new Claim(JwtClaimTypes.GivenName, checkUser.Firstname),
-                        //    new Claim(JwtClaimTypes.FamilyName, checkUser.LastName),
-                        //    new Claim(JwtClaimTypes.Email, checkUser.Email),
-                        //    new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean)
-                        //}).Result;
-                        //if (!result.Succeeded)
-                        //{
-                        //    throw new Exception(result.Errors.First().Description);
-                        //}
-                        Log.Debug($"{checkUser.UserName} created");
-                    }
-                    else
-                    {
-                        Log.Debug($"{checkUser.UserName} already exists");
                     }
                 }
+
+                return View("SignUpSuccess", user);
+            }
+            catch (Exception e)
+            {
+                ViewData["error"] = e.Message;
+                return View("SignUp");
             }
             
-            return View("SignUpSuccess", user);
+            
         }
 
         public IActionResult Cancel()
@@ -131,5 +140,112 @@ namespace IdentityServerAspNetIdentity.Controllers
             return View("ConfirmEmail");
         }
 
+        [Route("ForgotPassword", Name = "ForgotPassword")]
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordInput input)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(input.Email);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    // Don't reveal that the user does not exist or is not confirmed
+                    return View("ForgotPasswordConfirmation");
+                }
+
+                // For more information on how to enable account confirmation and password reset please 
+                // visit https://go.microsoft.com/fwlink/?LinkID=532713
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { code = code }, Request.Scheme);
+
+                await _emailSender.SendEmailAsync(
+                    input.Email,
+                    "Reset Password",
+                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                return View("ForgotPasswordConfirmation");
+            }
+
+            return View();
+        }
+
+        [Route("ForgotPassword", Name = "ForgotPassword")]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [Route("ForgotSend", Name = "ForgotSend")]
+        [HttpPost]
+        public async Task<IActionResult> ForgotSend(ForgotPasswordInput Input)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(Input.Email);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    // Don't reveal that the user does not exist or is not confirmed
+                    return View("ForgotPasswordConfirmation");
+                }
+
+                // For more information on how to enable account confirmation and password reset please 
+                // visit https://go.microsoft.com/fwlink/?LinkID=532713
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { code = code }, Request.Scheme);
+
+                await _emailSender.SendEmailAsync(
+                    Input.Email,
+                    "Reset Password",
+                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                return View("ForgotPasswordConfirmation");
+            }
+
+            return View("ResetPasswordFail");
+        }
+
+        public IActionResult ResetPassword(string code = null)
+        {
+            if (code == null)
+            {
+                return View("ResetPasswordFail");
+            }
+            else
+            {
+                ResetPasswordInput test = new ResetPasswordInput
+                {
+                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
+                };
+                return View("ResetPassword");
+            }
+        }
+
+        [Route("ChangePassword", Name = "ChangePassword")]
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ResetPasswordInput input)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("ResetPasswordFail");
+            }
+
+            var user = await _userManager.FindByEmailAsync(input.Email);
+            if (user == null)
+            {
+                // Don't reveal that the user does not exist
+                return View("ResetPasswordFail");
+            }
+            string code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(input.Code));
+            var result = await _userManager.ResetPasswordAsync(user, code, input.Password);
+            if (!result.Succeeded)
+            {
+                return View("ResetPasswordFail");
+            }
+
+            return View("ResetPasswordConfirmation");
+        }
     }
 }

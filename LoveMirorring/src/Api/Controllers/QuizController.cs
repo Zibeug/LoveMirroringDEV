@@ -19,15 +19,26 @@ namespace Api.Controllers
 
         public QuizController(LoveMirroringContext context)
         {
-            
+
             _context = context;
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetQuestion()
         {
             List<Question> questions = _context.Questions.ToList();
+
             return new JsonResult(questions);
+        }
+
+        [Route("answer")]
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetAnswer()
+        {
+            List<Answer> responses = _context.Answers.ToList();
+            return new JsonResult(responses);
         }
 
         //public async Task<IActionResult> ConfirmQuiz(string userId)

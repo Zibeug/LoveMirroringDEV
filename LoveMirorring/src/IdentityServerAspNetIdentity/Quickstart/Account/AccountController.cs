@@ -109,11 +109,17 @@ namespace IdentityServer4.Quickstart.UI
                 if (result.Succeeded)
                 {
                     var user = await _userManager.FindByNameAsync(model.Username);
-                    var result2 = await _userManager.IsEmailConfirmedAsync(user);
 
-                    if (!result2)
+                    var resultEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+                    if (!resultEmailConfirmed)
                     {
-                        return Redirect("https://etml.ch");
+                        throw new Exception("Le mail doit être validé");
+                    }
+
+                    var resultPhoneConfirmed = await _userManager.IsPhoneNumberConfirmedAsync(user);
+                    if (!resultPhoneConfirmed)
+                    {
+                        return Redirect("~/Account/VerifyPhone");
                     }
 
                     await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.ClientId));

@@ -2083,7 +2083,7 @@
           "System.Threading": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.3/_._": {}
+          "ref/netstandard1.3/System.Collections.Specialized.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Collections.Specialized.dll": {}
@@ -3664,6 +3664,21 @@
           "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
         }
       },
+      "Twilio/5.39.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.IdentityModel.Tokens": "5.3.0",
+          "Newtonsoft.Json": "11.0.2",
+          "System.Collections.Specialized": "4.3.0",
+          "System.IdentityModel.Tokens.Jwt": "5.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Twilio.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Twilio.dll": {}
+        }
+      },
       "Api/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
@@ -3697,7 +3712,8 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.1",
           "SendGrid": "9.13.1",
           "Serilog.AspNetCore": "3.2.0",
-          "System.Security.Principal.Windows": "4.7.0"
+          "System.Security.Principal.Windows": "4.7.0",
+          "Twilio": "5.39.0"
         },
         "compile": {
           "bin/placeholder/IdentityServerAspNetIdentity.dll": {}
@@ -11177,6 +11193,25 @@
         "system.xml.xpath.xmldocument.nuspec"
       ]
     },
+    "Twilio/5.39.0": {
+      "sha512": "DhUgPUodyX9JPi2gZPccCzH3LbD1Ogk+y7wvKG0UeuOYEM3B0MxJxlBkzMQPGat36HI8UGRr/DsjslWpzDzGwQ==",
+      "type": "package",
+      "path": "twilio/5.39.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/Twilio.dll",
+        "lib/net35/Twilio.xml",
+        "lib/net451/Twilio.dll",
+        "lib/net451/Twilio.xml",
+        "lib/netstandard1.4/Twilio.dll",
+        "lib/netstandard1.4/Twilio.xml",
+        "lib/netstandard2.0/Twilio.dll",
+        "lib/netstandard2.0/Twilio.xml",
+        "twilio.5.39.0.nupkg.sha512",
+        "twilio.nuspec"
+      ]
+    },
     "Api/1.0.0": {
       "type": "project",
       "path": "../Api/Api.csproj",
@@ -11205,23 +11240,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\zibeu\\.nuget\\packages\\": {},
+    "C:\\Users\\Thermit\\.nuget\\packages\\": {},
     "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\TestUnitaireLoveMirroring\\TestUnitaireLoveMirroring.csproj",
+      "projectUniqueName": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\TestUnitaireLoveMirroring\\TestUnitaireLoveMirroring.csproj",
       "projectName": "TestUnitaireLoveMirroring",
-      "projectPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\TestUnitaireLoveMirroring\\TestUnitaireLoveMirroring.csproj",
-      "packagesPath": "C:\\Users\\zibeu\\.nuget\\packages\\",
-      "outputPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\TestUnitaireLoveMirroring\\obj\\",
+      "projectPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\TestUnitaireLoveMirroring\\TestUnitaireLoveMirroring.csproj",
+      "packagesPath": "C:\\Users\\Thermit\\.nuget\\packages\\",
+      "outputPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\TestUnitaireLoveMirroring\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\zibeu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Thermit\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -11235,14 +11270,14 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\Api\\Api.csproj": {
-              "projectPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\Api\\Api.csproj"
+            "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\Api\\Api.csproj": {
+              "projectPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\Api\\Api.csproj"
             },
-            "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj": {
-              "projectPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj"
+            "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj": {
+              "projectPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj"
             },
-            "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj": {
-              "projectPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj"
+            "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj": {
+              "projectPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj"
             }
           }
         }

@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System.Security.Cryptography.X509Certificates;
+using Twilio;
 
 namespace IdentityServerAspNetIdentity
 {
@@ -120,6 +121,11 @@ namespace IdentityServerAspNetIdentity
             // using WebPWrecover.Services;
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
+
+            var accountSid = Configuration["Twilio:AccountSID"]; 
+            var authToken = Configuration["Twilio:AuthToken"]; 
+            TwilioClient.Init(accountSid, authToken);
+            services.Configure<TwilioVerifySettings>(Configuration.GetSection("Twilio"));
         }
 
         public void Configure(IApplicationBuilder app)

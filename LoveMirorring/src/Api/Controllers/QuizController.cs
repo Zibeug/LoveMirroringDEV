@@ -27,7 +27,7 @@ namespace Api.Controllers
         [Authorize]
         public IActionResult GetQuestion()
         {
-            List<Question> questions = _context.Questions.ToList();
+            List<Question> questions = _context.Questions.Include(q =>q.Answers).ToList();
 
             return new JsonResult(questions);
         }

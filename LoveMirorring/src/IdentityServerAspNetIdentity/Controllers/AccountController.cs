@@ -282,7 +282,7 @@ namespace IdentityServerAspNetIdentity.Controllers
 
                 ModelState.AddModelError("", $"Your verification is not pending, please constact admin");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ModelState.AddModelError("", "There was an error sending the verification code, please contact admin");
             }

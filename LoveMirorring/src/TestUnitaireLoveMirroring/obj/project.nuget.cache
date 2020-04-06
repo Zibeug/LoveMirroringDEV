@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "iHyM2xjwWA2E8lSNGqKR/9/8CXoBmgyUwRQGUf2XkM3Jzci6m3yI88Lf0MiCzsbJU/DxWkunlReCK/uqONbxzQ==",
+  "dgSpecHash": "yexxdxtuWficTaVfNMN2kGo5YyuyDbHFtZLAdjTZVvttnAfuHgPEzrdNnCmZFDayrwKDG8QEn8GOzKF1DfCL2A==",
   "success": true,
   "projectFilePath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\TestUnitaireLoveMirroring\\TestUnitaireLoveMirroring.csproj",
   "expectedPackageFiles": [
@@ -22,6 +22,8 @@
     "C:\\Users\\Thermit\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.0.0\\microsoft.aspnetcore.http.features.2.0.0.nupkg.sha512",
     "C:\\Users\\Thermit\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\3.1.0\\microsoft.aspnetcore.identity.entityframeworkcore.3.1.0.nupkg.sha512",
     "C:\\Users\\Thermit\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\3.1.0\\microsoft.aspnetcore.identity.ui.3.1.0.nupkg.sha512",
+    "C:\\Users\\Thermit\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\3.1.3\\microsoft.aspnetcore.jsonpatch.3.1.3.nupkg.sha512",
+    "C:\\Users\\Thermit\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\3.1.3\\microsoft.aspnetcore.mvc.newtonsoftjson.3.1.3.nupkg.sha512",
     "C:\\Users\\Thermit\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",
     "C:\\Users\\Thermit\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\3.1.0\\microsoft.aspnetcore.razor.language.3.1.0.nupkg.sha512",
     "C:\\Users\\Thermit\\.nuget\\packages\\microsoft.aspnetcore.razor.runtime\\2.2.0\\microsoft.aspnetcore.razor.runtime.2.2.0.nupkg.sha512",
@@ -34,7 +36,7 @@
     "C:\\Users\\Thermit\\.nuget\\packages\\microsoft.codeanalysis.razor\\3.1.0\\microsoft.codeanalysis.razor.3.1.0.nupkg.sha512",
     "C:\\Users\\Thermit\\.nuget\\packages\\microsoft.codeanalysis.workspaces.common\\3.3.1\\microsoft.codeanalysis.workspaces.common.3.3.1.nupkg.sha512",
     "C:\\Users\\Thermit\\.nuget\\packages\\microsoft.codecoverage\\16.2.0\\microsoft.codecoverage.16.2.0.nupkg.sha512",
-    "C:\\Users\\Thermit\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\Thermit\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\Thermit\\.nuget\\packages\\microsoft.data.sqlclient\\1.0.19269.1\\microsoft.data.sqlclient.1.0.19269.1.nupkg.sha512",
     "C:\\Users\\Thermit\\.nuget\\packages\\microsoft.data.sqlite.core\\3.1.0\\microsoft.data.sqlite.core.3.1.0.nupkg.sha512",
     "C:\\Users\\Thermit\\.nuget\\packages\\microsoft.dotnet.platformabstractions\\3.1.0\\microsoft.dotnet.platformabstractions.3.1.0.nupkg.sha512",
@@ -88,6 +90,7 @@
     "C:\\Users\\Thermit\\.nuget\\packages\\mstest.testframework\\2.0.0\\mstest.testframework.2.0.0.nupkg.sha512",
     "C:\\Users\\Thermit\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
     "C:\\Users\\Thermit\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\Thermit\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
     "C:\\Users\\Thermit\\.nuget\\packages\\nuget.frameworks\\4.7.0\\nuget.frameworks.4.7.0.nupkg.sha512",
     "C:\\Users\\Thermit\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\Thermit\\.nuget\\packages\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",

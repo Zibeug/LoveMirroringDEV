@@ -855,10 +855,6 @@ C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\r
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.dll
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.pdb
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.csprojAssemblyReference.cache
-C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.csproj.CoreCompileInputs.cache
-C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cs
-C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cache
-C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\EFCorePluralizer.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.AssemblyInfoInputs.cache
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.AssemblyInfo.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.RazorTargetAssemblyInfo.cache
@@ -868,3 +864,10 @@ C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\s
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.dll
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.pdb
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.genruntimeconfig.cache
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.csproj.CoreCompileInputs.cache
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cs
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cache
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\EFCorePluralizer.cs

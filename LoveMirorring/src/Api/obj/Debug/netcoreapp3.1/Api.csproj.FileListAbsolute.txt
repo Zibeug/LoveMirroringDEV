@@ -678,10 +678,6 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\IdentitySe
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.pdb
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Bricelam.EntityFrameworkCore.Pluralizer.dll
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cs
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cache
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\EFCorePluralizer.cs
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.csproj.CoreCompileInputs.cache
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.genruntimeconfig.cache
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\appsettings.json
@@ -871,3 +867,15 @@ C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\A
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cache
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\EFCorePluralizer.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Twilio.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\SpotifyAPI.Web.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Unosquare.Labs.EmbedIO.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\SpotifyAPI.Web.Auth.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Unosquare.Swan.Lite.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.csproj.CoreCompileInputs.cache
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cache
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\EFCorePluralizer.cs

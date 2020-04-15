@@ -9,7 +9,7 @@ namespace mvc.Models
     {
         public Picture()
         {
-            PicturesTags = new HashSet<PicturesTag>();
+            PictureTags = new HashSet<PictureTag>();
         }
 
         [Key]
@@ -24,7 +24,7 @@ namespace mvc.Models
         [ForeignKey(nameof(Id))]
         [InverseProperty(nameof(AspNetUser.Pictures))]
         public virtual AspNetUser IdNavigation { get; set; }
-        [InverseProperty(nameof(PicturesTag.Picture))]
-        public virtual ICollection<PicturesTag> PicturesTags { get; set; }
+        [InverseProperty(nameof(PictureTag.Picture))]
+        public virtual ICollection<PictureTag> PictureTags { get; set; }
     }
 }

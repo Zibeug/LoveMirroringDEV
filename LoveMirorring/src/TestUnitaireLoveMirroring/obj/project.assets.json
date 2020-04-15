@@ -11333,25 +11333,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Thermit\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\zibeu\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\TestUnitaireLoveMirroring\\TestUnitaireLoveMirroring.csproj",
+      "projectUniqueName": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\TestUnitaireLoveMirroring\\TestUnitaireLoveMirroring.csproj",
       "projectName": "TestUnitaireLoveMirroring",
-      "projectPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\TestUnitaireLoveMirroring\\TestUnitaireLoveMirroring.csproj",
-      "packagesPath": "C:\\Users\\Thermit\\.nuget\\packages\\",
-      "outputPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\TestUnitaireLoveMirroring\\obj\\",
+      "projectPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\TestUnitaireLoveMirroring\\TestUnitaireLoveMirroring.csproj",
+      "packagesPath": "C:\\Users\\zibeu\\.nuget\\packages\\",
+      "outputPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\TestUnitaireLoveMirroring\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Thermit\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\zibeu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -11363,14 +11358,14 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\Api\\Api.csproj": {
-              "projectPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\Api\\Api.csproj"
+            "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\Api\\Api.csproj": {
+              "projectPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\Api\\Api.csproj"
             },
-            "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj": {
-              "projectPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj"
+            "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj": {
+              "projectPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj"
             },
-            "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj": {
-              "projectPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj"
+            "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj": {
+              "projectPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj"
             }
           }
         }

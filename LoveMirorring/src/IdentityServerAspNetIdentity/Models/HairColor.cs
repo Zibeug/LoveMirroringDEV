@@ -5,11 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IdentityServerAspNetIdentity.Models
 {
+    [Table("HairColor")]
     public partial class HairColor
     {
         public HairColor()
         {
-            PreferencesHairColors = new HashSet<PreferencesHairColor>();
+            AspNetUsers = new HashSet<AspNetUser>();
+            PreferenceHairColors = new HashSet<PreferenceHairColor>();
         }
 
         [Key]
@@ -18,7 +20,9 @@ namespace IdentityServerAspNetIdentity.Models
         [StringLength(32)]
         public string HairColorName { get; set; }
 
-        [InverseProperty(nameof(PreferencesHairColor.HairColor))]
-        public virtual ICollection<PreferencesHairColor> PreferencesHairColors { get; set; }
+        [InverseProperty(nameof(AspNetUser.HairColor))]
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
+        [InverseProperty(nameof(PreferenceHairColor.HairColor))]
+        public virtual ICollection<PreferenceHairColor> PreferenceHairColors { get; set; }
     }
 }

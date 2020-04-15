@@ -15,18 +15,26 @@ namespace mvc.Models
             AspNetUserTokens = new HashSet<AspNetUserToken>();
             Messages = new HashSet<Message>();
             Pictures = new HashSet<Picture>();
+            Preferences = new HashSet<Preference>();
             TalkIdNavigations = new HashSet<Talk>();
-            TalkIdUser2TalksNavigation = new HashSet<Talk>();
-            UsersExternalServices = new HashSet<UsersExternalService>();
-            UsersMatchId1Navigation = new HashSet<UsersMatch>();
-            UsersMatchIdNavigations = new HashSet<UsersMatch>();
-            UsersNewsLetters = new HashSet<UsersNewsLetter>();
-            UsersPreferences = new HashSet<UsersPreference>();
-            UsersProfils = new HashSet<UsersProfil>();
+            TalkIdUser2TalkNavigation = new HashSet<Talk>();
+            UserExternalServices = new HashSet<UserExternalService>();
+            UserLikeId1Navigation = new HashSet<UserLike>();
+            UserLikeIdNavigations = new HashSet<UserLike>();
+            UserMusics = new HashSet<UserMusic>();
+            UserNewsletters = new HashSet<UserNewsletter>();
+            UserProfils = new HashSet<UserProfil>();
+            UserStyles = new HashSet<UserStyle>();
         }
 
         [Key]
         public string Id { get; set; }
+        public short? HairColorId { get; set; }
+        public short? CorpulenceId { get; set; }
+        public short? SexeId { get; set; }
+        public short? HairSizeId { get; set; }
+        public short? SubscriptionId { get; set; }
+        public short? SexualityId { get; set; }
         public int AccessFailedCount { get; set; }
         public string ConcurrencyStamp { get; set; }
         [StringLength(256)]
@@ -49,12 +57,22 @@ namespace mvc.Models
         public string Firstname { get; set; }
         public string LastName { get; set; }
         public bool QuizCompleted { get; set; }
-        public short SexeId { get; set; }
-        public short? SubscriptionId { get; set; }
 
+        [ForeignKey(nameof(CorpulenceId))]
+        [InverseProperty("AspNetUsers")]
+        public virtual Corpulence Corpulence { get; set; }
+        [ForeignKey(nameof(HairColorId))]
+        [InverseProperty("AspNetUsers")]
+        public virtual HairColor HairColor { get; set; }
+        [ForeignKey(nameof(HairSizeId))]
+        [InverseProperty("AspNetUsers")]
+        public virtual HairSize HairSize { get; set; }
         [ForeignKey(nameof(SexeId))]
         [InverseProperty(nameof(Sex.AspNetUsers))]
         public virtual Sex Sexe { get; set; }
+        [ForeignKey(nameof(SexualityId))]
+        [InverseProperty("AspNetUsers")]
+        public virtual Sexuality Sexuality { get; set; }
         [ForeignKey(nameof(SubscriptionId))]
         [InverseProperty("AspNetUsers")]
         public virtual Subscription Subscription { get; set; }
@@ -62,7 +80,7 @@ namespace mvc.Models
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         [InverseProperty(nameof(AspNetUserLogin.User))]
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
-        [InverseProperty(nameof(AspNetUserRole.User))]
+        [InverseProperty(nameof(AspNetUserRole.UserNavigation))]
         public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; }
         [InverseProperty(nameof(AspNetUserToken.User))]
         public virtual ICollection<AspNetUserToken> AspNetUserTokens { get; set; }
@@ -70,21 +88,25 @@ namespace mvc.Models
         public virtual ICollection<Message> Messages { get; set; }
         [InverseProperty(nameof(Picture.IdNavigation))]
         public virtual ICollection<Picture> Pictures { get; set; }
+        [InverseProperty(nameof(Preference.IdNavigation))]
+        public virtual ICollection<Preference> Preferences { get; set; }
         [InverseProperty(nameof(Talk.IdNavigation))]
         public virtual ICollection<Talk> TalkIdNavigations { get; set; }
-        [InverseProperty(nameof(Talk.IdUser2TalksNavigation))]
-        public virtual ICollection<Talk> TalkIdUser2TalksNavigation { get; set; }
-        [InverseProperty(nameof(UsersExternalService.IdNavigation))]
-        public virtual ICollection<UsersExternalService> UsersExternalServices { get; set; }
-        [InverseProperty(nameof(UsersMatch.Id1Navigation))]
-        public virtual ICollection<UsersMatch> UsersMatchId1Navigation { get; set; }
-        [InverseProperty(nameof(UsersMatch.IdNavigation))]
-        public virtual ICollection<UsersMatch> UsersMatchIdNavigations { get; set; }
-        [InverseProperty(nameof(UsersNewsLetter.IdNavigation))]
-        public virtual ICollection<UsersNewsLetter> UsersNewsLetters { get; set; }
-        [InverseProperty(nameof(UsersPreference.IdNavigation))]
-        public virtual ICollection<UsersPreference> UsersPreferences { get; set; }
-        [InverseProperty(nameof(UsersProfil.IdNavigation))]
-        public virtual ICollection<UsersProfil> UsersProfils { get; set; }
+        [InverseProperty(nameof(Talk.IdUser2TalkNavigation))]
+        public virtual ICollection<Talk> TalkIdUser2TalkNavigation { get; set; }
+        [InverseProperty(nameof(UserExternalService.IdNavigation))]
+        public virtual ICollection<UserExternalService> UserExternalServices { get; set; }
+        [InverseProperty(nameof(UserLike.Id1Navigation))]
+        public virtual ICollection<UserLike> UserLikeId1Navigation { get; set; }
+        [InverseProperty(nameof(UserLike.IdNavigation))]
+        public virtual ICollection<UserLike> UserLikeIdNavigations { get; set; }
+        [InverseProperty(nameof(UserMusic.IdNavigation))]
+        public virtual ICollection<UserMusic> UserMusics { get; set; }
+        [InverseProperty(nameof(UserNewsletter.IdNavigation))]
+        public virtual ICollection<UserNewsletter> UserNewsletters { get; set; }
+        [InverseProperty(nameof(UserProfil.IdNavigation))]
+        public virtual ICollection<UserProfil> UserProfils { get; set; }
+        [InverseProperty(nameof(UserStyle.IdNavigation))]
+        public virtual ICollection<UserStyle> UserStyles { get; set; }
     }
 }

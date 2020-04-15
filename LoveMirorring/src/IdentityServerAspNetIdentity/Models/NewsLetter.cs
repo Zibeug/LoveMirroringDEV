@@ -5,20 +5,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IdentityServerAspNetIdentity.Models
 {
-    public partial class NewsLetter
+    public partial class Newsletter
     {
-        public NewsLetter()
+        public Newsletter()
         {
-            UsersNewsLetters = new HashSet<UsersNewsLetter>();
+            UserNewsletters = new HashSet<UserNewsletter>();
         }
 
         [Key]
-        public short NewsLetterId { get; set; }
+        public short NewsletterId { get; set; }
         [Required]
         [StringLength(32)]
-        public string NewsLetterName { get; set; }
+        public string NewsletterName { get; set; }
+        public bool NewsletterStatus { get; set; }
 
-        [InverseProperty(nameof(UsersNewsLetter.NewsLetter))]
-        public virtual ICollection<UsersNewsLetter> UsersNewsLetters { get; set; }
+        [InverseProperty(nameof(UserNewsletter.Newsletter))]
+        public virtual ICollection<UserNewsletter> UserNewsletters { get; set; }
     }
 }

@@ -8,12 +8,16 @@ namespace IdentityServerAspNetIdentity.Models
     public partial class AspNetUserLogin
     {
         [Key]
+        [StringLength(450)]
         public string LoginProvider { get; set; }
         [Key]
+        [StringLength(450)]
         public string ProviderKey { get; set; }
-        public string ProviderDisplayName { get; set; }
         [Required]
+        [StringLength(450)]
         public string UserId { get; set; }
+        [Column(TypeName = "text")]
+        public string ProviderDisplayName { get; set; }
 
         [ForeignKey(nameof(UserId))]
         [InverseProperty(nameof(AspNetUser.AspNetUserLogins))]

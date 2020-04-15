@@ -15,6 +15,9 @@ namespace Api.Models
         public short TalkId { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime MessageDate { get; set; }
+        [Required]
+        [StringLength(128)]
+        public string MessageText { get; set; }
 
         [ForeignKey(nameof(Id))]
         [InverseProperty(nameof(AspNetUser.Messages))]

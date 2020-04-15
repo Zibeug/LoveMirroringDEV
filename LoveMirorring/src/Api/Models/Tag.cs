@@ -9,7 +9,7 @@ namespace Api.Models
     {
         public Tag()
         {
-            PicturesTags = new HashSet<PicturesTag>();
+            PictureTags = new HashSet<PictureTag>();
         }
 
         [Key]
@@ -18,7 +18,7 @@ namespace Api.Models
         [StringLength(32)]
         public string TagName { get; set; }
 
-        [InverseProperty(nameof(PicturesTag.Tag))]
-        public virtual ICollection<PicturesTag> PicturesTags { get; set; }
+        [InverseProperty(nameof(PictureTag.Tag))]
+        public virtual ICollection<PictureTag> PictureTags { get; set; }
     }
 }

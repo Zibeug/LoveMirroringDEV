@@ -19,17 +19,17 @@ namespace Api.Models
         public string Id { get; set; }
         [Required]
         [StringLength(450)]
-        public string IdUser2Talks { get; set; }
+        public string IdUser2Talk { get; set; }
         [Required]
-        [StringLength(32)]
+        [StringLength(64)]
         public string TalkName { get; set; }
 
         [ForeignKey(nameof(Id))]
         [InverseProperty(nameof(AspNetUser.TalkIdNavigations))]
         public virtual AspNetUser IdNavigation { get; set; }
-        [ForeignKey(nameof(IdUser2Talks))]
-        [InverseProperty(nameof(AspNetUser.TalkIdUser2TalksNavigation))]
-        public virtual AspNetUser IdUser2TalksNavigation { get; set; }
+        [ForeignKey(nameof(IdUser2Talk))]
+        [InverseProperty(nameof(AspNetUser.TalkIdUser2TalkNavigation))]
+        public virtual AspNetUser IdUser2TalkNavigation { get; set; }
         [InverseProperty(nameof(Message.Talk))]
         public virtual ICollection<Message> Messages { get; set; }
     }

@@ -9,7 +9,8 @@ namespace Api.Models
     {
         public HairSize()
         {
-            PreferencesHairSizes = new HashSet<PreferencesHairSize>();
+            AspNetUsers = new HashSet<AspNetUser>();
+            PreferenceHairSizes = new HashSet<PreferenceHairSize>();
         }
 
         [Key]
@@ -18,7 +19,9 @@ namespace Api.Models
         [StringLength(32)]
         public string HairSizeName { get; set; }
 
-        [InverseProperty(nameof(PreferencesHairSize.HairSize))]
-        public virtual ICollection<PreferencesHairSize> PreferencesHairSizes { get; set; }
+        [InverseProperty(nameof(AspNetUser.HairSize))]
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
+        [InverseProperty(nameof(PreferenceHairSize.HairSize))]
+        public virtual ICollection<PreferenceHairSize> PreferenceHairSizes { get; set; }
     }
 }

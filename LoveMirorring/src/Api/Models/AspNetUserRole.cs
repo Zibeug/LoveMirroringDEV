@@ -12,11 +12,11 @@ namespace Api.Models
         [Key]
         public string RoleId { get; set; }
 
-        [ForeignKey(nameof(RoleId))]
+        [ForeignKey(nameof(UserId))]
         [InverseProperty(nameof(AspNetRole.AspNetUserRoles))]
-        public virtual AspNetRole Role { get; set; }
+        public virtual AspNetRole User { get; set; }
         [ForeignKey(nameof(UserId))]
         [InverseProperty(nameof(AspNetUser.AspNetUserRoles))]
-        public virtual AspNetUser User { get; set; }
+        public virtual AspNetUser UserNavigation { get; set; }
     }
 }

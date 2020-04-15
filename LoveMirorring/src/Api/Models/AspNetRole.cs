@@ -23,7 +23,7 @@ namespace Api.Models
 
         [InverseProperty(nameof(AspNetRoleClaim.Role))]
         public virtual ICollection<AspNetRoleClaim> AspNetRoleClaims { get; set; }
-        [InverseProperty(nameof(AspNetUserRole.Role))]
+        [InverseProperty(nameof(AspNetUserRole.User))]
         public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; }
     }
 }

@@ -259,3 +259,4 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\TestUnitaireLoveMirroring\obj\Debug\ne
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\TestUnitaireLoveMirroring\obj\Debug\netcoreapp3.1\TestUnitaireLoveMirroring.csproj.CopyComplete
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\TestUnitaireLoveMirroring\obj\Debug\netcoreapp3.1\TestUnitaireLoveMirroring.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\TestUnitaireLoveMirroring\obj\Debug\netcoreapp3.1\TestUnitaireLoveMirroring.pdb
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\TestUnitaireLoveMirroring\obj\Debug\netcoreapp3.1\TestUnitaireLoveMirroring.csproj.CoreCompileInputs.cache

@@ -748,7 +748,6 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.csprojAssemblyReference.cache
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\staticwebassets\IdentityServerAspNetIdentity.StaticWebAssets.Manifest.cache
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\staticwebassets\IdentityServerAspNetIdentity.StaticWebAssets.xml
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.RazorAssemblyInfo.cache
@@ -1092,3 +1091,8 @@ C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Account\VerifyPhone.cshtml.g.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Account\ConfirmPhone.cshtml.g.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Account\ConfirmPhoneSuccess.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\Twilio.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Account\ConfirmPhone.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Account\ConfirmPhoneSuccess.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Account\VerifyPhone.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.csprojAssemblyReference.cache

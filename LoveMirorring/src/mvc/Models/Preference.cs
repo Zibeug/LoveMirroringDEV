@@ -9,41 +9,40 @@ namespace mvc.Models
     {
         public Preference()
         {
-            PreferencesCorpulences = new HashSet<PreferencesCorpulence>();
-            PreferencesHairColors = new HashSet<PreferencesHairColor>();
-            PreferencesHairSizes = new HashSet<PreferencesHairSize>();
-            PreferencesMusiques = new HashSet<PreferencesMusique>();
-            PreferencesReligions = new HashSet<PreferencesReligion>();
-            PreferencesStyles = new HashSet<PreferencesStyle>();
-            ProfilsPreferences = new HashSet<ProfilsPreference>();
-            UsersPreferences = new HashSet<UsersPreference>();
+            PreferenceCorpulences = new HashSet<PreferenceCorpulence>();
+            PreferenceHairColors = new HashSet<PreferenceHairColor>();
+            PreferenceHairSizes = new HashSet<PreferenceHairSize>();
+            PreferenceMusics = new HashSet<PreferenceMusic>();
+            PreferenceReligions = new HashSet<PreferenceReligion>();
+            PreferenceStyles = new HashSet<PreferenceStyle>();
         }
 
         [Key]
         public short PreferenceId { get; set; }
+        [Required]
+        [StringLength(450)]
+        public string Id { get; set; }
         public short SexualityId { get; set; }
-        public bool Religions { get; set; }
-        public bool Age { get; set; }
-        public bool Corpulences { get; set; }
+        public short AgeMin { get; set; }
+        public short AgeMax { get; set; }
 
+        [ForeignKey(nameof(Id))]
+        [InverseProperty(nameof(AspNetUser.Preferences))]
+        public virtual AspNetUser IdNavigation { get; set; }
         [ForeignKey(nameof(SexualityId))]
         [InverseProperty("Preferences")]
         public virtual Sexuality Sexuality { get; set; }
-        [InverseProperty(nameof(PreferencesCorpulence.Preference))]
-        public virtual ICollection<PreferencesCorpulence> PreferencesCorpulences { get; set; }
-        [InverseProperty(nameof(PreferencesHairColor.Preference))]
-        public virtual ICollection<PreferencesHairColor> PreferencesHairColors { get; set; }
-        [InverseProperty(nameof(PreferencesHairSize.Preference))]
-        public virtual ICollection<PreferencesHairSize> PreferencesHairSizes { get; set; }
-        [InverseProperty(nameof(PreferencesMusique.Preference))]
-        public virtual ICollection<PreferencesMusique> PreferencesMusiques { get; set; }
-        [InverseProperty(nameof(PreferencesReligion.Preference))]
-        public virtual ICollection<PreferencesReligion> PreferencesReligions { get; set; }
-        [InverseProperty(nameof(PreferencesStyle.Preference))]
-        public virtual ICollection<PreferencesStyle> PreferencesStyles { get; set; }
-        [InverseProperty(nameof(ProfilsPreference.Preference))]
-        public virtual ICollection<ProfilsPreference> ProfilsPreferences { get; set; }
-        [InverseProperty(nameof(UsersPreference.Preference))]
-        public virtual ICollection<UsersPreference> UsersPreferences { get; set; }
+        [InverseProperty(nameof(PreferenceCorpulence.Preference))]
+        public virtual ICollection<PreferenceCorpulence> PreferenceCorpulences { get; set; }
+        [InverseProperty(nameof(PreferenceHairColor.Preference))]
+        public virtual ICollection<PreferenceHairColor> PreferenceHairColors { get; set; }
+        [InverseProperty(nameof(PreferenceHairSize.Preference))]
+        public virtual ICollection<PreferenceHairSize> PreferenceHairSizes { get; set; }
+        [InverseProperty(nameof(PreferenceMusic.Preference))]
+        public virtual ICollection<PreferenceMusic> PreferenceMusics { get; set; }
+        [InverseProperty(nameof(PreferenceReligion.Preference))]
+        public virtual ICollection<PreferenceReligion> PreferenceReligions { get; set; }
+        [InverseProperty(nameof(PreferenceStyle.Preference))]
+        public virtual ICollection<PreferenceStyle> PreferenceStyles { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace mvc.Models
     {
         public Sexuality()
         {
+            AspNetUsers = new HashSet<AspNetUser>();
             Preferences = new HashSet<Preference>();
         }
 
@@ -18,6 +19,8 @@ namespace mvc.Models
         [StringLength(32)]
         public string SexualityName { get; set; }
 
+        [InverseProperty(nameof(AspNetUser.Sexuality))]
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
         [InverseProperty(nameof(Preference.Sexuality))]
         public virtual ICollection<Preference> Preferences { get; set; }
     }

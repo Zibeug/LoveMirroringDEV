@@ -8,7 +8,6 @@ namespace mvc.Models
     public partial class Answer
     {
         [Key]
-        [Column("AnswerID")]
         public short AnswerId { get; set; }
         public short ProfilId { get; set; }
         public short QuestionId { get; set; }

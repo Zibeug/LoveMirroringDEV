@@ -9,7 +9,7 @@ namespace IdentityServerAspNetIdentity.Models
     {
         public ExternalService()
         {
-            UsersExternalServices = new HashSet<UsersExternalService>();
+            UserExternalServices = new HashSet<UserExternalService>();
         }
 
         [Key]
@@ -19,7 +19,7 @@ namespace IdentityServerAspNetIdentity.Models
         public string ExternalServiceName { get; set; }
         public bool ExternalServiceStatus { get; set; }
 
-        [InverseProperty(nameof(UsersExternalService.ExternalService))]
-        public virtual ICollection<UsersExternalService> UsersExternalServices { get; set; }
+        [InverseProperty(nameof(UserExternalService.ExternalService))]
+        public virtual ICollection<UserExternalService> UserExternalServices { get; set; }
     }
 }

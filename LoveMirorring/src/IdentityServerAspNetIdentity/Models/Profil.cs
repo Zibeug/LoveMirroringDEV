@@ -10,25 +10,21 @@ namespace IdentityServerAspNetIdentity.Models
         public Profil()
         {
             Answers = new HashSet<Answer>();
-            ProfilsPreferences = new HashSet<ProfilsPreference>();
-            UsersProfils = new HashSet<UsersProfil>();
+            UserProfils = new HashSet<UserProfil>();
         }
 
         [Key]
         public short ProfilId { get; set; }
         [Required]
-        [StringLength(64)]
+        [StringLength(32)]
         public string ProfilName { get; set; }
         [Required]
-        [StringLength(255)]
+        [Column(TypeName = "text")]
         public string ProfilDescription { get; set; }
-        public short ProfilValue { get; set; }
 
         [InverseProperty(nameof(Answer.Profil))]
         public virtual ICollection<Answer> Answers { get; set; }
-        [InverseProperty(nameof(ProfilsPreference.Profil))]
-        public virtual ICollection<ProfilsPreference> ProfilsPreferences { get; set; }
-        [InverseProperty(nameof(UsersProfil.Profil))]
-        public virtual ICollection<UsersProfil> UsersProfils { get; set; }
+        [InverseProperty(nameof(UserProfil.Profil))]
+        public virtual ICollection<UserProfil> UserProfils { get; set; }
     }
 }

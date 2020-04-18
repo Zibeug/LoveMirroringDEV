@@ -151,7 +151,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvid
                 __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_1);
                 BeginWriteTagHelperAttribute();
 #nullable restore
-#line 20 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Matching\Matching.cshtml"
+#line 19 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Matching\Matching.cshtml"
                                                          WriteLiteral(sexe.SexeName);
 
 #line default
@@ -561,11 +561,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_LabelTagHelper.For = ModelExpressionProvid
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("<br />\r\n");
 #nullable restore
-#line 50 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Matching\Matching.cshtml"
                  foreach (var profil in ViewData["profils"] as List<Profil>)
-                {
-
-#line default
 #line hidden
 #nullable disable
                 WriteLiteral("                    ");

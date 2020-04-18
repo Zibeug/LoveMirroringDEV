@@ -9,7 +9,7 @@ namespace Api.Models
     {
         public Religion()
         {
-            PreferencesReligions = new HashSet<PreferencesReligion>();
+            PreferenceReligions = new HashSet<PreferenceReligion>();
         }
 
         [Key]
@@ -18,7 +18,7 @@ namespace Api.Models
         [StringLength(32)]
         public string ReligionName { get; set; }
 
-        [InverseProperty(nameof(PreferencesReligion.Religion))]
-        public virtual ICollection<PreferencesReligion> PreferencesReligions { get; set; }
+        [InverseProperty(nameof(PreferenceReligion.Religion))]
+        public virtual ICollection<PreferenceReligion> PreferenceReligions { get; set; }
     }
 }

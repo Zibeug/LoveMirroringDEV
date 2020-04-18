@@ -9,7 +9,8 @@ namespace IdentityServerAspNetIdentity.Models
     {
         public Corpulence()
         {
-            PreferencesCorpulences = new HashSet<PreferencesCorpulence>();
+            AspNetUsers = new HashSet<AspNetUser>();
+            PreferenceCorpulences = new HashSet<PreferenceCorpulence>();
         }
 
         [Key]
@@ -18,7 +19,9 @@ namespace IdentityServerAspNetIdentity.Models
         [StringLength(32)]
         public string CorpulenceName { get; set; }
 
-        [InverseProperty(nameof(PreferencesCorpulence.Corpulence))]
-        public virtual ICollection<PreferencesCorpulence> PreferencesCorpulences { get; set; }
+        [InverseProperty(nameof(AspNetUser.Corpulence))]
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
+        [InverseProperty(nameof(PreferenceCorpulence.Corpulence))]
+        public virtual ICollection<PreferenceCorpulence> PreferenceCorpulences { get; set; }
     }
 }

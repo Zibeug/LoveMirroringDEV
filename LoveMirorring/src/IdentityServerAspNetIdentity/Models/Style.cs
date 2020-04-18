@@ -9,7 +9,8 @@ namespace IdentityServerAspNetIdentity.Models
     {
         public Style()
         {
-            PreferencesStyles = new HashSet<PreferencesStyle>();
+            PreferenceStyles = new HashSet<PreferenceStyle>();
+            UserStyles = new HashSet<UserStyle>();
         }
 
         [Key]
@@ -18,7 +19,9 @@ namespace IdentityServerAspNetIdentity.Models
         [StringLength(32)]
         public string StyleName { get; set; }
 
-        [InverseProperty(nameof(PreferencesStyle.Style))]
-        public virtual ICollection<PreferencesStyle> PreferencesStyles { get; set; }
+        [InverseProperty(nameof(PreferenceStyle.Style))]
+        public virtual ICollection<PreferenceStyle> PreferenceStyles { get; set; }
+        [InverseProperty(nameof(UserStyle.Style))]
+        public virtual ICollection<UserStyle> UserStyles { get; set; }
     }
 }

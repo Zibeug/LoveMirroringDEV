@@ -9847,25 +9847,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Thermit\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\zibeu\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj",
+      "projectUniqueName": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj",
       "projectName": "IdentityServerAspNetIdentity",
-      "projectPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj",
-      "packagesPath": "C:\\Users\\Thermit\\.nuget\\packages\\",
-      "outputPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\obj\\",
+      "projectPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj",
+      "packagesPath": "C:\\Users\\zibeu\\.nuget\\packages\\",
+      "outputPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Thermit\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\zibeu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"

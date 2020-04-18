@@ -1,0 +1,62 @@
+﻿@model mvc.ViewModels.UserChoiceViewModel
+@{
+    ViewData["Title"] = "Matching";
+}
+
+<h1>Matching</h1>
+<br />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-route="Matching" method="post">
+            <h4>Quel type de personnes cherchez vous?</h4>
+            <hr />
+            @*<input type="hidden" value="@Model.UserName" />*@
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.Sexe"></label><br />
+                @foreach (var sexe in ViewData["sexes"] as List<Sex>)
+                {
+                    <input asp-for="@Model.Sexe" type="radio" value="@sexe.SexeName" />
+                    <label asp-for="@Model.Sexe">@sexe.SexeName</label><br />
+                    <span asp-validation-for="@Model.Sexe" class="text-danger"></span>
+                }
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Corpulence"></label><br />
+                @foreach (var corpulence in ViewData["corpulences"] as List<Corpulence>)
+                {
+                    <input asp-for="@Model.Corpulence" type="radio" value="@corpulence.CorpulenceName" />
+                    <label asp-for="@Model.Corpulence">@corpulence.CorpulenceName</label><br />
+                    <span asp-validation-for="@Model.Corpulence" class="text-danger"></span>
+                }
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Religion"></label><br />
+                @foreach (var religion in ViewData["religions"] as List<Religion>)
+                {
+                    <input asp-for="@Model.Religion" type="radio" value="@religion.ReligionName" />
+                    <label asp-for="@Model.Religion">@religion.ReligionName</label><br />
+                    <span asp-validation-for="@Model.Religion" class="text-danger"></span>
+                }
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Age"></label>
+                <input type="number" asp-for="@Model.Age" class="form-control" min="18" max="100" />
+                <span asp-validation-for="@Model.Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Profil"></label><br />
+                @foreach (var profil in ViewData["profils"] as List<Profil>)
+                {
+                    <input asp-for="@Model.Profil" type="radio" value="@profil.ProfilName" />
+                    <label asp-for="@Model.Profil">@profil.ProfilName</label><br />
+                    <span asp-validation-for="@Model.Profil" class="text-danger"></span>
+                }
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" asp-action="SaveProfil">Chercher</button>
+            </div>
+        </form>
+    </div>
+</div>

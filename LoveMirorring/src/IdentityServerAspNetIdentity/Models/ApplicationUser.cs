@@ -22,6 +22,13 @@ namespace IdentityServerAspNetIdentity.Models
         [Column("SEXEID")]
         public short Sexeid { get; set; }
 
+        public short? HairColorId { get; set; }
+        public short? CorpulenceId { get; set; }
+
+        public short? HairSizeId { get; set; }
+        public short? SubscriptionId { get; set; }
+        public short? SexualityId { get; set; }
+
         public bool QuizCompleted { get; set; }
 
 

@@ -57,6 +57,42 @@ namespace Api.Controllers
             return new JsonResult(responses);
         }
 
+
+        [Route("user")]
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetUsername()
+        {
+            AspNetUser user = null;
+            foreach(var claim in User.Claims)
+            {
+                if(user == null)
+                {
+                    user = _context.AspNetUsers.Find(claim.Value);
+                }
+            }
+            return new JsonResult(user.UserName);
+        }
+
+        [Route("checkPreferences")]
+        [HttpGet]
+        [Authorize]
+        public IActionResult CheckPreference()
+        {
+            AspNetUser user = null;
+            foreach (var claim in User.Claims)
+            {
+                if (user == null)
+                {
+                    user = _context.AspNetUsers.Find(claim.Value);
+                }
+            }
+
+            return _context.Preferences.Where(b => b.Id == user.Id).FirstOrDefault() != null
+                ? new JsonResult("error")
+                : new JsonResult("success");
+        }
+
         [Route("SaveProfil")]
         [HttpPost]
         public IActionResult SaveProfil(UserChoiceViewModel userChoice)
@@ -65,24 +101,31 @@ namespace Api.Controllers
             p.AgeMax = (short)userChoice.Age;
             p.AgeMin = 18;
             Religion religion = _context.Religions.Where(b => b.ReligionName == userChoice.Religion).FirstOrDefault();
+            Corpulence corpulence = _context.Corpulences.Where(b => b.CorpulenceName == userChoice.Corpulence).FirstOrDefault();
             AspNetUser user = _context.AspNetUsers.Where(b => b.UserName == userChoice.UserName).FirstOrDefault();
+
             p.Id = user.Id;
             p.SexualityId = 1;
             _context.Preferences.Add(p);
+            PreferenceReligion prefReligion = new PreferenceReligion();
+            prefReligion.ReligionId = religion.ReligionId;
+            prefReligion.PreferenceId = p.PreferenceId;
+            p.PreferenceReligions.Add(prefReligion);
+            PreferenceCorpulence prefCorpulence = new PreferenceCorpulence();
+            prefCorpulence.CorpulenceId = corpulence.CorpulenceId;
+            prefCorpulence.PreferenceId = p.PreferenceId;
+            p.PreferenceCorpulences.Add(prefCorpulence);
 
-            try
+            if(_context.Preferences.Find(user.Id) == null)
             {
                 _context.SaveChanges();
-                PreferenceReligion prefReligion = new PreferenceReligion();
-                prefReligion.ReligionId = religion.ReligionId;
-                prefReligion.PreferenceId = p.PreferenceId;
-                p.PreferenceReligions.Add(prefReligion);
                 return Ok();
             }
-            catch(Exception e)
+            else
             {
                 return BadRequest();
             }
+            
         }
     }
 }

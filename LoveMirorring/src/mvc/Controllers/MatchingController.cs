@@ -36,15 +36,24 @@ namespace mvc.Controllers
             string religions = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/religions");
             string corpulences = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/corpulences");
             string profils = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/profils");
+            string username = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/user");
+            string preferences = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/checkPreferences");
+
             List<Sex> resultSexes = JsonConvert.DeserializeObject<List<Sex>>(sexes);
             List<Religion> resultReligions = JsonConvert.DeserializeObject<List<Religion>>(religions);
             List<Corpulence> resultCorpulences = JsonConvert.DeserializeObject<List<Corpulence>>(corpulences);
             List<Profil> resultProfils = JsonConvert.DeserializeObject<List<Profil>>(profils);
+
+            string resultUserName = JsonConvert.DeserializeObject<string>(username);
+            string resultPreferences = JsonConvert.DeserializeObject<string>(preferences);
+
+            ViewData["PrefenresCheck"] = resultPreferences;
             //List<Question> questionList = new List<Question>();
             ViewData["sexes"] = resultSexes;
             ViewData["religions"] = resultReligions;
             ViewData["corpulences"] = resultCorpulences;
             ViewData["profils"] = resultProfils;
+            ViewData["username"] = resultUserName;
             return View();
         }
 

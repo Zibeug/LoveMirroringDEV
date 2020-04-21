@@ -114,6 +114,7 @@ namespace IdentityServerAspNetIdentity.Controllers
             }
             catch (Exception e)
             {
+                Log.Debug($"{e.Message} error");
                 ViewData["error"] = e.Message;
                 return View("SignUp");
             }

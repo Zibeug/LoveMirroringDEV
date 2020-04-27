@@ -35,14 +35,18 @@ namespace mvc.Controllers
             string sexes = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/Sex");
             string religions = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/religions");
             string corpulences = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/corpulences");
-            string profils = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/profils");
             string username = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/user");
             string preferences = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/checkPreferences");
+            string hairSize = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/hairSize");
+            string hairColor = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/hairColor");
+            string sexuality = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/sexuality");
 
             List<Sex> resultSexes = JsonConvert.DeserializeObject<List<Sex>>(sexes);
             List<Religion> resultReligions = JsonConvert.DeserializeObject<List<Religion>>(religions);
             List<Corpulence> resultCorpulences = JsonConvert.DeserializeObject<List<Corpulence>>(corpulences);
-            List<Profil> resultProfils = JsonConvert.DeserializeObject<List<Profil>>(profils);
+            List<HairColor> resultHairColors = JsonConvert.DeserializeObject<List<HairColor>>(hairColor);
+            List<HairSize> resultHairSizes = JsonConvert.DeserializeObject<List<HairSize>>(hairSize);
+            List<Sexuality> resultSexualities = JsonConvert.DeserializeObject<List<Sexuality>>(sexuality);
 
             string resultUserName = JsonConvert.DeserializeObject<string>(username);
             string resultPreferences = JsonConvert.DeserializeObject<string>(preferences);
@@ -52,9 +56,35 @@ namespace mvc.Controllers
             ViewData["sexes"] = resultSexes;
             ViewData["religions"] = resultReligions;
             ViewData["corpulences"] = resultCorpulences;
-            ViewData["profils"] = resultProfils;
             ViewData["username"] = resultUserName;
+            ViewData["hairColor"] = resultHairColors;
+            ViewData["hairSize"] = resultHairSizes;
+            ViewData["sexuality"] = resultSexualities;
+
             return View();
+        }
+
+        [Authorize]
+        public async Task<IActionResult> UpdateProfil()
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            await MatchingAsync();
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string preferences = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/preferences");
+
+            Preference p = new Preference();
+            p = JsonConvert.DeserializeObject<Preference>(preferences);
+
+            ViewData["preferences"] = p;
+
+            ViewData["PrefenresCheck"] = "success";
+
+            
+
+            return View("Matching");
         }
 
         [HttpPost]
@@ -72,6 +102,22 @@ namespace mvc.Controllers
             var responseString = response.Result;
             return View("Search");
 
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> UpdatedProfil(UserChoiceViewModel userChoice)
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            client.BaseAddress = new Uri(Configuration["URLAPI"] + "api/Matching/UpdateProfil");
+            string json = await Task.Run(() => JsonConvert.SerializeObject(userChoice));
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = client.PostAsync(client.BaseAddress, httpContent);
+            var responseString = response.Result;
+            return View("Search");
         }
     }
 }

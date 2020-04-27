@@ -9,10 +9,24 @@
 {
     <div class="row">
         <p>You have already registered your account preferences.</p>
+        <div class="col-md-4">
+            <form asp-route="Matching" method="post">
+                <div class="form-group">
+                    <button class="btn btn-primary" id="editPref" asp-action="UpdateProfil">Modifier mon profil</button>
+                </div>
+            </form>
+        </div>
     </div>
 }
 else
 {
+    Preference pref = ViewData["preferences"] as Preference;
+    int hairSizeId = pref.PreferenceHairSizes.FirstOrDefault().HairSizeId;
+    int hairColorId = pref.PreferenceHairColors.FirstOrDefault().HairColorId;
+    int religionId = pref.PreferenceReligions.FirstOrDefault().ReligionId;
+    int corpulenceId = pref.PreferenceCorpulences.FirstOrDefault().CorpulenceId;
+
+    
     <div class="row">
         <div class="col-md-4">
             <form asp-route="Matching" method="post">
@@ -20,49 +34,115 @@ else
                 <hr />
                 <input type="hidden" asp-for="@Model.UserName" value="@ViewData["username"]" />
                 <div asp-validation-summary="All" class="text-danger"></div>
+                
                 <div class="form-group">
-                    <label asp-for="@Model.Sexe"></label><br />
-                    @foreach (var sexe in ViewData["sexes"] as List<Sex>)
+                    <label asp-for="@Model.CorpulenceId">Corpulence</label><br />
+                    @foreach (Corpulence corpulence in ViewData["corpulences"] as List<Corpulence>)
                     {
-                        <input asp-for="@Model.Sexe" type="radio" value="@sexe.SexeName" />
-                        <label asp-for="@Model.Sexe">@sexe.SexeName</label><br />
-                        <span asp-validation-for="@Model.Sexe" class="text-danger"></span>
+                        if (corpulence.CorpulenceId == corpulenceId)
+                        {
+                            <input asp-for="@Model.CorpulenceId" type="radio" value="@corpulence.CorpulenceId" checked>
+                        }
+                        else
+                        {
+                            <input asp-for="@Model.CorpulenceId" type="radio" value="@corpulence.CorpulenceId" />
+                        }
+
+                        <label asp-for="@Model.CorpulenceId">@corpulence.CorpulenceName</label><br />
+                        <span asp-validation-for="@Model.CorpulenceId" class="text-danger"></span>
                     }
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.Corpulence"></label><br />
-                    @foreach (var corpulence in ViewData["corpulences"] as List<Corpulence>)
+                    <label asp-for="@Model.ReligionId">Religion</label><br />
+                    @foreach (Religion religion in ViewData["religions"] as List<Religion>)
                     {
-                        <input asp-for="@Model.Corpulence" type="radio" value="@corpulence.CorpulenceName" />
-                        <label asp-for="@Model.Corpulence">@corpulence.CorpulenceName</label><br />
-                        <span asp-validation-for="@Model.Corpulence" class="text-danger"></span>
+                        if (religion.ReligionId == religionId)
+                        {
+                            <input asp-for="@Model.ReligionId" type="radio" value="@religion.ReligionId" checked>
+                        }
+                        else
+                        {
+                            <input asp-for="@Model.ReligionId" type="radio" value="@religion.ReligionId" />
+                        }
+
+                        <label asp-for="@Model.ReligionId">@religion.ReligionName</label><br />
+                        <span asp-validation-for="@Model.ReligionId" class="text-danger"></span>
                     }
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.Religion"></label><br />
-                    @foreach (var religion in ViewData["religions"] as List<Religion>)
+                    <label asp-for="@Model.HairColorId"> Couleur de cheveux</label><br />
+                    @foreach (HairColor hairColor in ViewData["hairColor"] as List<HairColor>)
                     {
-                        <input asp-for="@Model.Religion" type="radio" value="@religion.ReligionName" />
-                        <label asp-for="@Model.Religion">@religion.ReligionName</label><br />
-                        <span asp-validation-for="@Model.Religion" class="text-danger"></span>
+                        if (hairColor.HairColorId == hairColorId)
+                        {
+                            <input asp-for="@Model.HairColorId" type="radio" value="@hairColor.HairColorId" checked>
+                        }
+                        else
+                        {
+                            <input asp-for="@Model.HairColorId" type="radio" value="@hairColor.HairColorId" />
+                        }
+                        <label asp-for="@Model.HairColorId">@hairColor.HairColorName</label><br />
+                        <span asp-validation-for="@Model.HairColorId" class="text-danger"></span>
+                    }
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.HairSizeId"> Taille de cheveux</label><br />
+
+                    @foreach (HairSize hairSize in ViewData["hairSize"] as List<HairSize>)
+                    {
+                        if (hairSize.HairSizeId == hairSizeId)
+                        {
+                            <input asp-for="@Model.HairSizeId" type="radio" value="@hairSize.HairSizeId" checked>
+                        }
+                        else
+                        {
+                            <input asp-for="@Model.HairSizeId" type="radio" value="@hairSize.HairSizeId" />
+                        }
+
+                        <label asp-for="@Model.HairSizeId">@hairSize.HairSizeName</label><br />
+                        <span asp-validation-for="@Model.HairSizeId" class="text-danger"></span>
+                    }
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.SexualityId"> Sexualité</label><br />
+                    @foreach (Sexuality sexuality in ViewData["sexuality"] as List<Sexuality>)
+                    {
+                        if (pref.SexualityId == sexuality.SexualityId)
+                        {
+                            <input asp-for="@Model.SexualityId" type="radio" value="@sexuality.SexualityId" checked>
+                        }
+                        else
+                        {
+                            <input asp-for="@Model.SexualityId" type="radio" value="@sexuality.SexualityId" />
+                        }
+                        <label asp-for="@Model.SexualityId">@sexuality.SexualityName</label><br />
+                        <span asp-validation-for="@Model.HairSizeId" class="text-danger"></span>
                     }
                 </div>
                 <div class="form-group">
                     <label asp-for="@Model.Age"></label>
-                    <input type="number" asp-for="@Model.Age" class="form-control" min="18" max="100" />
-                    <span asp-validation-for="@Model.Age" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="@Model.Profil"></label><br />
-                    @foreach (var profil in ViewData["profils"] as List<Profil>)
+                    @if (pref.AgeMax != 0)
                     {
-                        <input asp-for="@Model.Profil" type="radio" value="@profil.ProfilName" />
-                        <label asp-for="@Model.Profil">@profil.ProfilName</label><br />
-                        <span asp-validation-for="@Model.Profil" class="text-danger"></span>
+                        <input type="number" asp-for="@Model.Age" class="form-control" min="18" max="100" value="@pref.AgeMax"/>
+                        <span asp-validation-for="@Model.Age" class="text-danger"></span>
                     }
+                    else
+                    {
+                        <input type="number" asp-for="@Model.Age" class="form-control" min="18" max="100"/>
+                        <span asp-validation-for="@Model.Age" class="text-danger"></span>
+                    }
+
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary" asp-action="SaveProfil">Chercher</button>
+                    @if (pref != null)
+                    {
+                        <button class="btn btn-primary" id="actionPref" asp-action="UpdatedProfil">Modifier</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-primary" id="actionPref" asp-action="SaveProfil">Chercher</button>
+                    }
+
                 </div>
             </form>
         </div>

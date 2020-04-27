@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Api.Models
 {
-    public class UserChoiceViewModel
+    public class MatchingModel
     {
         public string UserName { get; set; }
         public int Age { get; set; }
@@ -16,5 +16,6 @@ namespace Api.Models
         public short HairColorId { get; set; }
         public short SexualityId { get; set; }
         public short CorpulenceId { get; set; }
+        public short ProfilId { get; set; }
     }
 }

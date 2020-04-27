@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Api.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Api.Controllers
 {
@@ -16,6 +20,7 @@ namespace Api.Controllers
     public class QuizController : Controller
     {
         private readonly LoveMirroringContext _context;
+        private IConfiguration Configuration { get; set; }
 
         public QuizController(LoveMirroringContext context)
         {
@@ -51,5 +56,36 @@ namespace Api.Controllers
             
         //    return View();
         //}
+
+        [Route("QuizSubmit")]
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> QuizSubmit(int[] answer)
+        {
+            AspNetUser user = null;
+            foreach (var claim in User.Claims)
+            {
+                if (user == null)
+                {
+                    user = _context.AspNetUsers.Find(claim.Value);
+                }
+            }
+
+            int query = (from item in answer
+                        group item by item into g
+                        orderby g.Count() descending
+                        select g.Key).First();
+
+            UserProfil userProfil = new UserProfil();
+            userProfil.ProfilId = (short)query;
+            userProfil.Id = user.Id;
+
+            user.QuizCompleted = true;
+
+            _context.UserProfils.Add(userProfil);
+            _context.SaveChanges();
+
+            return Ok();
+        }
     }
 }

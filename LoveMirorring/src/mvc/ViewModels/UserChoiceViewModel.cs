@@ -9,10 +9,12 @@ namespace mvc.ViewModels
     {
         public string UserName { get; set; }
         public int Age { get; set; }
-        public string Sexe { get; set; }
-        public string Profil { get; set; }
+        public short SexeId { get; set; }
 
-        public string Religion { get; set; }
-        public string Corpulence { get; set; }
+        public short ReligionId { get; set; }
+        public short HairSizeId { get; set; }
+        public short HairColorId { get; set; }
+        public short SexualityId { get; set; }
+        public short CorpulenceId { get; set; }
     }
 }

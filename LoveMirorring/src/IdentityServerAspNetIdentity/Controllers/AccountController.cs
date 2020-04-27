@@ -21,26 +21,56 @@ using IdentityServerAspNetIdentity.ViewModels;
 using System.Text.Encodings.Web;
 using Microsoft.Extensions.Options;
 using Twilio.Rest.Verify.V2.Service;
+using IdentityServerAspNetIdentity.Models;
+using Microsoft.AspNetCore.Authentication;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace IdentityServerAspNetIdentity.Controllers
 {
     public class AccountController : Controller
     {
+        private HttpClient client = new HttpClient();
         private readonly IEmailSender _emailSender;
         private readonly TwilioVerifySettings _settings;
         private readonly UserManager<ApplicationUser> _userManager;
+        private IConfiguration Configuration { get; }
 
         public AccountController(IEmailSender emailSender,
                                  IOptions<TwilioVerifySettings> settings,
-                                 UserManager<ApplicationUser> userManager)
+                                 UserManager<ApplicationUser> userManager, IConfiguration configuration)
         {
             _emailSender = emailSender;
             _settings = settings.Value;
             _userManager = userManager;
+            Configuration = configuration;
         }
 
-        public IActionResult SignUp()
+        public async Task<IActionResult> SignUp()
         {
+
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string sexes = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/Sex");
+            string corpulences = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/corpulences");
+            string hairSize = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/hairSize");
+            string hairColor = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/hairColor");
+            string sexuality = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/sexuality");
+
+            List<Sex> resultSexes = JsonConvert.DeserializeObject<List<Sex>>(sexes);
+            List<Corpulence> resultCorpulences = JsonConvert.DeserializeObject<List<Corpulence>>(corpulences);
+            List<HairColor> resultHairColors = JsonConvert.DeserializeObject<List<HairColor>>(hairColor);
+            List<HairSize> resultHairSizes = JsonConvert.DeserializeObject<List<HairSize>>(hairSize);
+            List<Sexuality> resultSexualities = JsonConvert.DeserializeObject<List<Sexuality>>(sexuality);
+
+            ViewData["sexes"] = resultSexes;
+            ViewData["corpulences"] = resultCorpulences;
+            ViewData["hairColors"] = resultHairColors;
+            ViewData["hairSizes"] = resultHairSizes;
+            ViewData["sexualities"] = resultSexualities;
+
             return View();
         }
 
@@ -80,9 +110,15 @@ namespace IdentityServerAspNetIdentity.Controllers
                             {
                                 user = input;
                             }
-                            user.Sexeid = 1;
+
+                            user.CorpulenceId = input.CorpulenceId;
+                            user.SexualityId = input.SexualityId;
+                            user.Sexeid = input.Sexeid;
+                            user.HairColorId = input.HairColorId;
+                            user.HairSizeId = input.HairSizeId;
                             user.QuizCompleted = false;
                             checkUser = user;
+
                             var result = userMgr.CreateAsync(checkUser, user.PasswordHash).Result;
                             if (!result.Succeeded)
                             {

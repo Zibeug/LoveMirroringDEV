@@ -57,6 +57,29 @@ namespace Api.Controllers
             return new JsonResult(responses);
         }
 
+        [Route("hairSize")]
+        [HttpGet]
+        public IActionResult GetHairSize()
+        {
+            List<HairSize> responses = _context.HairSizes.ToList();
+            return new JsonResult(responses);
+        }
+
+        [Route("sexuality")]
+        [HttpGet]
+        public IActionResult GetSexuality()
+        {
+            List<Sexuality> responses = _context.Sexualities.ToList();
+            return new JsonResult(responses);
+        }
+
+        [Route("hairColor")]
+        [HttpGet]
+        public IActionResult GetHairColor()
+        {
+            List<HairColor> responses = _context.HairColors.ToList();
+            return new JsonResult(responses);
+        }
 
         [Route("user")]
         [HttpGet]
@@ -72,6 +95,30 @@ namespace Api.Controllers
                 }
             }
             return new JsonResult(user.UserName);
+        }
+
+        [Route("preferences")]
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetPreferences()
+        {
+            AspNetUser user = null;
+            foreach(var claim in User.Claims)
+            {
+                if(user == null)
+                {
+                    user = _context.AspNetUsers.Find(claim.Value);
+                }
+            }
+
+            Preference p = _context.Preferences.Where(b => b.Id == user.Id).SingleOrDefault();
+            p.PreferenceCorpulences.Add(_context.PreferenceCorpulences.Where(b => b.PreferenceId == p.PreferenceId).Single());
+            p.PreferenceReligions.Add(_context.PreferenceReligions.Where(b => b.PreferenceId == p.PreferenceId).Single());
+            p.PreferenceHairColors.Add(_context.PreferenceHairColors.Where(b => b.PreferenceId == p.PreferenceId).Single());
+            p.PreferenceHairSizes.Add(_context.PreferenceHairSizes.Where(b => b.PreferenceId == p.PreferenceId).Single());
+
+
+            return new JsonResult(p);
         }
 
         [Route("checkPreferences")]
@@ -100,32 +147,62 @@ namespace Api.Controllers
             Preference p = new Preference();
             p.AgeMax = (short)userChoice.Age;
             p.AgeMin = 18;
-            Religion religion = _context.Religions.Where(b => b.ReligionName == userChoice.Religion).FirstOrDefault();
-            Corpulence corpulence = _context.Corpulences.Where(b => b.CorpulenceName == userChoice.Corpulence).FirstOrDefault();
-            AspNetUser user = _context.AspNetUsers.Where(b => b.UserName == userChoice.UserName).FirstOrDefault();
+
+            AspNetUser user = _context.AspNetUsers.Where(b => b.UserName == userChoice.UserName).SingleOrDefault();
 
             p.Id = user.Id;
-            p.SexualityId = 1;
+            p.SexualityId = userChoice.SexualityId;
             _context.Preferences.Add(p);
+
             PreferenceReligion prefReligion = new PreferenceReligion();
-            prefReligion.ReligionId = religion.ReligionId;
+            prefReligion.ReligionId = userChoice.ReligionId;
             prefReligion.PreferenceId = p.PreferenceId;
             p.PreferenceReligions.Add(prefReligion);
+
             PreferenceCorpulence prefCorpulence = new PreferenceCorpulence();
-            prefCorpulence.CorpulenceId = corpulence.CorpulenceId;
+            prefCorpulence.CorpulenceId = userChoice.CorpulenceId;
             prefCorpulence.PreferenceId = p.PreferenceId;
             p.PreferenceCorpulences.Add(prefCorpulence);
 
-            if(_context.Preferences.Find(user.Id) == null)
-            {
-                _context.SaveChanges();
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
-            
+            PreferenceHairColor preferenceHairColor = new PreferenceHairColor();
+            preferenceHairColor.HairColorId = userChoice.HairColorId;
+            preferenceHairColor.PreferenceId = p.PreferenceId;
+            p.PreferenceHairColors.Add(preferenceHairColor);
+
+            PreferenceHairSize preferenceHairSize = new PreferenceHairSize();
+            preferenceHairSize.HairSizeId = userChoice.HairSizeId;
+            preferenceHairSize.PreferenceId = p.PreferenceId;
+            p.PreferenceHairSizes.Add(preferenceHairSize);
+
+            _context.SaveChanges();
+            return Ok();
+
+        }
+
+        [Route("UpdateProfil")]
+        [HttpPost]
+        public IActionResult UpdateProfil(UserChoiceViewModel userChoice)
+        {
+            AspNetUser user = _context.AspNetUsers.Where(b => b.UserName == userChoice.UserName).SingleOrDefault();
+
+            Preference p = _context.Preferences.Where(b => b.Id == user.Id).Single();
+
+            p.AgeMax = (short)userChoice.Age;
+            p.SexualityId = userChoice.SexualityId;
+
+
+            //PreferenceCorpulence pc = _context.PreferenceCorpulences.Where(b => b.PreferenceId == p.PreferenceId).Single();
+            PreferenceHairColor hc = _context.PreferenceHairColors.Where(b => b.PreferenceId == p.PreferenceId).Single();
+            PreferenceHairSize hs = _context.PreferenceHairSizes.Where(b => b.PreferenceId == p.PreferenceId).Single();
+            PreferenceReligion pr = _context.PreferenceReligions.Where(b => b.PreferenceId == p.PreferenceId).Single();
+
+            //pc.CorpulenceId = userChoice.CorpulenceId;
+            hc.HairColorId = userChoice.HairColorId;
+            hs.HairSizeId = userChoice.HairSizeId;
+            pr.ReligionId = userChoice.ReligionId;
+                       
+            _context.SaveChanges();
+            return Ok();
         }
     }
 }

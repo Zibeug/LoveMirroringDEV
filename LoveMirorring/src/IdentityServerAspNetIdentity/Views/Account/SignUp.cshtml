@@ -1,11 +1,12 @@
 ﻿@model IdentityServerAspNetIdentity.ViewModels.RegisterInput
+@using IdentityServerAspNetIdentity.Models
 <div class="signup-page">
     <div class="page-header">
         <h1>Sign Up</h1>
     </div>
 
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Local Sign Up</h3>
@@ -66,10 +67,60 @@
                                 </div>
                             </div>
 
+                            <div class="panel-title">
+                                <h4>Informations complémentaires</h4>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Sexeid">Sexe</label><br />
+                                @foreach (Sex sexe in ViewData["sexes"] as List<Sex>)
+                                {
+
+                                    <input class="radio-inline" type="radio" class="form-control" asp-for="Sexeid" value="@sexe.SexeId">
+                                    <label  asp-for="Sexeid">@sexe.SexeName</label>
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="CorpulenceId">Corpulences</label><br />
+                                @foreach (Corpulence corpulence in ViewData["corpulences"] as List<Corpulence>)
+                                {
+                                    <input class="radio-inline" type="radio" class="form-control" asp-for="CorpulenceId" value="@corpulence.CorpulenceId">
+                                    <label asp-for="CorpulenceId">@corpulence.CorpulenceName</label>
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="SexualityId">Orientation sexuelle</label><br />
+                                @foreach (Sexuality sexuality in ViewData["sexualities"] as List<Sexuality>)
+                                {
+                                    <input class="radio-inline" type="radio" class="form-control" asp-for="SexualityId" value="@sexuality.SexualityId">
+                                    <label asp-for="SexualityId">@sexuality.SexualityName</label>
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="HairColorId">Couleur de cheveux</label><br />
+                                @foreach (HairColor hairColor in ViewData["hairColors"] as List<HairColor>)
+                                {
+                                    <input class="radio-inline" type="radio" class="form-control" asp-for="HairColorId" value="@hairColor.HairColorId">
+                                    <label asp-for="HairColorId">@hairColor.HairColorName</label>
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="HairSizeId">Taille des cheveaux</label><br />
+                                @foreach (HairSize hairSize in ViewData["hairSizes"] as List<HairSize>)
+                                {
+                                    <input class="radio-inline" type="radio" class="form-control" asp-for="HairSizeId" value="@hairSize.HairSizeId">
+                                    <label asp-for="HairSizeId">@hairSize.HairSizeName</label>
+                                }
+                            </div>
+
                             <div class="form-group">
                                 <button class="btn btn-primary" name="button" value="signup">Sign Up</button>
-
                             </div>
+
                             <p>You have already an account ? <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Sign in</a></p>
                         </fieldset>
                     </form>

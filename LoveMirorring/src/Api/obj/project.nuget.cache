@@ -215,5 +215,12 @@
     "C:\\Users\\zibeu\\.nuget\\packages\\twilio\\5.39.0\\twilio.5.39.0.nupkg.sha512",
     "C:\\Users\\zibeu\\.nuget\\packages\\unosquare.swan.lite\\1.3.1\\unosquare.swan.lite.1.3.1.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\Api\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

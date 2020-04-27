@@ -1,0 +1,53 @@
+﻿@model mvc.ViewModels.SearchModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                UserName
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                EmailConfirmed
+            </th>
+            <th>
+                PhoneNumber
+            </th>
+            <th>
+                PhoneNumberConfirmed
+            </th>
+            <th>
+                QuizCompleted
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.EmailConfirmed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.PhoneNumberConfirmed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.QuizCompleted)
+            </td>
+        </tr>
+    </tbody>
+</table>

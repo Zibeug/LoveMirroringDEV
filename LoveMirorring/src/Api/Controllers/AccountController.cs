@@ -1,6 +1,7 @@
 ﻿/*
  *      Auteur : Tim Allemann
  *      2020.04.27
+ *      Permet de gérer ses données profils
  */
  
 using System;
@@ -31,6 +32,7 @@ namespace Api.Controllers
             _emailSender = emailSender;
         }
 
+        // Renvoie les données de l'utilisateur
         // GET: api/Account/5
         [Route("getUserInfo")]
         [HttpGet()]
@@ -41,6 +43,7 @@ namespace Api.Controllers
 
             try
             {
+                // Il faut utiliser le Claim pour retrouver l'identifiant de l'utilisateur
                 id = User.Claims.Where(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").SingleOrDefault().Value;
             }
             catch (Exception)
@@ -68,17 +71,15 @@ namespace Api.Controllers
 
         }
 
+        // Met à jour les données de l'utilisateur
         // PUT: api/Account/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Route("PutUser")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAspNetUser(string id, AspNetUser aspNetUser)
+        public async Task<IActionResult> PutAspNetUser(AspNetUser aspNetUser)
         {
-            if (id != aspNetUser.Id)
-            {
-                return BadRequest();
-            }
-
+            
             _context.Entry(aspNetUser).State = EntityState.Modified;
 
             try
@@ -87,7 +88,7 @@ namespace Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AspNetUserExists(id))
+                if (!AspNetUserExists(aspNetUser.Id))
                 {
                     return NotFound();
                 }
@@ -100,11 +101,12 @@ namespace Api.Controllers
             return NoContent();
         }
 
+        // Supprime l'utilisateur
         // DELETE: api/Account/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAspNetUser(string id)
+        [HttpDelete()]
+        public async Task<IActionResult> DeleteAspNetUser()
         {
-            var aspNetUser = await _context.AspNetUsers.FindAsync(id);
+            AspNetUser aspNetUser = GetAspNetUser().Result.Value;
             if (aspNetUser == null)
             {
                 return NotFound();

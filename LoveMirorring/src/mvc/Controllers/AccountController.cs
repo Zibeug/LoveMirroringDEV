@@ -1,6 +1,7 @@
 ﻿/*
  *      Auteur : Tim Allemann
  *      2020.04.27
+ *      
  */
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -18,13 +20,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using mvc.Models;
 using Newtonsoft.Json;
+using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private readonly LoveMirroringContext _context;
         private readonly IConfiguration _configuration;
 
         public AccountController(IConfiguration configuration)
@@ -32,17 +34,18 @@ namespace mvc.Controllers
             _configuration = configuration;
         }
 
-        // GET: Account/Details/5
+        // Affiche le profil de l'utilisateur
+        // GET: Account/Details
         public async Task<IActionResult> Details()
         {
-
+            // Préparation de l'appel à l'API
             string accessToken = await HttpContext.GetTokenAsync("access_token");
-
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Account/getUserInfo");
 
-            AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(content);         
+            // Récurération des données et convertion des données dans le bon type
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Account/getUserInfo");
+            AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(content);
 
             if (user == null)
             {
@@ -52,6 +55,7 @@ namespace mvc.Controllers
             return View(user);
         }
 
+        // Met à jour le profil de l'utilisateur
         // GET: Account/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -60,17 +64,45 @@ namespace mvc.Controllers
                 return NotFound();
             }
 
-            var aspNetUser = await _context.AspNetUsers.FindAsync(id);
+            // Préparation de l'appel à l'API
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            // Récurération des données et convertion des données dans le bon type
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Account/getUserInfo");
+            AspNetUser aspNetUser = JsonConvert.DeserializeObject<AspNetUser>(content);
+
             if (aspNetUser == null)
             {
                 return NotFound();
             }
-            ViewData["CorpulenceId"] = new SelectList(_context.Corpulences, "CorpulenceId", "CorpulenceName", aspNetUser.CorpulenceId);
-            ViewData["HairColorId"] = new SelectList(_context.HairColors, "HairColorId", "HairColorName", aspNetUser.HairColorId);
-            ViewData["HairSizeId"] = new SelectList(_context.HairSizes, "HairSizeId", "HairSizeName", aspNetUser.HairSizeId);
-            ViewData["SexeId"] = new SelectList(_context.Sexes, "SexeId", "SexeName", aspNetUser.SexeId);
-            ViewData["SexualityId"] = new SelectList(_context.Sexualities, "SexualityId", "SexualityName", aspNetUser.SexualityId);
-            ViewData["SubscriptionId"] = new SelectList(_context.Subscriptions, "SubscriptionId", "SubscriptionName", aspNetUser.SubscriptionId);
+
+            // Récurération des données et convertion des données dans le bon type, idem que précédemment
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/corpulences");
+            List<Corpulence> corpulences = JsonConvert.DeserializeObject<List<Corpulence>>(content);
+            ViewData["CorpulenceId"] = new SelectList(corpulences, "CorpulenceId", "CorpulenceName", aspNetUser.CorpulenceId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/hairColor");
+            List<HairColor> hairColors = JsonConvert.DeserializeObject<List<HairColor>>(content);
+            ViewData["HairColorId"] = new SelectList(hairColors, "HairColorId", "HairColorName", aspNetUser.HairColorId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/hairSize");
+            List<HairSize> hairSizes = JsonConvert.DeserializeObject<List<HairSize>>(content);
+            ViewData["HairSizeId"] = new SelectList(hairSizes, "HairSizeId", "HairSizeName", aspNetUser.HairSizeId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/sex");
+            List<Sex> sexs = JsonConvert.DeserializeObject<List<Sex>>(content);
+            ViewData["SexeId"] = new SelectList(sexs, "SexeId", "SexeName", aspNetUser.SexeId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/sexuality");
+            List<Sexuality> sexualitiess = JsonConvert.DeserializeObject<List<Sexuality>>(content);
+            ViewData["SexualityId"] = new SelectList(sexualitiess, "SexualityId", "SexualityName", aspNetUser.SexualityId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/subscription");
+            List<Subscription> subscriptions = JsonConvert.DeserializeObject<List<Subscription>>(content);
+            ViewData["SubscriptionId"] = new SelectList(subscriptions, "SubscriptionId", "SubscriptionName", aspNetUser.SubscriptionId);
+
             return View(aspNetUser);
         }
 
@@ -81,49 +113,82 @@ namespace mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,HairColorId,CorpulenceId,SexeId,HairSizeId,SubscriptionId,SexualityId,AccessFailedCount,ConcurrencyStamp,Email,EmailConfirmed,LockoutEnabled,LockoutEnd,NormalizedEmail,NormalizedUserName,PasswordHash,PhoneNumber,PhoneNumberConfirmed,SecurityStamp,TwoFactorEnabled,UserName,Birthday,Firstname,LastName,QuizCompleted")] AspNetUser aspNetUser)
         {
-            if (id != aspNetUser.Id)
+            // Préparation de l'appel à l'API
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            // Récurération des données et convertion des données dans le bon type
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Account/getUserInfo");
+            AspNetUser aspNetUserFromClaim = JsonConvert.DeserializeObject<AspNetUser>(content);
+
+            if (id != aspNetUser.Id || id != aspNetUserFromClaim.Id)
             {
                 return NotFound();
             }
 
+            // Changement des données par rapport à l'utilisateur selon le claim, pour éviter qu'un pirate ne change un autre user
+            aspNetUserFromClaim.Email = aspNetUser.Email;
+            aspNetUserFromClaim.PhoneNumber = aspNetUser.PhoneNumber;
+            aspNetUserFromClaim.Firstname = aspNetUser.Firstname;
+            aspNetUserFromClaim.LastName = aspNetUser.LastName;
+            aspNetUserFromClaim.CorpulenceId = aspNetUser.CorpulenceId;
+            aspNetUserFromClaim.HairColorId = aspNetUser.HairColorId;
+            aspNetUserFromClaim.HairSizeId = aspNetUser.HairSizeId;
+            aspNetUserFromClaim.SexeId = aspNetUser.SexeId;
+            aspNetUserFromClaim.SexualityId = aspNetUser.SexualityId;
+
             if (ModelState.IsValid)
             {
-                try
+                // Préparation de la requête update à l'API
+                StringContent httpContent = new StringContent(aspNetUserFromClaim.ToJson(), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + "api/Account/PutUser", httpContent);
+                if (response.StatusCode != HttpStatusCode.NoContent)
                 {
-                    _context.Update(aspNetUser);
-                    await _context.SaveChangesAsync();
+                    return BadRequest();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AspNetUserExists(aspNetUser.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction(nameof(Details));
             }
-            ViewData["CorpulenceId"] = new SelectList(_context.Corpulences, "CorpulenceId", "CorpulenceName", aspNetUser.CorpulenceId);
-            ViewData["HairColorId"] = new SelectList(_context.HairColors, "HairColorId", "HairColorName", aspNetUser.HairColorId);
-            ViewData["HairSizeId"] = new SelectList(_context.HairSizes, "HairSizeId", "HairSizeName", aspNetUser.HairSizeId);
-            ViewData["SexeId"] = new SelectList(_context.Sexes, "SexeId", "SexeName", aspNetUser.SexeId);
-            ViewData["SexualityId"] = new SelectList(_context.Sexualities, "SexualityId", "SexualityName", aspNetUser.SexualityId);
-            ViewData["SubscriptionId"] = new SelectList(_context.Subscriptions, "SubscriptionId", "SubscriptionName", aspNetUser.SubscriptionId);
+
+            // En cas d'erreur de modèle, il faut refournir à la vue les données...
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/corpulences");
+            List<Corpulence> corpulences = JsonConvert.DeserializeObject<List<Corpulence>>(content);
+            ViewData["CorpulenceId"] = new SelectList(corpulences, "CorpulenceId", "CorpulenceName", aspNetUser.CorpulenceId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/hairColor");
+            List<HairColor> hairColors = JsonConvert.DeserializeObject<List<HairColor>>(content);
+            ViewData["HairColorId"] = new SelectList(hairColors, "HairColorId", "HairColorName", aspNetUser.HairColorId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/hairSize");
+            List<HairSize> hairSizes = JsonConvert.DeserializeObject<List<HairSize>>(content);
+            ViewData["HairSizeId"] = new SelectList(hairSizes, "HairSizeId", "HairSizeName", aspNetUser.HairSizeId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/sex");
+            List<Sex> sexs = JsonConvert.DeserializeObject<List<Sex>>(content);
+            ViewData["SexeId"] = new SelectList(sexs, "SexeId", "SexeName", aspNetUser.SexeId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/sexuality");
+            List<Sexuality> sexualitiess = JsonConvert.DeserializeObject<List<Sexuality>>(content);
+            ViewData["SexualityId"] = new SelectList(sexualitiess, "SexualityId", "SexualityName", aspNetUser.SexualityId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/subscription");
+            List<Subscription> subscriptions = JsonConvert.DeserializeObject<List<Subscription>>(content);
+            ViewData["SubscriptionId"] = new SelectList(subscriptions, "SubscriptionId", "SubscriptionName", aspNetUser.SubscriptionId);
+
             return View(aspNetUser);
         }
 
         // GET: Account/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
+            // Préparation de l'appel à l'API
             string accessToken = await HttpContext.GetTokenAsync("access_token");
-
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Account/getUserInfo");
 
+            // Récurération des données et convertion des données dans le bon type
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Account/getUserInfo");
             AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(content);
 
             if (user == null)
@@ -139,11 +204,13 @@ namespace mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
+            // Préparation de l'appel à l'API
             string accessToken = await HttpContext.GetTokenAsync("access_token");
-
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            HttpResponseMessage content = await client.DeleteAsync(_configuration["URLAPI"] + "api/Account/" + id);
+
+            // Envoie de la demande du suppression du compte
+            HttpResponseMessage content = await client.DeleteAsync(_configuration["URLAPI"] + "api/Account/");
 
             if (content.StatusCode == HttpStatusCode.OK)
             {
@@ -152,12 +219,8 @@ namespace mvc.Controllers
             else
             {
                 return BadRequest();
-            }        
+            }
         }
 
-        private bool AspNetUserExists(string id)
-        {
-            return _context.AspNetUsers.Any(e => e.Id == id);
-        }
     }
 }

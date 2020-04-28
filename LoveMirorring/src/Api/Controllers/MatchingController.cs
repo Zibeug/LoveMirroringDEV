@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Api.Controllers
@@ -191,17 +192,26 @@ namespace Api.Controllers
             p.SexualityId = userChoice.SexualityId;
 
 
-            //PreferenceCorpulence pc = _context.PreferenceCorpulences.Where(b => b.PreferenceId == p.PreferenceId).Single();
+            PreferenceCorpulence pc = _context.PreferenceCorpulences.Where(b => b.PreferenceId == p.PreferenceId).Single();
             PreferenceHairColor hc = _context.PreferenceHairColors.Where(b => b.PreferenceId == p.PreferenceId).Single();
             PreferenceHairSize hs = _context.PreferenceHairSizes.Where(b => b.PreferenceId == p.PreferenceId).Single();
             PreferenceReligion pr = _context.PreferenceReligions.Where(b => b.PreferenceId == p.PreferenceId).Single();
 
-            //pc.CorpulenceId = userChoice.CorpulenceId;
+            _context.PreferenceCorpulences.Remove(pc);
+            _context.PreferenceHairSizes.Remove(hs);
+            _context.PreferenceReligions.Remove(pr);
+            _context.PreferenceHairColors.Remove(hc);
+            _context.SaveChanges();
+            
+            pc.CorpulenceId = userChoice.CorpulenceId;
             hc.HairColorId = userChoice.HairColorId;
-            _context.PreferenceHairColors.Update(hc);
-            //hs.HairSizeId = userChoice.HairSizeId;
-            //pr.ReligionId = userChoice.ReligionId;
-                       
+            hs.HairSizeId = userChoice.HairSizeId;
+            pr.ReligionId = userChoice.ReligionId;
+
+            _context.PreferenceCorpulences.Add(pc);
+            _context.PreferenceHairSizes.Add(hs);
+            _context.PreferenceReligions.Add(pr);
+            _context.PreferenceHairColors.Add(hc);
             _context.SaveChanges();
             return Ok();
         }

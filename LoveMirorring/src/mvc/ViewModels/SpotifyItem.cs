@@ -11,7 +11,7 @@ namespace mvc.ViewModels
         public List<SpotifyIcons> icons { get; set; }
         public string id { get; set; }
         public string name { get; set; }
-        public SpotifyError? error { get; set; }
+        public SpotifyError error { get; set; }
 
     }
 }

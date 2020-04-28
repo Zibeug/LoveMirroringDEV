@@ -198,8 +198,9 @@ namespace Api.Controllers
 
             //pc.CorpulenceId = userChoice.CorpulenceId;
             hc.HairColorId = userChoice.HairColorId;
-            hs.HairSizeId = userChoice.HairSizeId;
-            pr.ReligionId = userChoice.ReligionId;
+            _context.PreferenceHairColors.Update(hc);
+            //hs.HairSizeId = userChoice.HairSizeId;
+            //pr.ReligionId = userChoice.ReligionId;
                        
             _context.SaveChanges();
             return Ok();

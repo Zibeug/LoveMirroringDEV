@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -126,6 +127,9 @@ namespace IdentityServerAspNetIdentity
             var authToken = Configuration["Twilio:AuthToken"]; 
             TwilioClient.Init(accountSid, authToken);
             services.Configure<TwilioVerifySettings>(Configuration.GetSection("Twilio"));
+
+            // Sert à récupéter l'adresse IP du user
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
         }
 
         public void Configure(IApplicationBuilder app)

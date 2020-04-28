@@ -14,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using Api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Api.Controllers
 {
@@ -24,12 +26,18 @@ namespace Api.Controllers
     {
         private readonly LoveMirroringContext _context;
         private readonly IEmailSender _emailSender;
+        private readonly ILogger<AccountController> _logger;
+        private readonly IActionContextAccessor _accessor;
 
         public AccountController(LoveMirroringContext context,
-                                 IEmailSender emailSender)
+                                 IEmailSender emailSender,
+                                 ILogger<AccountController> logger,
+                                 IActionContextAccessor accessor)
         {
             _context = context;
             _emailSender = emailSender;
+            _logger = logger;
+            _accessor = accessor;
         }
 
         // Renvoie les données de l'utilisateur

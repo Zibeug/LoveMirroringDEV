@@ -13,14 +13,14 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\Views\_ViewImports.cshtml"
+#line 1 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\Views\_ViewImports.cshtml"
 using mvc;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\Views\_ViewImports.cshtml"
+#line 2 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\Views\_ViewImports.cshtml"
 using mvc.Models;
 
 #line default
@@ -63,7 +63,7 @@ using mvc.Models;
         {
             WriteLiteral("\r\n");
 #nullable restore
-#line 2 "C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Quiz\Quiz.cshtml"
+#line 2 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Quiz\Quiz.cshtml"
   
     ViewData["Title"] = "Quizz";
 
@@ -72,7 +72,7 @@ using mvc.Models;
 #nullable disable
             WriteLiteral("\r\n<h1>Laissez nous établir votre plan de match</h1>\r\n<pre>");
 #nullable restore
-#line 7 "C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Quiz\Quiz.cshtml"
+#line 7 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Quiz\Quiz.cshtml"
 Write(ViewBag.Json);
 
 #line default

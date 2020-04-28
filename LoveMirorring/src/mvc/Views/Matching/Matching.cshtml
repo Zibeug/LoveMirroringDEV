@@ -2,7 +2,13 @@
 @{
     ViewData["Title"] = "Matching";
 }
-
+@{ 
+    int? hairSizeId = null;
+    int? hairColorId = null;
+    int? religionId = null;
+    int? corpulenceId = null;
+    Preference pref = null;
+}
 <h1>Matching</h1>
 <br />
 @if (ViewData["PrefenresCheck"].Equals("error"))
@@ -20,13 +26,18 @@
 }
 else
 {
-    Preference pref = ViewData["preferences"] as Preference;
-    int hairSizeId = pref.PreferenceHairSizes.FirstOrDefault().HairSizeId;
-    int hairColorId = pref.PreferenceHairColors.FirstOrDefault().HairColorId;
-    int religionId = pref.PreferenceReligions.FirstOrDefault().ReligionId;
-    int corpulenceId = pref.PreferenceCorpulences.FirstOrDefault().CorpulenceId;
 
-    
+    if (ViewData["preferences"] != null)
+    {
+        pref = ViewData["preferences"] as Preference;
+
+        hairSizeId = pref.PreferenceHairSizes.FirstOrDefault().HairSizeId;
+        hairColorId = pref.PreferenceHairColors.FirstOrDefault().HairColorId;
+        religionId = pref.PreferenceReligions.FirstOrDefault().ReligionId;
+        corpulenceId = pref.PreferenceCorpulences.FirstOrDefault().CorpulenceId;
+    }
+
+
     <div class="row">
         <div class="col-md-4">
             <form asp-route="Matching" method="post">
@@ -39,7 +50,7 @@ else
                     <label asp-for="@Model.CorpulenceId">Corpulence</label><br />
                     @foreach (Corpulence corpulence in ViewData["corpulences"] as List<Corpulence>)
                     {
-                        if (corpulence.CorpulenceId == corpulenceId)
+                        if (corpulenceId != null && corpulence.CorpulenceId == corpulenceId)
                         {
                             <input asp-for="@Model.CorpulenceId" type="radio" value="@corpulence.CorpulenceId" checked>
                         }
@@ -56,7 +67,7 @@ else
                     <label asp-for="@Model.ReligionId">Religion</label><br />
                     @foreach (Religion religion in ViewData["religions"] as List<Religion>)
                     {
-                        if (religion.ReligionId == religionId)
+                        if (religionId != null && religion.ReligionId == religionId)
                         {
                             <input asp-for="@Model.ReligionId" type="radio" value="@religion.ReligionId" checked>
                         }
@@ -73,7 +84,7 @@ else
                     <label asp-for="@Model.HairColorId"> Couleur de cheveux</label><br />
                     @foreach (HairColor hairColor in ViewData["hairColor"] as List<HairColor>)
                     {
-                        if (hairColor.HairColorId == hairColorId)
+                        if (hairColorId != null && hairColor.HairColorId == hairColorId)
                         {
                             <input asp-for="@Model.HairColorId" type="radio" value="@hairColor.HairColorId" checked>
                         }
@@ -90,7 +101,7 @@ else
 
                     @foreach (HairSize hairSize in ViewData["hairSize"] as List<HairSize>)
                     {
-                        if (hairSize.HairSizeId == hairSizeId)
+                        if (hairSizeId != null && hairSize.HairSizeId == hairSizeId)
                         {
                             <input asp-for="@Model.HairSizeId" type="radio" value="@hairSize.HairSizeId" checked>
                         }
@@ -107,7 +118,7 @@ else
                     <label asp-for="@Model.SexualityId"> Sexualité</label><br />
                     @foreach (Sexuality sexuality in ViewData["sexuality"] as List<Sexuality>)
                     {
-                        if (pref.SexualityId == sexuality.SexualityId)
+                        if (pref != null && pref.SexualityId == sexuality.SexualityId)
                         {
                             <input asp-for="@Model.SexualityId" type="radio" value="@sexuality.SexualityId" checked>
                         }
@@ -121,7 +132,7 @@ else
                 </div>
                 <div class="form-group">
                     <label asp-for="@Model.Age"></label>
-                    @if (pref.AgeMax != 0)
+                    @if (pref != null && pref.AgeMax != 0)
                     {
                         <input type="number" asp-for="@Model.Age" class="form-control" min="18" max="100" value="@pref.AgeMax"/>
                         <span asp-validation-for="@Model.Age" class="text-danger"></span>

@@ -13,7 +13,7 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\Views\_ViewImports.cshtml"
+#line 1 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\Views\_ViewImports.cshtml"
 using IdentityServer4.Quickstart.UI;
 
 #line default
@@ -312,7 +312,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_LabelTagHelper.For = ModelExpressionProvid
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_0);
                 __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_7);
 #nullable restore
-#line 39 "C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\Views\Account\SignUp.cshtml"
+#line 40 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\Views\Account\SignUp.cshtml"
 __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvider.CreateModelExpression(ViewData, __model => __model.Email);
 
 #line default
@@ -328,7 +328,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_InputTagHelper.For = ModelExpressionProvid
                 Write(__tagHelperExecutionContext.Output);
                 __tagHelperExecutionContext = __tagHelperScopeManager.End();
                 WriteLiteral("\r\n                            </div>\r\n                            <div class=\"form-group\">\r\n                                <div class=\"form-group\">\r\n                                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("label", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4bf264e4cfa22ff26a3777850c739059df6e3e8e28177", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("label", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "09b64bdc035a5804591ff55f5f55234171d1394928929", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_TagHelpers_LabelTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.LabelTagHelper>();

@@ -18,7 +18,7 @@ namespace IdentityServerAspNetIdentity.Models
         public virtual DbSet<Answer> Answers { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
-        public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
@@ -54,6 +54,7 @@ namespace IdentityServerAspNetIdentity.Models
         public virtual DbSet<UserNewsletter> UserNewsletters { get; set; }
         public virtual DbSet<UserProfil> UserProfils { get; set; }
         public virtual DbSet<UserStyle> UserStyles { get; set; }
+        public virtual DbSet<UserTrace> UserTraces { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -567,6 +568,21 @@ namespace IdentityServerAspNetIdentity.Models
                     .HasForeignKey(d => d.StyleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USERSTYLES_STYLES");
+            });
+
+            modelBuilder.Entity<UserTrace>(entity =>
+            {
+                entity.HasKey(e => e.Logid)
+                    .HasName("PK_USERTRACES");
+
+                entity.Property(e => e.Ipadress).IsUnicode(false);
+
+                entity.Property(e => e.Pagevisited).IsUnicode(false);
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithMany(p => p.UserTraces)
+                    .HasForeignKey(d => d.Id)
+                    .HasConstraintName("FK_USERTRACES_ASPNETUSERS");
             });
 
             OnModelCreatingPartial(modelBuilder);

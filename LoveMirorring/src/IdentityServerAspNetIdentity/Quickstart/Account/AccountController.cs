@@ -8,6 +8,7 @@ using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
+using IdentityServerAspNetIdentity.Data;
 using IdentityServerAspNetIdentity.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -16,6 +17,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Logging;
+using SQLitePCL;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,6 +28,7 @@ namespace IdentityServer4.Quickstart.UI
     [AllowAnonymous]
     public class AccountController : Controller
     {
+        private readonly LoveMirroringContext _LMcontext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IIdentityServerInteractionService _interaction;
@@ -36,6 +39,7 @@ namespace IdentityServer4.Quickstart.UI
         private readonly IActionContextAccessor _accessor;
 
         public AccountController(
+            LoveMirroringContext LMcontext,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IIdentityServerInteractionService interaction,
@@ -45,6 +49,7 @@ namespace IdentityServer4.Quickstart.UI
             ILogger<AccountController> logger,
             IActionContextAccessor accessor)
         {
+            _LMcontext = LMcontext;
             _userManager = userManager;
             _signInManager = signInManager;
             _interaction = interaction;
@@ -118,6 +123,17 @@ namespace IdentityServer4.Quickstart.UI
                 {
                     string ip = _accessor.ActionContext.HttpContext.Connection.RemoteIpAddress.ToString();
                     _logger.LogInformation("A User signs in with ip : " + ip);
+
+                    string userId = _LMcontext.AspNetUsers.Where(u => u.UserName == model.Username).Select(u => u.Id).SingleOrDefault();
+                    UserTrace trace = new UserTrace
+                    {
+                        Logdate = DateTime.Now,
+                        Ipadress = ip,
+                        Pagevisited = "Login : A User signs in ",
+                        Id = userId
+                    };
+                    _LMcontext.UserTraces.Add(trace);
+                    _LMcontext.SaveChanges();
 
                     var user = await _userManager.FindByNameAsync(model.Username);
 

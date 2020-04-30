@@ -73,8 +73,17 @@ namespace mvc.Controllers
 
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            string preferences = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/preferences");
-
+            string preferences = null;
+            try
+            {
+                preferences = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/preferences");
+            }
+            catch(HttpRequestException)
+            {
+                return View("Error");
+            }
+            
+            
             Preference p = new Preference();
             p = JsonConvert.DeserializeObject<Preference>(preferences);
 
@@ -100,7 +109,8 @@ namespace mvc.Controllers
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var response = client.PostAsync(client.BaseAddress, httpContent);
             var responseString = response.Result;
-            return View("Search");
+            ViewData["PrefenresCheck"] = "error";
+            return View("Matching");
 
         }
 
@@ -117,7 +127,21 @@ namespace mvc.Controllers
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var response = client.PostAsync(client.BaseAddress, httpContent);
             var responseString = response.Result;
-            return View("Search");
+            ViewData["PrefenresCheck"] = "error";
+            return View("Matching");
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Error()
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            client.BaseAddress = new Uri(Configuration["URLAPI"] + "api/Matching/Error");
+            var response = client.GetAsync(client.BaseAddress);
+            return await MatchingAsync();
+        }   
     }
 }

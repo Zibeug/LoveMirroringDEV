@@ -112,14 +112,19 @@ namespace Api.Controllers
                 }
             }
 
-            Preference p = _context.Preferences.Where(b => b.Id == user.Id).SingleOrDefault();
-            p.PreferenceCorpulences.Add(_context.PreferenceCorpulences.Where(b => b.PreferenceId == p.PreferenceId).Single());
-            p.PreferenceReligions.Add(_context.PreferenceReligions.Where(b => b.PreferenceId == p.PreferenceId).Single());
-            p.PreferenceHairColors.Add(_context.PreferenceHairColors.Where(b => b.PreferenceId == p.PreferenceId).Single());
-            p.PreferenceHairSizes.Add(_context.PreferenceHairSizes.Where(b => b.PreferenceId == p.PreferenceId).Single());
-
-
-            return new JsonResult(p);
+            try
+            {
+                Preference p = _context.Preferences.Where(b => b.Id == user.Id).SingleOrDefault();
+                p.PreferenceCorpulences.Add(_context.PreferenceCorpulences.Where(b => b.PreferenceId == p.PreferenceId).Single());
+                p.PreferenceReligions.Add(_context.PreferenceReligions.Where(b => b.PreferenceId == p.PreferenceId).Single());
+                p.PreferenceHairColors.Add(_context.PreferenceHairColors.Where(b => b.PreferenceId == p.PreferenceId).Single());
+                p.PreferenceHairSizes.Add(_context.PreferenceHairSizes.Where(b => b.PreferenceId == p.PreferenceId).Single());
+                return new JsonResult(p);
+            }
+            catch(Exception)
+            {
+                return BadRequest();
+            }
         }
 
         [Route("checkPreferences")]
@@ -175,7 +180,15 @@ namespace Api.Controllers
             preferenceHairSize.PreferenceId = p.PreferenceId;
             p.PreferenceHairSizes.Add(preferenceHairSize);
 
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
             return Ok();
 
         }
@@ -212,7 +225,43 @@ namespace Api.Controllers
             _context.PreferenceHairSizes.Add(hs);
             _context.PreferenceReligions.Add(pr);
             _context.PreferenceHairColors.Add(hc);
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch(Exception)
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+
+        [Route("Error")]
+        [HttpGet]
+        public IActionResult Error()
+        {
+            AspNetUser user = null;
+            string id = "";
+
+            try
+            {
+                // Il faut utiliser le Claim pour retrouver l'identifiant de l'utilisateur
+                id = User.Claims.Where(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").SingleOrDefault().Value;
+                user = _context.AspNetUsers.Where(b => b.Id == id).SingleOrDefault();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+            Preference p = _context.Preferences.Where(b => b.Id == user.Id).Single();
+            if(p != null)
+            {
+                _context.Preferences.Remove(p);
+                _context.SaveChanges();
+            }
+            
+
             return Ok();
         }
     }

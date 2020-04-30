@@ -8,6 +8,8 @@ namespace mvc.ViewModels
 {
     public class MatchingModel
     {
+        public string Id { get; set; }
+        public string UserName { get; set; }
         [Required]
         public string Sexe { get; set; }
         [Required]
@@ -18,5 +20,8 @@ namespace mvc.ViewModels
         public string Religion { get; set; }
         [Required]
         public string Profil { get; set; }
+        public string HairSize { get; set; }
+        public string HairColor { get; set; }
+        public string Sexuality { get; set; }
     }
 }

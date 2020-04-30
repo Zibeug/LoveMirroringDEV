@@ -1,4 +1,5 @@
-﻿@{
+﻿@using mvc.ViewModels; 
+@{
     ViewData["Title"] = "Search";
 }
 
@@ -26,11 +27,52 @@ else
                     Sexe
                 </th>
                 <th>
+                    Corpulence
+                </th>
+                <th>
+                    Couleur de cheveux
+                </th>
+                <th>
+                    Taille de cheveux
+                </th>
+                <th>
                     Choix
                 </th>
             </tr>
         </thead>
         <tbody>
+            @foreach (MatchingModel user in ViewData["Search"] as IEnumerable<MatchingModel>)
+            {
+                <tr>
+                    <td>
+                        @user.UserName
+                    </td>
+                    <td>
+                        @user.Profil
+                    </td>
+                    <td>
+                        @user.Age
+                    </td>
+                    <td>
+                        @user.Sexe
+                    </td>
+                    <td>
+                        @user.Corpulence
+                    </td>
+                    <td>
+                        @user.HairColor
+                    </td>
+                    <td>
+                        @user.HairSize
+                    </td>
+                    <td>
+                        <form asp-page-handler="Like" asp-route-id="@user.Id" method="post">
+                            <button class="btn btn-secondary">Like</button>
+                        </form>
+                        @*<button class="btn btn-secondary" asp-page-handler="UnLike" asp-route-id="@item.UserName">Unlike</button>*@
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 }

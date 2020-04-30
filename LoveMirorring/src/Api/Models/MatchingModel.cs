@@ -7,15 +7,15 @@ namespace Api.Models
 {
     public class MatchingModel
     {
+        public string Id { get; set; }
         public string UserName { get; set; }
         public int Age { get; set; }
-        public short SexeId { get; set; }
-
-        public short ReligionId { get; set; }
-        public short HairSizeId { get; set; }
-        public short HairColorId { get; set; }
-        public short SexualityId { get; set; }
-        public short CorpulenceId { get; set; }
-        public short ProfilId { get; set; }
+        public string Sexe { get; set; }
+        public string Profil { get; set; }
+        public string Religion { get; set; }
+        public string HairSize { get; set; }
+        public string HairColor { get; set; }
+        public string Sexuality { get; set; }
+        public string Corpulence { get; set; }
     }
 }

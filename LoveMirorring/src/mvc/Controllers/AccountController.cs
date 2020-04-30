@@ -43,8 +43,8 @@ namespace mvc.Controllers
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Account/getUserInfo");
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/account/getUserInfo");
+         
             AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(content);
 
             if (user == null)

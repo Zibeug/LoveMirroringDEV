@@ -857,7 +857,6 @@ C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\r
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csprojAssemblyReference.cache
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.RazorAssemblyInfo.cache
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.RazorAssemblyInfo.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.AssemblyInfoInputs.cache

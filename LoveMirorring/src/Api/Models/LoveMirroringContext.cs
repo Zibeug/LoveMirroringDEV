@@ -54,11 +54,13 @@ namespace Api.Models
         public virtual DbSet<UserNewsletter> UserNewsletters { get; set; }
         public virtual DbSet<UserProfil> UserProfils { get; set; }
         public virtual DbSet<UserStyle> UserStyles { get; set; }
+        public virtual DbSet<UserTrace> UserTraces { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=LoveMirroring;Trusted_Connection=True;");
             }
         }
@@ -566,6 +568,21 @@ namespace Api.Models
                     .HasForeignKey(d => d.StyleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USERSTYLES_STYLES");
+            });
+
+            modelBuilder.Entity<UserTrace>(entity =>
+            {
+                entity.HasKey(e => e.Logid)
+                    .HasName("PK_USERTRACES");
+
+                entity.Property(e => e.Ipadress).IsUnicode(false);
+
+                entity.Property(e => e.Pagevisited).IsUnicode(false);
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithMany(p => p.UserTraces)
+                    .HasForeignKey(d => d.Id)
+                    .HasConstraintName("FK_USERTRACES_ASPNETUSERS");
             });
 
             OnModelCreatingPartial(modelBuilder);

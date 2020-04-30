@@ -8,12 +8,16 @@ using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
+using IdentityServerAspNetIdentity.Data;
 using IdentityServerAspNetIdentity.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.Logging;
+using SQLitePCL;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,27 +28,36 @@ namespace IdentityServer4.Quickstart.UI
     [AllowAnonymous]
     public class AccountController : Controller
     {
+        private readonly LoveMirroringContext _LMcontext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
+        private readonly ILogger<AccountController> _logger;
+        private readonly IActionContextAccessor _accessor;
 
         public AccountController(
+            LoveMirroringContext LMcontext,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IAuthenticationSchemeProvider schemeProvider,
-            IEventService events)
+            IEventService events,
+            ILogger<AccountController> logger,
+            IActionContextAccessor accessor)
         {
+            _LMcontext = LMcontext;
             _userManager = userManager;
             _signInManager = signInManager;
             _interaction = interaction;
             _clientStore = clientStore;
             _schemeProvider = schemeProvider;
             _events = events;
+            _logger = logger;
+            _accessor = accessor;
         }
 
         /// <summary>
@@ -108,6 +121,20 @@ namespace IdentityServer4.Quickstart.UI
                 
                 if (result.Succeeded)
                 {
+                    string ip = _accessor.ActionContext.HttpContext.Connection.RemoteIpAddress.ToString();
+                    _logger.LogInformation("A User signs in with ip : " + ip);
+
+                    string userId = _LMcontext.AspNetUsers.Where(u => u.UserName == model.Username).Select(u => u.Id).SingleOrDefault();
+                    UserTrace trace = new UserTrace
+                    {
+                        Logdate = DateTime.Now,
+                        Ipadress = ip,
+                        Pagevisited = "Login : A User signs in ",
+                        Id = userId
+                    };
+                    _LMcontext.UserTraces.Add(trace);
+                    _LMcontext.SaveChanges();
+
                     var user = await _userManager.FindByNameAsync(model.Username);
 
                     var resultEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);

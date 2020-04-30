@@ -3,21 +3,18 @@
  *      2020.04.27
  *      
  */
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using mvc.Models;
 using Newtonsoft.Json;
 using Unosquare.Swan;
@@ -28,10 +25,13 @@ namespace mvc.Controllers
     public class AccountController : Controller
     {
         private readonly IConfiguration _configuration;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(IConfiguration configuration)
+        public AccountController(IConfiguration configuration,
+                                 ILogger<AccountController> logger)
         {
             _configuration = configuration;
+            _logger = logger;
         }
 
         // Affiche le profil de l'utilisateur
@@ -43,8 +43,8 @@ namespace mvc.Controllers
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Account/getUserInfo");
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/account/getUserInfo");
+         
             AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(content);
 
             if (user == null)
@@ -53,6 +53,21 @@ namespace mvc.Controllers
             }
 
             return View(user);
+        }
+
+        public async Task<IActionResult> GetUserInfoInJson()
+        {
+            // Préparation de l'appel à l'API
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            // Récurération des données et convertion des données dans le bon type
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Account/getUserInfo");
+            AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(content);
+
+            Response.Headers.Add("Content-Disposition", "attachment; filename=PersonalData.json");
+            return new FileContentResult(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(user)), "text/json");
         }
 
         // Met à jour le profil de l'utilisateur
@@ -180,7 +195,7 @@ namespace mvc.Controllers
         }
 
         // GET: Account/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete()
         {
             // Préparation de l'appel à l'API
             string accessToken = await HttpContext.GetTokenAsync("access_token");

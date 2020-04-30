@@ -9,11 +9,13 @@
         });
 
     $("label.btn").on('click', function () {
-        
+
         var choice = $(this).find('input:radio').val();
-        res = res + parseInt(choice);
+        res = parseInt(choice);
         $('#loadbar').show();
         $('#quiz').fadeOut();
+        var question = $("quizz")[0].id;
+        console.log("Question" + question);
         setTimeout(function () {
             $('#quiz').show();
             $('#loadbar').fadeOut();
@@ -25,5 +27,5 @@
 
     });
 
-    $('input[name=score]').val(res);
+    //$('input[name=q+]').val(res);
 });	

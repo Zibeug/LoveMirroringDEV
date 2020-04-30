@@ -3,17 +3,19 @@
  *      2020.04.27
  *      Permet de gérer ses données profils
  */
- 
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Api.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Api.Controllers
 {
@@ -24,12 +26,18 @@ namespace Api.Controllers
     {
         private readonly LoveMirroringContext _context;
         private readonly IEmailSender _emailSender;
+        private readonly ILogger<AccountController> _logger;
+        private readonly IActionContextAccessor _accessor;
 
         public AccountController(LoveMirroringContext context,
-                                 IEmailSender emailSender)
+                                 IEmailSender emailSender,
+                                 ILogger<AccountController> logger,
+                                 IActionContextAccessor accessor)
         {
             _context = context;
             _emailSender = emailSender;
+            _logger = logger;
+            _accessor = accessor;
         }
 
         // Renvoie les données de l'utilisateur

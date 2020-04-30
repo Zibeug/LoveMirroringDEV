@@ -26,25 +26,37 @@ using Microsoft.AspNetCore.Authentication;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace IdentityServerAspNetIdentity.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly LoveMirroringContext _context;
         private HttpClient client = new HttpClient();
         private readonly IEmailSender _emailSender;
         private readonly TwilioVerifySettings _settings;
         private readonly UserManager<ApplicationUser> _userManager;
         private IConfiguration Configuration { get; }
+        private readonly ILogger<AccountController> _logger;
+        private readonly IActionContextAccessor _accessor;
 
-        public AccountController(IEmailSender emailSender,
+        public AccountController(LoveMirroringContext context, 
+                                 IEmailSender emailSender,
                                  IOptions<TwilioVerifySettings> settings,
-                                 UserManager<ApplicationUser> userManager, IConfiguration configuration)
+                                 UserManager<ApplicationUser> userManager, 
+                                 IConfiguration configuration,
+                                 ILogger<AccountController> logger,
+                                 IActionContextAccessor accessor)
         {
+            _context = context;
             _emailSender = emailSender;
             _settings = settings.Value;
             _userManager = userManager;
             Configuration = configuration;
+            _logger = logger;
+            _accessor = accessor;
         }
 
         public async Task<IActionResult> SignUp()
@@ -70,6 +82,18 @@ namespace IdentityServerAspNetIdentity.Controllers
             ViewData["hairColors"] = resultHairColors;
             ViewData["hairSizes"] = resultHairSizes;
             ViewData["sexualities"] = resultSexualities;
+
+            string ip = _accessor.ActionContext.HttpContext.Connection.RemoteIpAddress.ToString();
+
+            _logger.LogInformation("A User is trying to sign up with ip : " + ip);
+            UserTrace trace = new UserTrace
+            {
+                Logdate = DateTime.Now,
+                Ipadress = ip,
+                Pagevisited = "SignUp : A User is trying to sign up"
+            };
+            _context.UserTraces.Add(trace);
+            _context.SaveChanges();
 
             return View();
         }
@@ -126,7 +150,19 @@ namespace IdentityServerAspNetIdentity.Controllers
                             }
                             else
                             {
-                                //_logger.LogInformation("User created a new account with password.");
+                                string ip = _accessor.ActionContext.HttpContext.Connection.RemoteIpAddress.ToString();
+                                _logger.LogInformation("User created a new account with password with ip: " + ip);
+
+                                string userId = _context.AspNetUsers.Where(u => u.UserName == input.UserName).Select(u => u.Id).SingleOrDefault();
+                                UserTrace trace = new UserTrace
+                                {
+                                    Logdate = DateTime.Now,
+                                    Ipadress = ip,
+                                    Pagevisited = "SignUp : User created a new account",
+                                    Id = userId
+                                };
+                                _context.UserTraces.Add(trace);
+                                _context.SaveChanges();
 
                                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

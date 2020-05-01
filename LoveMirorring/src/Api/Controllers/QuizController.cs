@@ -29,6 +29,8 @@ namespace Api.Controllers
             _context = context;
         }
 
+        // Permet de retourner les questions contenu dans la base de données
+        // GET : api/Quiz
         [HttpGet]
         [Authorize]
         public IActionResult GetQuestion()
@@ -38,6 +40,8 @@ namespace Api.Controllers
             return new JsonResult(questions);
         }
 
+        // Permet de récupérer l'ensemble des réponses dans la base de données
+        // GET : api/answer
         [Route("answer")]
         [HttpGet]
         [Authorize]
@@ -47,17 +51,9 @@ namespace Api.Controllers
             return new JsonResult(responses);
         }
 
-        //public async Task<IActionResult> ConfirmQuiz(string userId)
-        //{
-        //    var user = await _userManager.FindByIdAsync(userId);
-        //    if(user != null)
-        //    {
-        //        //user.QuizCompleted = true;
-        //    }
-            
-        //    return View();
-        //}
 
+        //Permet d'envoyer le quiz une fois qu'il a été rempli
+        // POST : api/QuizSubmit
         [Route("QuizSubmit")]
         [HttpPost]
         [Authorize]
@@ -68,6 +64,8 @@ namespace Api.Controllers
             AspNetUser user = null;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            //Récupération de l'utilisateur courant
             string userString = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
             user = JsonConvert.DeserializeObject<AspNetUser>(userString);
 

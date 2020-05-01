@@ -26,6 +26,8 @@ namespace Api.Controllers
             Configuration = configuration;
         }
 
+        // Récupére les informations de l'utiliateur courant
+        // GET: api/preferences
         [Route("preferences")]
         [HttpGet]
         [Authorize]
@@ -55,6 +57,9 @@ namespace Api.Controllers
             }
         }
 
+
+        //Vérifie si les les préférences on déja été enregistrées de l'utilisateur courant
+        // GET : api/checkPreferences
         [Route("checkPreferences")]
         [HttpGet]
         [Authorize]
@@ -74,6 +79,8 @@ namespace Api.Controllers
                 : new JsonResult("success");
         }
 
+        // Enregistre le profil de l'utilisateur s'il n'était pas enregistré au préalable
+        // POST : api/SaveProfil
         [Route("SaveProfil")]
         [HttpPost]
         public IActionResult SaveProfil(UserChoiceViewModel userChoice)
@@ -121,6 +128,8 @@ namespace Api.Controllers
 
         }
 
+        // Met à jour les informations de l'utilisateur s'il possède déjà des préférences enregistrées
+        // POST : api/UpdateProfil
         [Route("UpdateProfil")]
         [HttpPost]
         public IActionResult UpdateProfil(UserChoiceViewModel userChoice)
@@ -164,6 +173,8 @@ namespace Api.Controllers
             return Ok();
         }
 
+        // Permet de réinitialiser le profil en cas d'erreur lors du traitement pour l'utilisateur courant
+        // GET : api/Error
         [Route("Error")]
         [HttpGet]
         public IActionResult Error()

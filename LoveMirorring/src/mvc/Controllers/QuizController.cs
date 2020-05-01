@@ -31,11 +31,19 @@ namespace mvc.Controllers
         public async Task<IActionResult> QuizAsync()
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");
-
+            AspNetUser user = null;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Quiz");
             string answerContent = await client.GetStringAsync(Configuration["URLAPI"] + "api/Quiz/answer");
+            string userString = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
+            user = JsonConvert.DeserializeObject<AspNetUser>(userString);
+
+            if (user.QuizCompleted)
+            {
+                return View("QuizComplete");
+            }
+
             List<Question> result = JsonConvert.DeserializeObject<List<Question>>(content);
             List<Answer> resultAnswer = JsonConvert.DeserializeObject<List<Answer>>(answerContent);
             //List<Question> questionList = new List<Question>();

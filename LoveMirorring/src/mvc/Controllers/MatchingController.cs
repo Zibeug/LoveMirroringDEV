@@ -32,14 +32,14 @@ namespace mvc.Controllers
 
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            string sexes = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/Sex");
-            string religions = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/religions");
-            string corpulences = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/corpulences");
-            string username = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/user");
+            string sexes = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/Sex");
+            string religions = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/religions");
+            string corpulences = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/corpulences");
+            string username = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
             string preferences = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/checkPreferences");
-            string hairSize = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/hairSize");
-            string hairColor = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/hairColor");
-            string sexuality = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/sexuality");
+            string hairSize = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/hairSize");
+            string hairColor = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/hairColor");
+            string sexuality = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/sexuality");
 
             List<Sex> resultSexes = JsonConvert.DeserializeObject<List<Sex>>(sexes);
             List<Religion> resultReligions = JsonConvert.DeserializeObject<List<Religion>>(religions);
@@ -48,7 +48,7 @@ namespace mvc.Controllers
             List<HairSize> resultHairSizes = JsonConvert.DeserializeObject<List<HairSize>>(hairSize);
             List<Sexuality> resultSexualities = JsonConvert.DeserializeObject<List<Sexuality>>(sexuality);
 
-            string resultUserName = JsonConvert.DeserializeObject<string>(username);
+            AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(username);
             string resultPreferences = JsonConvert.DeserializeObject<string>(preferences);
 
             ViewData["PrefenresCheck"] = resultPreferences;
@@ -56,7 +56,7 @@ namespace mvc.Controllers
             ViewData["sexes"] = resultSexes;
             ViewData["religions"] = resultReligions;
             ViewData["corpulences"] = resultCorpulences;
-            ViewData["username"] = resultUserName;
+            ViewData["username"] = user.UserName;
             ViewData["hairColor"] = resultHairColors;
             ViewData["hairSize"] = resultHairSizes;
             ViewData["sexuality"] = resultSexualities;

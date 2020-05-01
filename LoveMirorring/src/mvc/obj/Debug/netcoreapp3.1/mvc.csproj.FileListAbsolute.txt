@@ -731,7 +731,6 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\runtimes\u
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\Bricelam.EntityFrameworkCore.Pluralizer.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.genruntimeconfig.cache
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\appsettings.json
@@ -888,9 +887,6 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\SpotifyAPI
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\Unosquare.Labs.EmbedIO.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\SpotifyAPI.Web.Auth.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\Unosquare.Swan.Lite.dll
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csproj.CoreCompileInputs.cache
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.MvcApplicationPartsAssemblyInfo.cache
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\EFCorePluralizer.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Matching\Matching.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\Microsoft.Data.Sqlite.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
@@ -922,3 +918,8 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\View
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Search.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Search\Search.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Matching\Error.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\Bricelam.EntityFrameworkCore.Pluralizer.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csproj.CoreCompileInputs.cache
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.MvcApplicationPartsAssemblyInfo.cache
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\EFCorePluralizer.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Quiz\QuizComplete.cshtml.g.cs

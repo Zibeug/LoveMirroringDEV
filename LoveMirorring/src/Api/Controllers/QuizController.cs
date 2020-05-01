@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace Api.Controllers
 {
@@ -62,14 +63,13 @@ namespace Api.Controllers
         [Authorize]
         public async Task<ActionResult> QuizSubmit(int[] answer)
         {
+            
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
             AspNetUser user = null;
-            foreach (var claim in User.Claims)
-            {
-                if (user == null)
-                {
-                    user = _context.AspNetUsers.Find(claim.Value);
-                }
-            }
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string userString = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
+            user = JsonConvert.DeserializeObject<AspNetUser>(userString);
 
             int query = (from item in answer
                         group item by item into g

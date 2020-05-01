@@ -61,15 +61,14 @@ namespace IdentityServerAspNetIdentity.Controllers
 
         public async Task<IActionResult> SignUp()
         {
-
             string accessToken = await HttpContext.GetTokenAsync("access_token");
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            string sexes = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/Sex");
-            string corpulences = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/corpulences");
-            string hairSize = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/hairSize");
-            string hairColor = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/hairColor");
-            string sexuality = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/sexuality");
+            string sexes = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/Sex");
+            string corpulences = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/corpulences");
+            string hairSize = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/hairSize");
+            string hairColor = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/hairColor");
+            string sexuality = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/sexuality");
 
             List<Sex> resultSexes = JsonConvert.DeserializeObject<List<Sex>>(sexes);
             List<Corpulence> resultCorpulences = JsonConvert.DeserializeObject<List<Corpulence>>(corpulences);
@@ -135,6 +134,23 @@ namespace IdentityServerAspNetIdentity.Controllers
                                 user = input;
                             }
 
+                            var checkEmail = userMgr.FindByEmailAsync(input.Email).Result;
+
+                            if(checkEmail != null)
+                            {
+                                throw new Exception("Email déjà utilisé");
+                            }
+
+                            int now = int.Parse(DateTime.Now.ToString("yyyyMMdd"));
+                            int dob = int.Parse(input.Birthday.ToString("yyyyMMdd"));
+                            int age = (now - dob) / 10000;
+
+
+                            if (age < 18)
+                            {
+                                throw new Exception("Vous devez avoir 18 ans pour vous inscrire");
+                            }
+
                             user.CorpulenceId = input.CorpulenceId;
                             user.SexualityId = input.SexualityId;
                             user.Sexeid = input.Sexeid;
@@ -188,6 +204,8 @@ namespace IdentityServerAspNetIdentity.Controllers
             {
                 Log.Debug($"{e.Message} error");
                 ViewData["error"] = e.Message;
+
+                await SignUp();
                 return View("SignUp");
             }
              

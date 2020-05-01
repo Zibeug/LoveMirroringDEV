@@ -1,16 +1,77 @@
-﻿
+﻿@model mvc.ViewModels.Admin.SearchModel
 @{
     ViewData["Title"] = "Search";
 }
 
 <h1>Search</h1>
 <p>
-    @using (Html.BeginForm("Index", "Employee", FormMethod.Get))
+    @using (Html.BeginForm("Search", "Admin", FormMethod.Get))
     {
 
         <b>Search Username:</b>
-        @Html.TextBox("search")<input type="submit" value="Search" />
+        @Html.TextBox("username")<input type="submit" value="Search" />
 
     }
 </p>
+
+@if (Model != null)
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    UserName
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    EmailConfirmed
+                </th>
+                <th>
+                    PhoneNumber
+                </th>
+                <th>
+                    PhoneNumberConfirmed
+                </th>
+                <th>
+                    QuizCompleted
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.EmailConfirmed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.PhoneNumberConfirmed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.QuizCompleted)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@Model.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+}
+
+
+
+
 

@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using mvc.Models;
+using mvc.ViewModels;
 using mvc.ViewModels.Admin;
 using Newtonsoft.Json;
 
@@ -36,25 +34,64 @@ namespace mvc.Controllers
                 return NotFound();
             }
 
-            return View();
+            return View(overView);
         }
 
-        public async Task<IActionResult> Search()
+        public async Task<IActionResult> Search(string username)
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");
 
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Admin/welcom");
+            string content = "";
+            string id = "";
 
-            IndexModel overView = JsonConvert.DeserializeObject<IndexModel>(content);
-
-            if (overView == null)
+            if (!String.IsNullOrEmpty(username)) 
             {
-                return NotFound();
+                content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Admin/search/{username}");
+                id = JsonConvert.DeserializeObject<string>(content);
+
+                if (id == null)
+                {
+                    return NotFound();
+                }
+                content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Admin/user/{id}");
+
+                SearchModel search = JsonConvert.DeserializeObject<SearchModel>(content);
+
+                if (search == null)
+                {
+                    return NotFound();
+                }
+
+                return View(search);
             }
 
             return View();
+        }
+
+        public async Task<IActionResult> Details(string id)
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            if (!String.IsNullOrEmpty(id))
+            {
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Admin/user/{id}");
+
+                SearchModel search = JsonConvert.DeserializeObject<SearchModel>(content);
+
+                if (search == null)
+                {
+                    return NotFound();
+                }
+
+                return View(search);
+            }
+
+            return View("Search");
         }
     }
 }

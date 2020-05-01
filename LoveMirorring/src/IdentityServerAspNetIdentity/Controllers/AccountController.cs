@@ -28,6 +28,7 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using PhoneNumbers;
 
 namespace IdentityServerAspNetIdentity.Controllers
 {
@@ -41,6 +42,7 @@ namespace IdentityServerAspNetIdentity.Controllers
         private IConfiguration Configuration { get; }
         private readonly ILogger<AccountController> _logger;
         private readonly IActionContextAccessor _accessor;
+        private static PhoneNumberUtil _phoneUtil;
 
         public AccountController(LoveMirroringContext context, 
                                  IEmailSender emailSender,
@@ -57,6 +59,7 @@ namespace IdentityServerAspNetIdentity.Controllers
             Configuration = configuration;
             _logger = logger;
             _accessor = accessor;
+            _phoneUtil = PhoneNumberUtil.GetInstance();
         }
 
         public async Task<IActionResult> SignUp()
@@ -151,6 +154,18 @@ namespace IdentityServerAspNetIdentity.Controllers
                                 throw new Exception("Vous devez avoir 18 ans pour vous inscrire");
                             }
 
+                            // Vérification du numéro de téléphone - Sébastien Berger
+                            PhoneNumber phoneNumber = _phoneUtil.Parse(input.PhoneNumber, input.countryCode);
+
+                            if(!_phoneUtil.IsValidNumberForRegion(phoneNumber, input.countryCode) && !phoneNumber.HasExtension)
+                            {
+                                throw new Exception("Numéro invalide");
+                            }
+                            else
+                            {
+                                input.PhoneNumber = "+" + phoneNumber.CountryCode.ToString() + phoneNumber.NationalNumber.ToString();
+                            }
+                            
                             user.CorpulenceId = input.CorpulenceId;
                             user.SexualityId = input.SexualityId;
                             user.Sexeid = input.Sexeid;
@@ -373,7 +388,7 @@ namespace IdentityServerAspNetIdentity.Controllers
 
                 ModelState.AddModelError("", $"Your verification is not pending, please constact admin");
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 ModelState.AddModelError("", "There was an error sending the verification code, please contact admin");
             }

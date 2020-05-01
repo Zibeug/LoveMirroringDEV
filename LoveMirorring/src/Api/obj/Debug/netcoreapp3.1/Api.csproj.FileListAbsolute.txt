@@ -883,3 +883,4 @@ C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\U
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\SpotifyAPI.Web.dll
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\SpotifyAPI.Web.Auth.dll
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Unosquare.Swan.Lite.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\PhoneNumbers.dll

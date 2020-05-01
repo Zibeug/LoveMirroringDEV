@@ -87,6 +87,15 @@
           "lib/netstandard2.0/IdentityServer4.Storage.dll": {}
         }
       },
+      "libphonenumber-csharp/8.9.10": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/PhoneNumbers.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/PhoneNumbers.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Authentication.Google/3.1.0": {
         "type": "package",
         "compile": {
@@ -3337,11 +3346,12 @@
           "Microsoft.AspNetCore.Identity.UI": "3.1.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "3.1.3",
           "Microsoft.EntityFrameworkCore.Sqlite": "3.1.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.1",
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.2",
           "SendGrid": "9.13.1",
           "Serilog.AspNetCore": "3.2.0",
           "System.Security.Principal.Windows": "4.7.0",
-          "Twilio": "5.39.0"
+          "Twilio": "5.39.0",
+          "libphonenumber-csharp": "8.9.10"
         },
         "compile": {
           "bin/placeholder/IdentityServerAspNetIdentity.dll": {}
@@ -3447,6 +3457,22 @@
         "lib/netstandard2.0/IdentityServer4.Storage.dll",
         "lib/netstandard2.0/IdentityServer4.Storage.pdb",
         "lib/netstandard2.0/IdentityServer4.Storage.xml"
+      ]
+    },
+    "libphonenumber-csharp/8.9.10": {
+      "sha512": "RZrOOKWJuCDXApa98TNw2KV/Ow4BEX5b0Oq3QO3iLwwGUo8DUS9OC8EB2+FFteYJ6raABSt54ldSA9re5vWKcA==",
+      "type": "package",
+      "path": "libphonenumber-csharp/8.9.10",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/PhoneNumbers.dll",
+        "lib/net40/PhoneNumbers.dll",
+        "lib/netstandard1.3/PhoneNumbers.dll",
+        "lib/netstandard2.0/PhoneNumbers.dll",
+        "lib/portable-net45+win8+wp8+wpa81/PhoneNumbers.dll",
+        "libphonenumber-csharp.8.9.10.nupkg.sha512",
+        "libphonenumber-csharp.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Authentication.Google/3.1.0": {

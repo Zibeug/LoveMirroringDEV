@@ -19,6 +19,10 @@ namespace IdentityServerAspNetIdentity.Models
         [DataType(DataType.Date)]
         public DateTime Birthday { get; set; }
 
+        [Phone]
+        [DataType(DataType.PhoneNumber)]
+        public override string PhoneNumber { get; set; }
+
         [Column("SEXEID")]
         public short Sexeid { get; set; }
 

@@ -397,6 +397,17 @@
           "lib/netstandard2.0/IdentityServer4.Storage.dll": {}
         }
       },
+      "libphonenumber-csharp/8.9.10": {
+        "runtime": {
+          "lib/netstandard2.0/PhoneNumbers.dll": {
+            "assemblyVersion": "8.9.10.0",
+            "fileVersion": "8.9.10.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/PhoneNumbers.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Authentication.Google/3.1.0": {
         "runtime": {
           "lib/netcoreapp3.1/Microsoft.AspNetCore.Authentication.Google.dll": {
@@ -2902,7 +2913,8 @@
           "SendGrid": "9.13.1",
           "Serilog.AspNetCore": "3.2.0",
           "System.Security.Principal.Windows": "4.7.0",
-          "Twilio": "5.39.0"
+          "Twilio": "5.39.0",
+          "libphonenumber-csharp": "8.9.10"
         },
         "runtime": {
           "IdentityServerAspNetIdentity.dll": {}
@@ -4586,6 +4598,13 @@
       "sha512": "sha512-iOzIuGa4SEYihJbksLT7gh/hqfV9zxoSJpwJID5zjWxVIqkzdY6n6Kf88I9bZVwW6RU5XRipD/BfVeMqxh/4cw==",
       "path": "identityserver4.storage/3.1.0",
       "hashPath": "identityserver4.storage.3.1.0.nupkg.sha512"
+    },
+    "libphonenumber-csharp/8.9.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RZrOOKWJuCDXApa98TNw2KV/Ow4BEX5b0Oq3QO3iLwwGUo8DUS9OC8EB2+FFteYJ6raABSt54ldSA9re5vWKcA==",
+      "path": "libphonenumber-csharp/8.9.10",
+      "hashPath": "libphonenumber-csharp.8.9.10.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication.Google/3.1.0": {
       "type": "package",

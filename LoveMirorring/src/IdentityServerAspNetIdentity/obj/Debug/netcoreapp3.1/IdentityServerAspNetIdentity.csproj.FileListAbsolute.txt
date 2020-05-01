@@ -785,11 +785,7 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.pdb
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\Bricelam.EntityFrameworkCore.Pluralizer.dll
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.MvcApplicationPartsAssemblyInfo.cs
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.MvcApplicationPartsAssemblyInfo.cache
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\EFCorePluralizer.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LoginPartial.cshtml.g.cs
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.csproj.CoreCompileInputs.cache
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\AccessDenied.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\ConfirmEmail.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\ConfirmEmailChange.cshtml.g.cs
@@ -1096,3 +1092,8 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Account\VerifyPhone.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.csprojAssemblyReference.cache
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.csprojAssemblyReference.cache
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\PhoneNumbers.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.csproj.CoreCompileInputs.cache
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.MvcApplicationPartsAssemblyInfo.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.MvcApplicationPartsAssemblyInfo.cache
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\EFCorePluralizer.cs

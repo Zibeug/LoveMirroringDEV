@@ -7,10 +7,7 @@ using Api.ViewModels.Admin;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 
 namespace Api.Controllers
 {
@@ -24,8 +21,6 @@ namespace Api.Controllers
         {
             _context = context;
         }
-<<<<<<< Updated upstream
-=======
 
         [Route("welcom")]
         [HttpGet]
@@ -127,6 +122,6 @@ namespace Api.Controllers
                 return new JsonResult(false);
             }
         }
->>>>>>> Stashed changes
+
     }
 }

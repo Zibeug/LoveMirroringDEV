@@ -1,0 +1,125 @@
+﻿
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div id="toastSuccess" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header bg-success text-white">
+        <strong class="mr-auto">Paiement effectué avec succès !</strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body">
+        Merci beaucoup de votre paiement, vous recevrez un mail de confirmation sous peu.
+    </div>
+</div>
+<div id="toastError" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header bg-danger text-white">
+        <strong class="mr-auto">Erreur !</strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div id="toastErrorMessage" class="toast-body">
+        Merci beaucoup de votre paiement, vous recevrez un mail de confirmation sous peu.
+    </div>
+</div>
+
+<div class="row">
+    <div class="col text-center">
+        <h1>Paiement Abonnement</h1>
+        <h2>Pour : @ViewData["SubscriptionName"]</h2>
+    </div>
+</div>
+<br />
+<br />
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <form id="payment-form">
+            <div id="card-element">
+                <!-- Elements will create input elements here -->
+            </div>
+
+            <!-- We'll put the error messages in this element -->
+            <div id="card-errors" role="alert"></div>
+            <br />
+            <button class="btn btn-block btn-primary" id="submit">Payer @ViewData["Amount"] CHF</button>
+        </form>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+@section Scripts{
+
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        $('.toast').toast({
+            autohide: false
+        });
+    </script>
+
+    <script>
+        // Set your publishable key: remember to change this to your live publishable key in production
+        // See your keys here: https://dashboard.stripe.com/account/apikeys
+        var stripe = Stripe('@ViewData["PK"]');
+        var elements = stripe.elements();
+
+        // Set up Stripe.js and Elements to use in checkout form
+        var style = {
+            base: {
+                color: "#32325d",
+            }
+        };
+
+        var card = elements.create("card", { style: style });
+        card.mount("#card-element");
+
+        // catch mistakes
+        card.addEventListener('change', ({ error }) => {
+            const displayError = document.getElementById('card-errors');
+            if (error) {
+                displayError.textContent = error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        // submit form
+        var form = document.getElementById('payment-form');
+
+        form.addEventListener('submit', function (ev) {
+            ev.preventDefault();
+            stripe.confirmCardPayment('@ViewData["ClientSecret"]', {
+                payment_method: {
+                    card: card,
+                    billing_details: {
+                        name: '@ViewData["UserName"]'
+                    }
+                }
+            }).then(function (result) {
+                if (result.error) {
+                    // Show error to your customer (e.g., insufficient funds)
+                    console.log(result.error.message);
+                    $("#toastErrorMessage").text(result.error.message);
+                    $("#toastError").toast('show');
+                } else {
+                    // The payment has been processed!
+                    if (result.paymentIntent.status === 'succeeded') {
+                        // Show a success message to your customer
+                        // There's a risk of the customer closing the window before callback
+                        // execution. Set up a webhook or plugin to listen for the
+                        // payment_intent.succeeded event that handles any business critical
+                        // post-payment actions.
+                        console.log("Paiement succeeded");
+                        $("#toastSuccess").toast('show');
+                    }
+                }
+            });
+        });
+
+
+    </script>
+}

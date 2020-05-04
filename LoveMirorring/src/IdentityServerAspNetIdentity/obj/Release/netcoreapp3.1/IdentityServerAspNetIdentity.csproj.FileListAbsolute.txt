@@ -512,3 +512,4 @@ C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Release\netcoreapp3.1\IdentityServerAspNetIdentity.dll
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Release\netcoreapp3.1\IdentityServerAspNetIdentity.pdb
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Release\netcoreapp3.1\IdentityServerAspNetIdentity.genruntimeconfig.cache
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Release\netcoreapp3.1\PhoneNumbers.dll

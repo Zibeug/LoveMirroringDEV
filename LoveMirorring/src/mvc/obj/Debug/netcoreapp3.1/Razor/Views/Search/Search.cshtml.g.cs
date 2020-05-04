@@ -77,18 +77,18 @@ using mvc.ViewModels;
 #line default
 #line hidden
 #nullable disable
-            WriteLiteral("\r\n<h1>Search</h1>\r\n\r\n");
+            WriteLiteral("\n<h1>Search</h1>\n\n");
 #nullable restore
-#line 8 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Search\Search.cshtml"
+#line 8 "C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Search\Search.cshtml"
  if(ViewData["Search"] == null)
 {
 
 #line default
 #line hidden
 #nullable disable
-            WriteLiteral("    <p>Rien à afficher pour le moment</p>\r\n");
+            WriteLiteral("    <p>Rien à afficher pour le moment</p>\n");
 #nullable restore
-#line 11 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Search\Search.cshtml"
+#line 11 "C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Search\Search.cshtml"
 }
 else
 {
@@ -128,7 +128,7 @@ else
         <tbody>
 ");
 #nullable restore
-#line 44 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Search\Search.cshtml"
+#line 44 "C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Search\Search.cshtml"
              foreach (MatchingModel user in ViewData["Search"] as IEnumerable<MatchingModel>)
             {
 
@@ -290,9 +290,56 @@ WriteAttributeValue("", 1845, user.Id, 1845, 8, false);
             {
                 await __tagHelperExecutionContext.SetOutputContentAsync();
             }
+
+#line default
+#line hidden
+#nullable disable
+            WriteLiteral("        </tbody>\n    </table>\n");
+#nullable restore
+#line 78 "C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Search\Search.cshtml"
+}
+
+#line default
+#line hidden
+#nullable disable
+            WriteLiteral("\n\n");
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5fa6cdb31a65fa349d076cc9ec7b9e52b3747e4c12327", async() => {
+                WriteLiteral("\n    <div class=\"form-group\">\n        ");
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("button", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5fa6cdb31a65fa349d076cc9ec7b9e52b3747e4c12624", async() => {
+                    WriteLiteral("Trouver votre âme soeur");
+                }
+                );
+                __Microsoft_AspNetCore_Mvc_TagHelpers_FormActionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.FormActionTagHelper>();
+                __tagHelperExecutionContext.Add(__Microsoft_AspNetCore_Mvc_TagHelpers_FormActionTagHelper);
+                __tagHelperExecutionContext.AddHtmlAttribute(__tagHelperAttribute_2);
+                __Microsoft_AspNetCore_Mvc_TagHelpers_FormActionTagHelper.Action = (string)__tagHelperAttribute_3.Value;
+                __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_3);
+                await __tagHelperRunner.RunAsync(__tagHelperExecutionContext);
+                if (!__tagHelperExecutionContext.Output.IsContentModified)
+                {
+                    await __tagHelperExecutionContext.SetOutputContentAsync();
+                }
+                Write(__tagHelperExecutionContext.Output);
+                __tagHelperExecutionContext = __tagHelperScopeManager.End();
+                WriteLiteral("\n    </div>\n");
+            }
+            );
+            __Microsoft_AspNetCore_Mvc_TagHelpers_FormTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.FormTagHelper>();
+            __tagHelperExecutionContext.Add(__Microsoft_AspNetCore_Mvc_TagHelpers_FormTagHelper);
+            __Microsoft_AspNetCore_Mvc_TagHelpers_RenderAtEndOfFormTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.RenderAtEndOfFormTagHelper>();
+            __tagHelperExecutionContext.Add(__Microsoft_AspNetCore_Mvc_TagHelpers_RenderAtEndOfFormTagHelper);
+            __Microsoft_AspNetCore_Mvc_TagHelpers_FormTagHelper.Method = (string)__tagHelperAttribute_1.Value;
+            __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_1);
+            __Microsoft_AspNetCore_Mvc_TagHelpers_FormTagHelper.Route = (string)__tagHelperAttribute_4.Value;
+            __tagHelperExecutionContext.AddTagHelperAttribute(__tagHelperAttribute_4);
+            await __tagHelperRunner.RunAsync(__tagHelperExecutionContext);
+            if (!__tagHelperExecutionContext.Output.IsContentModified)
+            {
+                await __tagHelperExecutionContext.SetOutputContentAsync();
+            }
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
-            WriteLiteral("\r\n");
+            WriteLiteral("\n");
         }
         #pragma warning restore 1998
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]

@@ -13,14 +13,14 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\Views\_ViewImports.cshtml"
+#line 1 "C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\Views\_ViewImports.cshtml"
 using mvc;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\Views\_ViewImports.cshtml"
+#line 2 "C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\Views\_ViewImports.cshtml"
 using mvc.Models;
 
 #line default

@@ -25,6 +25,7 @@ namespace Api.Models
             UserNewsletters = new HashSet<UserNewsletter>();
             UserProfils = new HashSet<UserProfil>();
             UserStyles = new HashSet<UserStyle>();
+            UserSubscriptions = new HashSet<UserSubscription>();
             UserTraces = new HashSet<UserTrace>();
         }
 
@@ -109,6 +110,8 @@ namespace Api.Models
         public virtual ICollection<UserProfil> UserProfils { get; set; }
         [InverseProperty(nameof(UserStyle.IdNavigation))]
         public virtual ICollection<UserStyle> UserStyles { get; set; }
+        [InverseProperty(nameof(UserSubscription.User))]
+        public virtual ICollection<UserSubscription> UserSubscriptions { get; set; }
         [InverseProperty(nameof(UserTrace.IdNavigation))]
         public virtual ICollection<UserTrace> UserTraces { get; set; }
     }

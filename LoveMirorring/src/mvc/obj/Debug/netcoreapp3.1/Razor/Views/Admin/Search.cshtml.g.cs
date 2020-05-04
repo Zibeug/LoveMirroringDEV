@@ -13,14 +13,14 @@ namespace AspNetCore
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 #nullable restore
-#line 1 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\Views\_ViewImports.cshtml"
+#line 1 "C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\Views\_ViewImports.cshtml"
 using mvc;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\Views\_ViewImports.cshtml"
+#line 2 "C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\Views\_ViewImports.cshtml"
 using mvc.Models;
 
 #line default
@@ -58,7 +58,7 @@ using mvc.Models;
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
         {
 #nullable restore
-#line 2 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Admin\Search.cshtml"
+#line 2 "C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Admin\Search.cshtml"
   
     ViewData["Title"] = "Search";
 
@@ -85,7 +85,7 @@ using mvc.Models;
 #nullable disable
             WriteLiteral("<input type=\"submit\" value=\"Search\" />\r\n");
 #nullable restore
-#line 13 "C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Admin\Search.cshtml"
+#line 13 "C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\Views\Admin\Search.cshtml"
 
     }
 

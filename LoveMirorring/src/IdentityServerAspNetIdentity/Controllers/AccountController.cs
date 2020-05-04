@@ -9,8 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using IdentityServerAspNetIdentity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using IdentityModel;
 using Serilog;
 using IdentityServerAspNetIdentity.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -21,7 +19,6 @@ using IdentityServerAspNetIdentity.ViewModels;
 using System.Text.Encodings.Web;
 using Microsoft.Extensions.Options;
 using Twilio.Rest.Verify.V2.Service;
-using IdentityServerAspNetIdentity.Models;
 using Microsoft.AspNetCore.Authentication;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -388,7 +385,7 @@ namespace IdentityServerAspNetIdentity.Controllers
 
                 ModelState.AddModelError("", $"Your verification is not pending, please constact admin");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ModelState.AddModelError("", "There was an error sending the verification code, please contact admin");
             }

@@ -65,7 +65,7 @@ namespace mvc.Controllers
 
                 if (search == null)
                 {
-                    return NotFound();
+                    return View();
                 }
 
                 return View(search);
@@ -206,11 +206,11 @@ namespace mvc.Controllers
 
             if (!String.IsNullOrEmpty(id))
             {
-                HttpResponseMessage content = await client.DeleteAsync(_configuration["URLAPI"] + $"api/Admin/delete");
+                HttpResponseMessage content = await client.DeleteAsync(_configuration["URLAPI"] + $"api/Admin/delete/{id}");
 
                 if (content.StatusCode == HttpStatusCode.OK)
                 {
-                    return View();
+                    return View("Search");
                 }
                 else
                 {

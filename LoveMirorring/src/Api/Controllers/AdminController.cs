@@ -30,8 +30,11 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Welcom()
         {
-            IndexModel overView = (from u in await _context.AspNetUsers.ToListAsync()
-                                   select new IndexModel { nbUsers = u.Email.Count() }).FirstOrDefault();
+            int accounts = await _context.AspNetUsers.CountAsync();
+            IndexModel overView = new IndexModel
+            {
+                nbUsers = accounts
+            };
 
             return new JsonResult(overView);
         }
@@ -40,8 +43,10 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> SearchUser(string username)
         {
+            string UserName = username.ToUpper();
+
             string id = (from u in await _context.AspNetUsers.ToListAsync()
-                         where u.UserName.Equals(username)
+                         where u.NormalizedUserName.Equals(UserName)
                          select u.Id).FirstOrDefault();
 
             return new JsonResult(id);
@@ -107,8 +112,8 @@ namespace Api.Controllers
             return _context.AspNetUsers.Any(e => e.Id.Equals(id));
         }
 
-        [Route("delete")]
-        [HttpDelete("{id}")]
+        [Route("delete/{id}")]
+        [HttpDelete]
         public async Task<IActionResult> Delete(string id)
         {
             AspNetUser user = await _context.AspNetUsers.FindAsync(id);

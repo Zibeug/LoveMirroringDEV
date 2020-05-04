@@ -923,3 +923,6 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csproj
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.MvcApplicationPartsAssemblyInfo.cache
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\EFCorePluralizer.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Quiz\QuizComplete.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Delete.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Edit.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Search\Like.cshtml.g.cs

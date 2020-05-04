@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Api.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace Api.Controllers
 {
@@ -15,10 +20,12 @@ namespace Api.Controllers
     public class SearchController : ControllerBase
     {
         private LoveMirroringContext _context;
+        private IConfiguration Configuration { get; set; }
 
-        public SearchController(LoveMirroringContext context)
+        public SearchController(LoveMirroringContext context, IConfiguration configuration)
         {
             _context = context;
+            Configuration = configuration;
         }
 
         [Route("search")]
@@ -99,22 +106,58 @@ namespace Api.Controllers
                                 HairColor = u.HairColor.HairColorName,
                                 HairSize = u.HairSize.HairSizeName,
                             });
-            
-            //var usersChoices = from u in await _context.AspNetUsers.ToListAsync()
-            //                   where DateTime.Now.Year - u.Birthday.Year <= pref.AgeMax
-            //                   && u.Id != user.Id && allUsersNotLike.Contains(u.Id)
-            //                   join s in await _context.Sexes.ToListAsync() on u.SexeId equals s.SexeId
-            //                   where s.SexeName.Equals(SexeName)
-            //                   join up in await _context.UserProfils.ToListAsync() on u.Id equals up.Id
-            //                   join p in await _context.Profils.ToListAsync() on up.ProfilId equals p.ProfilId
-            //                   where p.ProfilId.Equals(userProf.ProfilId)
-            //                   select new MatchingModel { UserName = u.UserName, Age = DateTime.Now.Year - u.Birthday.Year, SexeId = s.SexeId, ProfilId = p.ProfilId }; ;
-
-            //IEnumerable<MatchingModel> matchingResult = usersChoices;
 
             return new JsonResult(usersChoices);
+        }
 
-            //exemple retrouver like https://localhost:44365/Like/parisa@lol.ch
+        [Route("Like")]
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Like([FromBody]string id)
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            AspNetUser user = null;
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string userString = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
+            user = JsonConvert.DeserializeObject<AspNetUser>(userString);
+            UserLike ul = new UserLike();
+
+            ul.Id = user.Id;
+            ul.Id1 = id;
+            try
+            {
+                _context.UserLikes.Add(ul);
+                _context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [Route("GetLike")]
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetLike()
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            AspNetUser user = null;
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string userString = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
+            user = JsonConvert.DeserializeObject<AspNetUser>(userString);
+
+            List<UserLike> ul = _context.UserLikes.Where(d => d.Id == user.Id).ToList();
+            List<AspNetUser> userList = new List<AspNetUser>();
+
+            foreach(UserLike u in ul)
+            {
+                userList.Add(_context.AspNetUsers.Where(d => d.Id == u.Id1).Single());
+            }
+
+            return new JsonResult(userList);
         }
     }
 }

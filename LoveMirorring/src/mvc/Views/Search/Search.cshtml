@@ -66,8 +66,9 @@ else
                         @user.HairSize
                     </td>
                     <td>
-                        <form asp-page-handler="Like" asp-route-id="@user.Id" method="post">
-                            <button class="btn btn-secondary">Like</button>
+                        <form asp-route="Search" method="post">
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button class="btn btn-secondary" asp-action="Like">Like</button>
                         </form>
                         @*<button class="btn btn-secondary" asp-page-handler="UnLike" asp-route-id="@item.UserName">Unlike</button>*@
                     </td>

@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewData["Title"] = "Like";
+}
+
+<h1>Like</h1>
+
+@if (ViewData["UserList"] == null)
+{
+    <p>Aucun like a afficher</p>
+}
+else
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Pseudo
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Age
+            </th>
+            <th>
+                Sexe
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (AspNetUser user in ViewData["UserList"] as List<AspNetUser>)
+        {
+            <tr>
+                <td>
+                    @user.UserName
+                </td>
+                <td>
+                    @user.Email
+                </td>
+                <td>
+                    @{
+                        int now = int.Parse(DateTime.Now.ToString("yyyyMMdd"));
+                        int dob = int.Parse(user.Birthday.ToString("yyyyMMdd"));
+                        int age = (now - dob) / 10000;
+                    }
+                    @age
+                </td>
+                <td>
+                    @user.Sexe
+                </td>
+            </tr>
+         }
+        </tbody>
+</table>
+}
+

@@ -23,9 +23,9 @@ namespace Api.Controllers
         private readonly LoveMirroringContext _context;
         private IConfiguration Configuration { get; set; }
 
-        public QuizController(LoveMirroringContext context)
+        public QuizController(LoveMirroringContext context, IConfiguration configuration)
         {
-
+            Configuration = configuration;
             _context = context;
         }
 
@@ -79,6 +79,8 @@ namespace Api.Controllers
             userProfil.Id = user.Id;
 
             user.QuizCompleted = true;
+
+            _context.AspNetUsers.Update(user);
 
             _context.UserProfils.Add(userProfil);
             _context.SaveChanges();

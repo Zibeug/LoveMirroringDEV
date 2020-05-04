@@ -66,6 +66,8 @@ namespace Api.Controllers
                             .Include(a => a.Sexe)
                             .Include(a => a.Sexuality)
                             .Include(a => a.Subscription)
+                            .Include(a => a.UserSubscriptions)
+                            .Include(a => a.UserTraces)
                             .SingleOrDefaultAsync(a => a.Id == id);
 
             if (user == null)

@@ -23,8 +23,8 @@ namespace Api.Controllers
         // If you are testing your webhook locally with the Stripe CLI you
         // can find the endpoint's secret by running `stripe listen`
         // Otherwise, find your endpoint's secret in your webhook settings in the Developer Dashboard
-        //const string endpointSecret = "whsec_TL9NhBB2yR4wvF11CCucwwm7g7Eemz2w";
-        const string endpointSecret = "whsec_7NQYMceYVRhNDSkU1P8iurW51JUZqP2U";
+        const string endpointSecret = "whsec_TL9NhBB2yR4wvF11CCucwwm7g7Eemz2w";
+        //const string endpointSecret = "whsec_7NQYMceYVRhNDSkU1P8iurW51JUZqP2U";
 
         private readonly LoveMirroringContext _LoveMirroringcontext;
 
@@ -55,11 +55,18 @@ namespace Api.Controllers
                 }
                 else if (stripeEvent.Type == Events.ChargeSucceeded)
                 {
-                    Charge charge = stripeEvent.Data.Object as Charge;             
+                    
+                    Charge charge = stripeEvent.Data.Object as Charge;
+                    short subscriptionId = _LoveMirroringcontext.Subscriptions.
+                                            Where(s => s.SubscriptionPrice == (charge.Amount/100)).
+                                            Select(s => s.SubscriptionId).
+                                            SingleOrDefault();
+
                     UserSubscription subscription = new UserSubscription { 
                         UserId = charge.Metadata["UserId"],
-                        SubscriptionAmount = charge.Amount,
-                        SubscriptionDate = DateTime.Now
+                        UserSubscriptionsAmount = charge.Amount / 100,
+                        UserSubscriptionsDate = DateTime.Now,
+                        SubscriptionsId = subscriptionId
                     };
 
                     _LoveMirroringcontext.UserSubscriptions.Add(subscription);

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Api.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers
 {
@@ -80,6 +81,16 @@ namespace Api.Controllers
         public IActionResult GetSubscription()
         {
             List<Subscription> responses = _context.Subscriptions.ToList();
+            return new JsonResult(responses);
+        }
+
+        [Route("userSubscription")]
+        [HttpGet]
+        public IActionResult GetUserSubscription()
+        {
+            List<UserSubscription> responses = _context.UserSubscriptions
+                                                    .Include(s => s.Subscriptions)
+                                                    .ToList();
             return new JsonResult(responses);
         }
     }

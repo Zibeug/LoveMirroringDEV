@@ -1,0 +1,56 @@
+﻿@model IEnumerable<mvc.Models.UserSubscription>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Mes abonnements</h1>
+
+@if ((bool)ViewData["HasSubscription"])
+{
+    <p>
+        Tu as déjà un abonnement valable jusqu'au @ViewData["FirstSubscriptionDate"]
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Montant
+                </th>
+                <th>
+                    Type d'abonnement
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserSubscriptionsDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserSubscriptionsAmount) CHF
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subscriptions.SubscriptionName)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>
+        Tu as un compte gratuit
+    </p>
+    <a class="btn btn-block btn-primary" asp-controller="Stripe" asp-action="Details" asp-route-subscriptionName="1 Mois"> Acheter un abonnement d'un mois</a>
+    <a class="btn btn-block btn-primary" asp-controller="Stripe" asp-action="Details" asp-route-subscriptionName="1 Année"> Acheter un abonnement d'une année</a>
+}
+
+

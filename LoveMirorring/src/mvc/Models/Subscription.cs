@@ -10,6 +10,7 @@ namespace mvc.Models
         public Subscription()
         {
             AspNetUsers = new HashSet<AspNetUser>();
+            UserSubscriptions = new HashSet<UserSubscription>();
         }
 
         [Key]
@@ -24,5 +25,7 @@ namespace mvc.Models
 
         [InverseProperty(nameof(AspNetUser.Subscription))]
         public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
+        [InverseProperty(nameof(UserSubscription.Subscriptions))]
+        public virtual ICollection<UserSubscription> UserSubscriptions { get; set; }
     }
 }

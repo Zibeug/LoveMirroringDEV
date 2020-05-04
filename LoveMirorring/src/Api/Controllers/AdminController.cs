@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Api.Models;
 using Api.ViewModels.Admin;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace Api.Controllers
 {
@@ -15,11 +17,14 @@ namespace Api.Controllers
     public class AdminController : ControllerBase
     {
         private readonly LoveMirroringContext _context;
+        private readonly IEmailSender _emailSender;
 
-        public AdminController(LoveMirroringContext context)
+        public AdminController(LoveMirroringContext context, IEmailSender emailSender)
         {
             _context = context;
+            _emailSender = emailSender;
         }
+
 
         [Route("welcom")]
         [HttpGet]
@@ -71,31 +76,30 @@ namespace Api.Controllers
             return new JsonResult(user);
         }
 
-        [Route("edit/{id}")]
-        [HttpPut]
-        public async Task<IActionResult> Edit(string id, AspNetUser user)
+        [Route("edit")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Edit(AspNetUser user)
         {
-            if (id != user.Id)
-            {
-                new JsonResult(false);
-            }
+            _context.Entry(user).State = EntityState.Modified;
+
             try
             {
-                _context.Update(user);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!UserExists(user.Id))
                 {
-                    new JsonResult(false);
+                    return NotFound();
                 }
                 else
                 {
                     throw;
                 }
             }
-            return new JsonResult(true);
+
+            return NoContent();
+
         }
 
         private bool UserExists(string id)
@@ -103,23 +107,21 @@ namespace Api.Controllers
             return _context.AspNetUsers.Any(e => e.Id.Equals(id));
         }
 
-        [Route("delete/{id}")]
-        [HttpPost]
+        [Route("delete")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             AspNetUser user = await _context.AspNetUsers.FindAsync(id);
             _context.AspNetUsers.Remove(user);
             await _context.SaveChangesAsync();
 
-            user = await _context.AspNetUsers.FindAsync(id);
-            if (user == null)
-            {
-                return new JsonResult(true);
-            }
-            else
-            {
-                return new JsonResult(false);
-            }
+            await _emailSender.SendEmailAsync(
+         user.Email,
+         "Your account has been deleted by the Administrator",
+         "Your account has been deleted</br></br> Have a nice day !");
+
+            return Ok();
         }
+
     }
 }

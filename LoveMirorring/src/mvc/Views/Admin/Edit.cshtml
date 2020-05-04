@@ -14,36 +14,6 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="HairColorId" class="control-label"></label>
-                <select asp-for="HairColorId" class="form-control" asp-items="ViewBag.HairColorId"></select>
-                <span asp-validation-for="HairColorId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CorpulenceId" class="control-label"></label>
-                <select asp-for="CorpulenceId" class="form-control" asp-items="ViewBag.CorpulenceId"></select>
-                <span asp-validation-for="CorpulenceId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SexeId" class="control-label"></label>
-                <select asp-for="SexeId" class="form-control" asp-items="ViewBag.SexeId"></select>
-                <span asp-validation-for="SexeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HairSizeId" class="control-label"></label>
-                <select asp-for="HairSizeId" class="form-control" asp-items="ViewBag.HairSizeId"></select>
-                <span asp-validation-for="HairSizeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SubscriptionId" class="control-label"></label>
-                <select asp-for="SubscriptionId" class="form-control" asp-items="ViewBag.SubscriptionId"></select>
-                <span asp-validation-for="SubscriptionId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SexualityId" class="control-label"></label>
-                <select asp-for="SexualityId" class="form-control" asp-items="ViewBag.SexualityId"></select>
-                <span asp-validation-for="SexualityId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="AccessFailedCount" class="control-label"></label>
                 <input asp-for="AccessFailedCount" class="form-control" />
                 <span asp-validation-for="AccessFailedCount" class="text-danger"></span>
@@ -84,11 +54,6 @@
                 <span asp-validation-for="NormalizedUserName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PasswordHash" class="control-label"></label>
-                <input asp-for="PasswordHash" class="form-control" />
-                <span asp-validation-for="PasswordHash" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="PhoneNumber" class="control-label"></label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
@@ -118,16 +83,6 @@
                 <input asp-for="Birthday" class="form-control" />
                 <span asp-validation-for="Birthday" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Firstname" class="control-label"></label>
-                <input asp-for="Firstname" class="form-control" />
-                <span asp-validation-for="Firstname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="QuizCompleted" /> @Html.DisplayNameFor(model => model.QuizCompleted)
@@ -141,6 +96,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Details">Back to List</a>
 </div>
 

@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ *      Auteur : Tim Allemann
+ *      2020.04.27
+ *      Permet de créer une intention de paiement
+ */
+ 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;

@@ -1,7 +1,7 @@
 ﻿/*
  *      Auteur : Tim Allemann
  *      2020.04.27
- *      Permet de recevoir des données du fournisseur Stripe
+ *      Permet de recevoir le statut du paiement Stripe
  */
 
 using System;

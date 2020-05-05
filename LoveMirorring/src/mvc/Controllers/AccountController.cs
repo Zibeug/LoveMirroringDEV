@@ -1,7 +1,7 @@
 ﻿/*
  *      Auteur : Tim Allemann
  *      2020.04.27
- *      
+ *      Permet de gérer un compte
  */
 using System.Collections.Generic;
 using System.Net;

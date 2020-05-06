@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Api.Models
 {
-    public partial class AspNetUser
+    public partial class AspNetUser:IdentityUser
     {
         public AspNetUser()
         {
@@ -30,31 +31,31 @@ namespace Api.Models
         }
 
         [Key]
-        public string Id { get; set; }
+        public override string Id { get; set; }
         public short? HairColorId { get; set; }
         public short? CorpulenceId { get; set; }
         public short? SexeId { get; set; }
         public short? HairSizeId { get; set; }
         public short? SubscriptionId { get; set; }
         public short? SexualityId { get; set; }
-        public int AccessFailedCount { get; set; }
-        public string ConcurrencyStamp { get; set; }
+        public override int AccessFailedCount { get; set; }
+        public override string ConcurrencyStamp { get; set; }
         [StringLength(256)]
-        public string Email { get; set; }
-        public bool EmailConfirmed { get; set; }
-        public bool LockoutEnabled { get; set; }
-        public DateTimeOffset? LockoutEnd { get; set; }
+        public override string Email { get; set; }
+        public override bool EmailConfirmed { get; set; }
+        public override bool LockoutEnabled { get; set; }
+        public override DateTimeOffset? LockoutEnd { get; set; }
         [StringLength(256)]
-        public string NormalizedEmail { get; set; }
+        public override string NormalizedEmail { get; set; }
         [StringLength(256)]
-        public string NormalizedUserName { get; set; }
-        public string PasswordHash { get; set; }
-        public string PhoneNumber { get; set; }
-        public bool PhoneNumberConfirmed { get; set; }
-        public string SecurityStamp { get; set; }
-        public bool TwoFactorEnabled { get; set; }
+        public override string NormalizedUserName { get; set; }
+        public override string PasswordHash { get; set; }
+        public override string PhoneNumber { get; set; }
+        public override bool PhoneNumberConfirmed { get; set; }
+        public override string SecurityStamp { get; set; }
+        public override bool TwoFactorEnabled { get; set; }
         [StringLength(256)]
-        public string UserName { get; set; }
+        public override string UserName { get; set; }
         public DateTime Birthday { get; set; }
         public string Firstname { get; set; }
         public string LastName { get; set; }

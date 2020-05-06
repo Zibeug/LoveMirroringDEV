@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Api.Models
 {
-    public partial class AspNetRole
+    public partial class AspNetRole : IdentityRole
     {
         public AspNetRole()
         {
@@ -14,12 +15,12 @@ namespace Api.Models
         }
 
         [Key]
-        public string Id { get; set; }
-        public string ConcurrencyStamp { get; set; }
+        public override string Id { get; set; }
+        public override string ConcurrencyStamp { get; set; }
         [StringLength(256)]
-        public string Name { get; set; }
+        public override string Name { get; set; }
         [StringLength(256)]
-        public string NormalizedName { get; set; }
+        public override string NormalizedName { get; set; }
 
         [InverseProperty(nameof(AspNetRoleClaim.Role))]
         public virtual ICollection<AspNetRoleClaim> AspNetRoleClaims { get; set; }

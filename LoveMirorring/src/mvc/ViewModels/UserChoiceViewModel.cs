@@ -16,5 +16,6 @@ namespace mvc.ViewModels
         public short HairColorId { get; set; }
         public short SexualityId { get; set; }
         public short CorpulenceId { get; set; }
+        public short StyleId { get; set; }
     }
 }

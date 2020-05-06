@@ -12,6 +12,11 @@ a {
   color: #0366d6;
 }
 
+main{
+    background-color: pink;
+    padding: 20px;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;

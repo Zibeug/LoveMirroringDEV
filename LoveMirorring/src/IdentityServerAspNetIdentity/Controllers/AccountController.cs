@@ -69,18 +69,21 @@ namespace IdentityServerAspNetIdentity.Controllers
             string hairSize = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/hairSize");
             string hairColor = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/hairColor");
             string sexuality = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/sexuality");
+            string styles = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/styles");
 
             List<Sex> resultSexes = JsonConvert.DeserializeObject<List<Sex>>(sexes);
             List<Corpulence> resultCorpulences = JsonConvert.DeserializeObject<List<Corpulence>>(corpulences);
             List<HairColor> resultHairColors = JsonConvert.DeserializeObject<List<HairColor>>(hairColor);
             List<HairSize> resultHairSizes = JsonConvert.DeserializeObject<List<HairSize>>(hairSize);
             List<Sexuality> resultSexualities = JsonConvert.DeserializeObject<List<Sexuality>>(sexuality);
+            List<Style> resultStyle = JsonConvert.DeserializeObject<List<Style>>(styles);
 
             ViewData["sexes"] = resultSexes;
             ViewData["corpulences"] = resultCorpulences;
             ViewData["hairColors"] = resultHairColors;
             ViewData["hairSizes"] = resultHairSizes;
             ViewData["sexualities"] = resultSexualities;
+            ViewData["styles"] = resultStyle;
 
             string ip = _accessor.ActionContext.HttpContext.Connection.RemoteIpAddress.ToString();
 
@@ -189,6 +192,11 @@ namespace IdentityServerAspNetIdentity.Controllers
                                     Pagevisited = "SignUp : User created a new account",
                                     Id = userId
                                 };
+                                UserStyle us = new UserStyle();
+                                us.Id = user.Id;
+                                us.StyleId = input.StyleId;
+
+                                _context.UserStyles.Add(us);
                                 _context.UserTraces.Add(trace);
                                 _context.SaveChanges();
 

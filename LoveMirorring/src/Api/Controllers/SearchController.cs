@@ -41,73 +41,81 @@ namespace Api.Controllers
                 // Il faut utiliser le Claim pour retrouver l'identifiant de l'utilisateur
                 id = User.Claims.Where(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").SingleOrDefault().Value;
                 user = _context.AspNetUsers.Where(b => b.Id == id).SingleOrDefault();
+
+                if (user != null)
+                {
+                    List<Sex> Sexes = _context.Sexes.ToList();
+                    List<Profil> Profils = _context.Profils.ToList();
+
+                }
+                Preference pref = _context.Preferences.Where(b => b.Id == user.Id).Single();
+                PreferenceCorpulence prefCorp = _context.PreferenceCorpulences.Where(b => b.PreferenceId == pref.PreferenceId).Single();
+                PreferenceReligion prefRel = _context.PreferenceReligions.Where(b => b.PreferenceId == pref.PreferenceId).Single();
+                PreferenceHairColor prefHC = _context.PreferenceHairColors.Where(b => b.PreferenceId == pref.PreferenceId).Single();
+                PreferenceHairSize prefHS = _context.PreferenceHairSizes.Where(b => b.PreferenceId == pref.PreferenceId).Single();
+                PreferenceStyle prefStyle = _context.PreferenceStyles.Where(b => b.PreferenceId == pref.PreferenceId).Include(a => a.Style).Single();
+                UserProfil userProf = _context.UserProfils.Where(b => b.Id == user.Id).Single();
+
+                if (pref == null)
+                {
+                    throw new Exception("Enregistrez vos préférences d'abord");
+                }
+
+                string SexeName = "";
+                if (pref.SexualityId == 1) //Hetero
+                {
+                    if (user.Sexe.SexeName.Equals("Homme")) // Si c'est un homme il cherche
+                    {
+                        SexeName = "Femme";
+                    }
+                    else // Si c'est une femme il cherche
+                    {
+                        SexeName = "Homme";
+                    }
+                }
+                else // Homo
+                {
+                    SexeName = user.Sexe.SexeName;
+                }
+
+                var allUsersId = from u in await _context.AspNetUsers.ToListAsync() select u.Id;
+                var allUsersLikeId = from us in await _context.UserLikes.ToListAsync() select us.Id1;
+                var allUsersNotLike = allUsersId.Except(allUsersLikeId);
+
+                var userProfils = _context.UserProfils.Where(d => d.ProfilId == userProf.ProfilId).Select(d => d.Id).ToList();
+                var userStyles = _context.UserStyles.Where(d => d.StyleId == prefStyle.StyleId).Select(d => d.Id).ToList();
+
+                IEnumerable<MatchingModel> usersChoices = _context.AspNetUsers
+                                .Include(a => a.Sexe)
+                                .Where(p => userProfils.Contains(p.Id))
+                                .Where(s => s.Sexe.SexeName.Equals(SexeName))
+                                .Where(d => DateTime.Now.Year - d.Birthday.Year <= pref.AgeMax)
+                                .Where(d => allUsersNotLike.Contains(d.Id))
+                                .Where(d => d.CorpulenceId == prefCorp.CorpulenceId)
+                                .Where(d => d.HairSizeId == prefHS.HairSizeId)
+                                .Where(d => d.HairColorId == prefHC.HairColorId)
+                                .Where(p => userStyles.Contains(p.Id))
+                                .Select(u => new MatchingModel()
+                                {
+                                    Id = u.Id,
+                                    UserName = u.UserName,
+                                    Age = DateTime.Now.Year - u.Birthday.Year,
+                                    Sexe = u.Sexe.SexeName,
+                                    Profil = userProf.Profil.ProfilName,
+                                    Corpulence = u.Corpulence.CorpulenceName,
+                                    HairColor = u.HairColor.HairColorName,
+                                    HairSize = u.HairSize.HairSizeName,
+                                    Style = prefStyle.Style.StyleName
+                                });
+
+                return new JsonResult(usersChoices);
             }
             catch (Exception)
             {
                 return BadRequest();
             }
 
-            if (user != null)
-            {
-                List<Sex> Sexes = _context.Sexes.ToList();
-                List<Profil> Profils = _context.Profils.ToList();
-
-            }
-            Preference pref = _context.Preferences.Where(b => b.Id == user.Id).Single();
-            PreferenceCorpulence prefCorp = _context.PreferenceCorpulences.Where(b => b.PreferenceId == pref.PreferenceId).Single();
-            PreferenceReligion prefRel = _context.PreferenceReligions.Where(b => b.PreferenceId == pref.PreferenceId).Single();
-            PreferenceHairColor prefHC = _context.PreferenceHairColors.Where(b => b.PreferenceId == pref.PreferenceId).Single();
-            PreferenceHairSize prefHS = _context.PreferenceHairSizes.Where(b => b.PreferenceId == pref.PreferenceId).Single();
-            UserProfil userProf = _context.UserProfils.Where(b => b.Id == user.Id).Single();
-
-            if (pref == null)
-            {
-                throw new Exception("Enregistrez vos préférences d'abord");
-            }
-            string SexeName = "";
-            if(pref.SexualityId == 1) //Hetero
-            {
-                if (user.Sexe.SexeName.Equals("Homme")) // Si c'est un homme il cherche
-                {
-                    SexeName = "Femme";
-                }
-                else // Si c'est une femme il cherche
-                {
-                    SexeName = "Homme";
-                }
-            }
-            else // Homo
-            {
-                SexeName = user.Sexe.SexeName;
-            }
-
-            var allUsersId = from u in await _context.AspNetUsers.ToListAsync() select u.Id;
-            var allUsersLikeId = from us in await _context.UserLikes.ToListAsync() select us.Id1;
-            var allUsersNotLike = allUsersId.Except(allUsersLikeId);
-
-            var userProfils = _context.UserProfils.Where(d => d.ProfilId == userProf.ProfilId).Select(d => d.Id).ToList();
             
-            IEnumerable<MatchingModel> usersChoices = _context.AspNetUsers
-                            .Include(a => a.Sexe)
-                            .Where(p => userProfils.Contains(p.Id))
-                            .Where(s => s.Sexe.SexeName.Equals(SexeName))
-                            .Where(d => DateTime.Now.Year - d.Birthday.Year <= pref.AgeMax)
-                            .Where(d => allUsersNotLike.Contains(d.Id))
-                            .Where(d => d.CorpulenceId == prefCorp.CorpulenceId)
-                            .Where(d => d.HairSizeId == prefHS.HairSizeId)
-                            .Where(d => d.HairColorId == prefHC.HairColorId)
-                            .Select(u => new MatchingModel() { 
-                                Id = u.Id, 
-                                UserName = u.UserName, 
-                                Age = DateTime.Now.Year - u.Birthday.Year, 
-                                Sexe = u.Sexe.SexeName, 
-                                Profil = userProf.Profil.ProfilName,
-                                Corpulence = u.Corpulence.CorpulenceName,
-                                HairColor = u.HairColor.HairColorName,
-                                HairSize = u.HairSize.HairSizeName,
-                            });
-
-            return new JsonResult(usersChoices);
         }
 
         [Route("Like")]
@@ -158,6 +166,38 @@ namespace Api.Controllers
             }
 
             return new JsonResult(userList);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteSearch(string id)
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            AspNetUser currentUser = null;
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string userString = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
+            currentUser = JsonConvert.DeserializeObject<AspNetUser>(userString);
+
+            AspNetUser user = _context.AspNetUsers.Where(d => d.Id == id).Single();
+
+            if(user == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                UserLike userLike = _context.UserLikes.Where(d => d.Id == currentUser.Id && d.Id1 == user.Id).Single();
+                try
+                {
+                    _context.UserLikes.Remove(userLike);
+                    _context.SaveChanges();
+                    return Ok();
+                }
+                catch (Exception)
+                {
+                    return BadRequest();
+                }
+            }
         }
     }
 }

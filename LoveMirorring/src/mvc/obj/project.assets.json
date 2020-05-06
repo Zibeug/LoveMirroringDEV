@@ -9023,25 +9023,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Thermit\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\zibeu\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj",
+      "projectUniqueName": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj",
       "projectName": "mvc",
-      "projectPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj",
-      "packagesPath": "C:\\Users\\Thermit\\.nuget\\packages\\",
-      "outputPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\obj\\",
+      "projectPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj",
+      "packagesPath": "C:\\Users\\zibeu\\.nuget\\packages\\",
+      "outputPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\Thermit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\zibeu\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],

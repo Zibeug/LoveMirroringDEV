@@ -8,6 +8,7 @@
     int? religionId = null;
     int? corpulenceId = null;
     Preference pref = null;
+    int? styleId = null;
 }
 <h1>Matching</h1>
 <br />
@@ -35,6 +36,7 @@ else
         hairColorId = pref.PreferenceHairColors.FirstOrDefault().HairColorId;
         religionId = pref.PreferenceReligions.FirstOrDefault().ReligionId;
         corpulenceId = pref.PreferenceCorpulences.FirstOrDefault().CorpulenceId;
+        styleId = pref.PreferenceStyles.FirstOrDefault().StyleId;
     }
 
 
@@ -128,6 +130,22 @@ else
                         }
                         <label asp-for="@Model.SexualityId">@sexuality.SexualityName</label><br />
                         <span asp-validation-for="@Model.HairSizeId" class="text-danger"></span>
+                    }
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.StyleId">Style</label><br />
+                    @foreach (Style style in ViewData["styles"] as List<Style>)
+                    {
+                        if (styleId != null && style.StyleId == styleId)
+                        {
+                            <input asp-for="@Model.StyleId" type="radio" value="@style.StyleId" checked>
+                        }
+                        else
+                        {
+                            <input asp-for="@Model.StyleId" type="radio" value="@style.StyleId" />
+                        }
+                        <label asp-for="@Model.StyleId">@style.StyleName</label><br />
+                        <span asp-validation-for="@Model.StyleId" class="text-danger"></span>
                     }
                 </div>
                 <div class="form-group">

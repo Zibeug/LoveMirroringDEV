@@ -45,6 +45,7 @@ namespace mvc.Controllers
             return View("Search");
         }
 
+        [HttpPost]
         [Authorize]
         public async Task<IActionResult> Like(string id)
         {
@@ -72,6 +73,20 @@ namespace mvc.Controllers
             ViewData["UserList"] = userList;
 
             return View("Like");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> UnLike(string id)
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            client.BaseAddress = new Uri(Configuration["URLAPI"] + "api/Search/" + id);
+            var response = client.DeleteAsync(client.BaseAddress);
+            var responseString = response.Result;
+            return View("Search");
         }
     }
 }

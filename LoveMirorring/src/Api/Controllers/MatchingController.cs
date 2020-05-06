@@ -44,11 +44,13 @@ namespace Api.Controllers
 
             try
             {
-                Preference p = _context.Preferences.Where(b => b.Id == user.Id).SingleOrDefault();
-                p.PreferenceCorpulences.Add(_context.PreferenceCorpulences.Where(b => b.PreferenceId == p.PreferenceId).Single());
-                p.PreferenceReligions.Add(_context.PreferenceReligions.Where(b => b.PreferenceId == p.PreferenceId).Single());
-                p.PreferenceHairColors.Add(_context.PreferenceHairColors.Where(b => b.PreferenceId == p.PreferenceId).Single());
-                p.PreferenceHairSizes.Add(_context.PreferenceHairSizes.Where(b => b.PreferenceId == p.PreferenceId).Single());
+                Preference p = _context.Preferences.Where(b => b.Id == user.Id)
+                    .Include(a => a.PreferenceCorpulences)
+                    .Include(b => b.PreferenceHairColors)
+                    .Include(c => c.PreferenceHairSizes)
+                    .Include(d => d.PreferenceReligions)
+                    .Include(d => d.PreferenceStyles)
+                    .SingleOrDefault();
                 return new JsonResult(p);
             }
             catch(Exception)
@@ -115,6 +117,11 @@ namespace Api.Controllers
             preferenceHairSize.PreferenceId = p.PreferenceId;
             p.PreferenceHairSizes.Add(preferenceHairSize);
 
+            PreferenceStyle preferenceStyle = new PreferenceStyle();
+            preferenceStyle.StyleId = userChoice.StyleId;
+            preferenceStyle.PreferenceId = p.PreferenceId;
+            p.PreferenceStyles.Add(preferenceStyle);
+
             try
             {
                 _context.SaveChanges();
@@ -146,22 +153,26 @@ namespace Api.Controllers
             PreferenceHairColor hc = _context.PreferenceHairColors.Where(b => b.PreferenceId == p.PreferenceId).Single();
             PreferenceHairSize hs = _context.PreferenceHairSizes.Where(b => b.PreferenceId == p.PreferenceId).Single();
             PreferenceReligion pr = _context.PreferenceReligions.Where(b => b.PreferenceId == p.PreferenceId).Single();
+            PreferenceStyle ps = _context.PreferenceStyles.Where(b => b.PreferenceId == p.PreferenceId).Single();
 
             _context.PreferenceCorpulences.Remove(pc);
             _context.PreferenceHairSizes.Remove(hs);
             _context.PreferenceReligions.Remove(pr);
             _context.PreferenceHairColors.Remove(hc);
+            _context.PreferenceStyles.Remove(ps);
             _context.SaveChanges();
             
             pc.CorpulenceId = userChoice.CorpulenceId;
             hc.HairColorId = userChoice.HairColorId;
             hs.HairSizeId = userChoice.HairSizeId;
             pr.ReligionId = userChoice.ReligionId;
+            ps.StyleId = userChoice.StyleId;
 
             _context.PreferenceCorpulences.Add(pc);
             _context.PreferenceHairSizes.Add(hs);
             _context.PreferenceReligions.Add(pr);
             _context.PreferenceHairColors.Add(hc);
+            _context.PreferenceStyles.Add(ps);
             try
             {
                 _context.SaveChanges();

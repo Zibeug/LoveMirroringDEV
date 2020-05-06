@@ -17,5 +17,6 @@ namespace Api.Models
         public string HairColor { get; set; }
         public string Sexuality { get; set; }
         public string Corpulence { get; set; }
+        public string Style { get; set; }
     }
 }

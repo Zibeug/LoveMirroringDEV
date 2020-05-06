@@ -15,5 +15,6 @@ namespace IdentityServerAspNetIdentity.ViewModels
         [Compare("PasswordHash", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
         public string countryCode { get; set; }
+        public short StyleId { get; set; }
     }
 }

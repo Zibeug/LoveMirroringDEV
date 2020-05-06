@@ -40,6 +40,7 @@ namespace mvc.Controllers
             string hairSize = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/hairSize");
             string hairColor = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/hairColor");
             string sexuality = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/sexuality");
+            string styles = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/styles");
 
             List<Sex> resultSexes = JsonConvert.DeserializeObject<List<Sex>>(sexes);
             List<Religion> resultReligions = JsonConvert.DeserializeObject<List<Religion>>(religions);
@@ -47,6 +48,7 @@ namespace mvc.Controllers
             List<HairColor> resultHairColors = JsonConvert.DeserializeObject<List<HairColor>>(hairColor);
             List<HairSize> resultHairSizes = JsonConvert.DeserializeObject<List<HairSize>>(hairSize);
             List<Sexuality> resultSexualities = JsonConvert.DeserializeObject<List<Sexuality>>(sexuality);
+            List<Style> resultStyles = JsonConvert.DeserializeObject<List<Style>>(styles);
 
             AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(username);
             string resultPreferences = JsonConvert.DeserializeObject<string>(preferences);
@@ -60,6 +62,7 @@ namespace mvc.Controllers
             ViewData["hairColor"] = resultHairColors;
             ViewData["hairSize"] = resultHairSizes;
             ViewData["sexuality"] = resultSexualities;
+            ViewData["styles"] = resultStyles;
 
             return View();
         }

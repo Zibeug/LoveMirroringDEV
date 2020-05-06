@@ -46,8 +46,7 @@ namespace Api.Controllers
             return new JsonResult(item);
         }
 
-        [Route("SearchSong")]
-        [HttpPost]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetSong(string id)
         {
             token = await auth.GetToken();

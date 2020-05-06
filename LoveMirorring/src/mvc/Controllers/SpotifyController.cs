@@ -16,7 +16,6 @@ namespace mvc.Controllers
 {
     public class SpotifyController : Controller
     {
-        private HttpClient client = new HttpClient();
         private IConfiguration Configuration { get; }
 
         public SpotifyController(IConfiguration configuration)
@@ -40,18 +39,14 @@ namespace mvc.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> SearchSong(string id)
+        public async Task<IActionResult> SearchSong(SpotifyInput input)
         {
-            using (var client = new HttpClient())
-            {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
 
-                client.BaseAddress = new Uri(Configuration["URLAPI"] + "api/Spotify/SearchSong?id=" + id);
-                HttpContent c = new StringContent("OK", Encoding.UTF8, "application/json");
-                var responseTask = client.PostAsync(client.BaseAddress, c);
-                responseTask.Wait();
-
-                var result = responseTask.Result;
-            }
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Spotify/" + input.Song);
+            List<SpotifyTrack> spotifyTracks = JsonConvert.DeserializeObject<List<SpotifyTrack>>(content);
             return View("Spotify");
         }
     }

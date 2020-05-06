@@ -115,7 +115,7 @@ namespace IdentityServerAspNetIdentity
                     // enable the Google+ API
                     // set the redirect URI to http://localhost:5000/signin-google
                     options.ClientId = "copy client ID from Google here";
-                    options.ClientSecret = "copy client secret from Google here";
+                    options.ClientSecret = "AIzaSyD-YSbwpf8n11acjTZL8RknbBACSLfgIIw";
                 });
 
             //SeedData.EnsureSeedData(Configuration.GetConnectionString("DefaultConnection"));

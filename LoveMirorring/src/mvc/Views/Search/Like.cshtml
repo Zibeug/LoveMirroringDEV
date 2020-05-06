@@ -24,7 +24,7 @@ else
                 Age
             </th>
             <th>
-                Sexe
+                Choix
             </th>
         </tr>
     </thead>
@@ -47,7 +47,10 @@ else
                     @age
                 </td>
                 <td>
-                    @user.Sexe
+                    <form asp-route="Search" method="post">
+                        <input type="hidden" name="id" value="@user.Id" />
+                        <button type="submit" asp-action="UnLike" class="btn-secondary">Unlike</button>
+                    </form>
                 </td>
             </tr>
          }

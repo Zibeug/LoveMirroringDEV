@@ -1,4 +1,10 @@
-﻿using Api.Models;
+﻿/*
+ *      Auteur : Tim Allemann
+ *      2020.04.27
+ *      Permet de créer une intention de paiement avec Stripe
+ */
+ 
+using Api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

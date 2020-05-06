@@ -554,12 +554,19 @@ namespace Api.Models
 
             modelBuilder.Entity<UserSubscription>(entity =>
             {
-                entity.HasKey(e => e.SubscriptionId)
-                    .HasName("PK_SubscriptionID");
+                entity.HasKey(e => e.UserSubscriptionsId)
+                    .HasName("PK_UserSubscriptionsIDID");
+
+                entity.HasOne(d => d.Subscriptions)
+                    .WithMany(p => p.UserSubscriptions)
+                    .HasForeignKey(d => d.SubscriptionsId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Subscriptions_ASPNETUSERS");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserSubscriptions)
                     .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_UserSubscriptions_ASPNETUSERS");
             });
 

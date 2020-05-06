@@ -54,6 +54,7 @@ namespace IdentityServerAspNetIdentity.Models
         public virtual DbSet<UserNewsletter> UserNewsletters { get; set; }
         public virtual DbSet<UserProfil> UserProfils { get; set; }
         public virtual DbSet<UserStyle> UserStyles { get; set; }
+        public virtual DbSet<UserSubscription> UserSubscriptions { get; set; }
         public virtual DbSet<UserTrace> UserTraces { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -74,13 +75,11 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.Profil)
                     .WithMany(p => p.Answers)
                     .HasForeignKey(d => d.ProfilId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ANSWERS_PROFILS");
 
                 entity.HasOne(d => d.Question)
                     .WithMany(p => p.Answers)
                     .HasForeignKey(d => d.QuestionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ANSWERS_QUESTIONS");
             });
 
@@ -98,7 +97,6 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.AspNetRoleClaims)
                     .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ASPNETROLECLAIMS_ASPNETROLES");
             });
 
@@ -146,7 +144,6 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserClaims)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ASPNETUSERCLAIMS_ASPNETUSERS");
             });
 
@@ -161,7 +158,6 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserLogins)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ASPNETUSERLOGINS_ASPNETUSERS");
             });
 
@@ -172,13 +168,11 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserRoles)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ASPNETUSERROLES_ASPNETROLES");
 
                 entity.HasOne(d => d.UserNavigation)
                     .WithMany(p => p.AspNetUserRoles)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ASPNETUSERROLES_ASPNETUSERS");
             });
 
@@ -189,7 +183,6 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserTokens)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ASPNETUSERTOKENS_ASPNETUSERS");
             });
 
@@ -223,7 +216,6 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.IdNavigation)
                     .WithMany(p => p.Messages)
                     .HasForeignKey(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MESSAGES_ASPNETUSERS");
 
                 entity.HasOne(d => d.Talk)
@@ -251,7 +243,6 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.IdNavigation)
                     .WithMany(p => p.Pictures)
                     .HasForeignKey(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PICTURES_ASPNETUSERS");
             });
 
@@ -263,7 +254,6 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.Picture)
                     .WithMany(p => p.PictureTags)
                     .HasForeignKey(d => d.PictureId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PICTURETAG_PICTURES");
 
                 entity.HasOne(d => d.Tag)
@@ -281,7 +271,6 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.IdNavigation)
                     .WithMany(p => p.Preferences)
                     .HasForeignKey(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PREFERENCES_ASPNETUSERS");
 
                 entity.HasOne(d => d.Sexuality)
@@ -452,7 +441,6 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.IdNavigation)
                     .WithMany(p => p.TalkIdNavigations)
                     .HasForeignKey(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TALKS_ASPNETUSERS");
 
                 entity.HasOne(d => d.IdUser2TalkNavigation)
@@ -476,7 +464,6 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.IdNavigation)
                     .WithMany(p => p.UserExternalServices)
                     .HasForeignKey(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USEREXTERNALSERVICES_ASPNETUSERS");
             });
 
@@ -488,7 +475,6 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.IdNavigation)
                     .WithMany(p => p.UserLikeIdNavigations)
                     .HasForeignKey(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USERLIKES_ASPNETUSERS");
 
                 entity.HasOne(d => d.Id1Navigation)
@@ -506,7 +492,6 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.IdNavigation)
                     .WithMany(p => p.UserMusics)
                     .HasForeignKey(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USERMUSICS_ASPNETUSERS");
 
                 entity.HasOne(d => d.Music)
@@ -524,7 +509,6 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.IdNavigation)
                     .WithMany(p => p.UserNewsletters)
                     .HasForeignKey(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USERNEWSLETTERS_ASPNETUSERS");
 
                 entity.HasOne(d => d.Newsletter)
@@ -542,7 +526,6 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.IdNavigation)
                     .WithMany(p => p.UserProfils)
                     .HasForeignKey(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USERPROFILS_ASPNETUSERS");
 
                 entity.HasOne(d => d.Profil)
@@ -560,7 +543,6 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.IdNavigation)
                     .WithMany(p => p.UserStyles)
                     .HasForeignKey(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USERSTYLES_ASPNETUSERS");
 
                 entity.HasOne(d => d.Style)
@@ -568,6 +550,24 @@ namespace IdentityServerAspNetIdentity.Models
                     .HasForeignKey(d => d.StyleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USERSTYLES_STYLES");
+            });
+
+            modelBuilder.Entity<UserSubscription>(entity =>
+            {
+                entity.HasKey(e => e.UserSubscriptionsId)
+                    .HasName("PK_UserSubscriptionsIDID");
+
+                entity.HasOne(d => d.Subscriptions)
+                    .WithMany(p => p.UserSubscriptions)
+                    .HasForeignKey(d => d.SubscriptionsId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Subscriptions_ASPNETUSERS");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserSubscriptions)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_UserSubscriptions_ASPNETUSERS");
             });
 
             modelBuilder.Entity<UserTrace>(entity =>
@@ -582,6 +582,7 @@ namespace IdentityServerAspNetIdentity.Models
                 entity.HasOne(d => d.IdNavigation)
                     .WithMany(p => p.UserTraces)
                     .HasForeignKey(d => d.Id)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_USERTRACES_ASPNETUSERS");
             });
 

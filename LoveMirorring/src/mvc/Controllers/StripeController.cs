@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ *      Auteur : Tim Allemann
+ *      2020.04.27
+ *      Permet de créer une intention de paiement
+ */
+ 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -35,8 +41,40 @@ namespace mvc.Controllers
             string accessToken = await HttpContext.GetTokenAsync("access_token");
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/stripe/Intent?subscriptionName=" + subscriptionName);
+           
+            // Récurération des données et convertion des données dans le bon type
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Account/getUserInfo");
+            AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(content);
 
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/userSubscription");
+            List<UserSubscription> userSubscriptions = JsonConvert.DeserializeObject<List<UserSubscription>>(content);
+            userSubscriptions = userSubscriptions.Where(u => u.UserId == user.Id).ToList();
+
+            if (userSubscriptions.Count() > 0)
+            {
+                DateTime firstSubscriptionDate = userSubscriptions.Last().UserSubscriptionsDate;
+
+                if (userSubscriptions.Last().Subscriptions.SubscriptionName == "1 Mois")
+                {
+                    firstSubscriptionDate = firstSubscriptionDate.AddMonths(1);
+                }
+                else if (userSubscriptions.Last().Subscriptions.SubscriptionName == "1 Année")
+                {
+                    firstSubscriptionDate = firstSubscriptionDate.AddYears(1);
+                }
+
+                if (firstSubscriptionDate > DateTime.Now)
+                {
+                    return BadRequest("Already has a subscription");
+                }
+            }         
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/stripe/Intent?subscriptionName=" + subscriptionName);
             PaymentIntent payment;
             try
             {

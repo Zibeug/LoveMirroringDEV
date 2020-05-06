@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Auteur : Sébastien Berger
+ * Date : 07.05.2020
+ * Détail : Modèle pour enregistrer les préférences d'un utilisateur
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

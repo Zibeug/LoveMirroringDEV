@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ *  Auteur : Sébastien Berger
+ *  Date : 12.05.2020
+ *  Détail : Contrôleur pour les préférences de l'utilisateur pour optimiser et affiner ses recherches
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;

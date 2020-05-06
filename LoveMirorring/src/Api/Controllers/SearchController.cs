@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Auteur : Sébastien Berger
+ * Date : 07.05.2020
+ * Détail : Contrôleur pour effectuer une recherche d'un ou plusieurs utilisateurs en fonction de ses préférences
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;

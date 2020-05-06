@@ -89,6 +89,7 @@ namespace Api.Controllers
         public IActionResult GetStyles()
         {
             List<Style> responses = _context.Styles.ToList();
+            return new JsonResult(responses);
         }
         
         [Route("userSubscription")]

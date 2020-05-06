@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Auteurs : Sébastien Berger, Tim Allemann
+ * Date : 05.05.2020
+ * Détail : Contrôleur séparé pour l'inscription, la confirmation Email ainsi que la vérification SMS
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

@@ -1,10 +1,16 @@
-﻿using System;
+﻿/*
+ * Auteur : Sébastien Berger
+ * Date : 07.05.2020
+ * Détail : Modèle pour l'affichage d'un match
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Api.Models
 {
+    
     public class MatchingModel
     {
         public string Id { get; set; }

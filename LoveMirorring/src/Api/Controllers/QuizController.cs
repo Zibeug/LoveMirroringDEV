@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Auteur : Sébastien Berger
+ * Date : 06.05.2020
+ * Détail : Contrôleur pour pouvoir gérer le Quiz afin d'établir un profil pour l'utilisateur
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;

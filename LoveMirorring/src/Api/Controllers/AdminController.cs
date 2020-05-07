@@ -16,7 +16,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Admin")]
+    //[Authorize(Policy = "RequireAdminRole")]
     public class AdminController : ControllerBase
     {
         private readonly LoveMirroringContext _context;
@@ -32,14 +32,6 @@ namespace Api.Controllers
             _roleManager = roleManager;
             _userManager = userManager;
         }
-
-        //public AdminController(LoveMirroringContext context, IEmailSender emailSender)
-        //{
-        //    _context = context;
-        //    _emailSender = emailSender;
-
-        //}
-
 
         [Route("Welcome")]
         [HttpGet]
@@ -260,17 +252,27 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> UserRole()
         {
-            var roles = await _context.AspNetRoles.ToListAsync();
-            var users = await _context.AspNetUsers.ToListAsync();
-            var userRoles = from u in await _context.AspNetUsers.ToListAsync()
-                            join ur in await _context.AspNetUserRoles.ToListAsync() on u.Id equals ur.UserId
-                            join r in await _context.AspNetRoles.ToListAsync() on ur.RoleId equals r.Id
-                            select r.Name;
+            List<AspNetRole> roles = await _context.AspNetRoles.ToListAsync();
+            List<AspNetUser> users = await _context.AspNetUsers.ToListAsync();
+            List<AspNetUserRole> userroles = _context.AspNetUserRoles.ToList();
 
-            return new JsonResult(new RolesModel
+            IEnumerable<UsersModel> convertedUsers = users.Select(u => new UsersModel
             {
-                Roles = roles.Select(x => x.NormalizedName),
-                Users = users.Select(u => new UsersModel {Email = u.Email, UserId = u.Id, Roles = userRoles  })
+                Email = u.Email,
+                Roles = roles
+                    .Where(r => userroles.Any(ur => ur.UserId == u.Id && ur.RoleId == r.Id))
+                    .Select(r => new AspNetRole
+                    {
+                        NormalizedName = r.NormalizedName
+                    })
+
+            });
+
+            return new JsonResult(new RolesModel 
+            { 
+                Roles = roles.Select(r => r.NormalizedName),
+                Users = convertedUsers
+            
             });
         }
 
@@ -290,15 +292,23 @@ namespace Api.Controllers
             if (vm.UserEmail != null && vm.Role != null)
             {
 
-                var user = await _userManager.FindByEmailAsync(vm.UserEmail);
+                AspNetUser user = await _userManager.FindByEmailAsync(vm.UserEmail);
+                AspNetRole role = await _roleManager.FindByNameAsync(vm.Role);
 
-                if (vm.Delete)
-                    await _userManager.RemoveFromRoleAsync(user, vm.Role);
+                AspNetUserRole userRole = _context.AspNetUserRoles.Where(r => r.RoleId.Equals(role.Id)).Where(u => u.UserId.Equals(user.Id)).FirstOrDefault();
+
+                if (vm.DeleteRole)
+                {
+                    _context.AspNetUserRoles.Remove(userRole);
+                }
                 else
-                    await _userManager.AddToRoleAsync(user, vm.Role);
+                {
+                    _context.AspNetUserRoles.Add(new AspNetUserRole { RoleId = role.Id, UserId = user.Id });
+                }
+
+                await _context.SaveChangesAsync();
             }
             return NoContent();
         }
-
     }
 }

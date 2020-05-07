@@ -11,6 +11,6 @@ namespace Api.ViewModels.Admin
         public IEnumerable<string> Roles { get; set; }
         public string UserEmail { get; set; }
         public string Role { get; set; }
-        public bool Delete { get; set; }
+        public bool DeleteRole { get; set; }
     }
 }

@@ -16,7 +16,6 @@
                     <th>
                         Role
                     </th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -30,17 +29,13 @@
                         @foreach (var role in user.Roles)
                         {
                             <td>
-                                @role
+                                @role.NormalizedName
                             </td>
                         }
-                        <td>
-                            <a asp-action="Delete" asp-route-id="@user.UserId">Delete</a>
-                        </td>
                     </tr>
                 }
             </tbody>
         </table>
-
 
         <h4>Role to select</h4>
         <ul class="list-group-item">
@@ -53,7 +48,7 @@
             }
         </ul>
         <input type="submit" value="Add Role" />
-        <input type="hidden" asp-for="Delete" value="false" id="delete" />
+        <input type="hidden" asp-for="DeleteRole" value="false" id="delete" />
         <input type="submit" value="Delete Role" onclick="document.getElementById('delete').value = 'true'" />
     </form>
 </div>

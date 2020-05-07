@@ -18,7 +18,7 @@ using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    //[Authorize(Policy = "RequireAdminRole")]
     public class AdminController : Controller
     {
         private IConfiguration _configuration { get; }
@@ -320,7 +320,5 @@ namespace mvc.Controllers
 
             return View();
         }
-
-
     }
 }

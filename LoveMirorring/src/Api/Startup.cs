@@ -48,10 +48,10 @@ namespace Api
             // Sert à récupéter l'adresse IP du user
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
-            services.AddIdentity<AspNetUser, AspNetRole>(options => options.Stores.MaxLengthForKeys = 128)
-            .AddEntityFrameworkStores<LoveMirroringContext>()
-            .AddDefaultUI()
-            .AddDefaultTokenProviders();
+            //services.AddIdentity<AspNetUser, AspNetRole>(options => options.Stores.MaxLengthForKeys = 128)
+            //.AddEntityFrameworkStores<LoveMirroringContext>()
+            //.AddDefaultUI()
+            //.AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

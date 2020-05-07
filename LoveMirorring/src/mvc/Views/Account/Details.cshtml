@@ -106,6 +106,13 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Religion.ReligionName)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserStyles)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserStyles.Single(d => d.Id == model.Id).Style.StyleName)
+            <a asp-action="EditStyle" asp-route-id="@Model.Id">Edit Style</a>
+        </dd>
     </dl>
 </div>
 <div>

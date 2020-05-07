@@ -39,8 +39,6 @@ namespace Api.Models
         public short? SubscriptionId { get; set; }
         public short? SexualityId { get; set; }
         public short? ReligionId { get; set; }
-        public int AccessFailedCount { get; set; }
-        public string ConcurrencyStamp { get; set; }
         public override int AccessFailedCount { get; set; }
         public override string ConcurrencyStamp { get; set; }
         [StringLength(256)]

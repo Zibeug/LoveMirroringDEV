@@ -19,7 +19,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Api.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -58,6 +58,10 @@ namespace Api.Controllers
             {
                 return BadRequest();
             }
+            UserStyle us = _context.UserStyles
+                .Where(d => d.Id == id)
+                .Include(d => d.Style)
+                .Single();
 
             user = await _context.AspNetUsers
                             .Include(a => a.Corpulence)
@@ -70,7 +74,10 @@ namespace Api.Controllers
                             .Include(a => a.UserSubscriptions)
                             .Include(a => a.UserTraces)
                             .Include(a => a.Religion)
+                            .Include(a => a.UserStyles)
                             .SingleOrDefaultAsync(a => a.Id == id);
+
+            user.UserStyles.Add(us);
 
             if (user == null)
             {
@@ -113,6 +120,39 @@ namespace Api.Controllers
             return NoContent();
         }
 
+        // Sébastien Berger
+        // Met à jour les données de l'utilisateur
+        // PUT: api/Account/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Route("PutStyle")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutStyle(UserStyle userStyle)
+        {
+            UserStyle oldUS = _context.UserStyles.Single(d => d.Id == userStyle.Id);
+            _context.UserStyles.Remove(oldUS);
+            await _context.SaveChangesAsync();
+            _context.UserStyles.Add(userStyle);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserStyleExists(userStyle.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
         // Supprime l'utilisateur
         // DELETE: api/Account/5
         [HttpDelete()]
@@ -139,6 +179,11 @@ namespace Api.Controllers
         private bool AspNetUserExists(string id)
         {
             return _context.AspNetUsers.Any(e => e.Id == id);
+        }
+
+        private bool UserStyleExists(string id)
+        {
+            return _context.UserStyles.Any(e => e.Id == id);
         }
     }
 }

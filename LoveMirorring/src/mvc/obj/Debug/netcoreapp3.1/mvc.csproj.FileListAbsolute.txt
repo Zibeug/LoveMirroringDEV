@@ -895,7 +895,6 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\SQLitePCLR
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\SQLitePCLRaw.nativelibrary.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\SQLitePCLRaw.core.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\SQLitePCLRaw.provider.dynamic_cdecl.dll
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\System.Text.Json.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\runtimes\alpine-x64\native\libe_sqlite3.so
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\runtimes\linux-arm\native\libe_sqlite3.so
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\runtimes\linux-arm64\native\libe_sqlite3.so
@@ -926,5 +925,9 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\View
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Search\Like.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\Stripe.net.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Stripe\Details.cshtml.g.cs
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csprojAssemblyReference.cache
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\UserSubscriptions\Index.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Admin\AddUserToRole.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Admin\CreateRole.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Roles.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csprojAssemblyReference.cache
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Account\EditStyle.cshtml.g.cs

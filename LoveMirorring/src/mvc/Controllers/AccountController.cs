@@ -4,6 +4,7 @@
  *      Permet de gérer un compte
  */
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -17,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using mvc.Models;
 using Newtonsoft.Json;
+using SQLitePCL;
 using Unosquare.Swan;
 
 namespace mvc.Controllers
@@ -122,6 +124,10 @@ namespace mvc.Controllers
             List<Religion> religions = JsonConvert.DeserializeObject<List<Religion>>(content);
             ViewData["ReligionId"] = new SelectList(religions, "ReligionId", "ReligionName", aspNetUser.ReligionId);
 
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/styles");
+            List<Style> styles = JsonConvert.DeserializeObject<List<Style>>(content);
+            ViewData["StyleId"] = new SelectList(styles, "StyleId", "StyleName", aspNetUser.UserStyles.Single().Style.StyleId);
+
             return View(aspNetUser);
         }
 
@@ -200,6 +206,10 @@ namespace mvc.Controllers
             List<Religion> religions = JsonConvert.DeserializeObject<List<Religion>>(content);
             ViewData["ReligionId"] = new SelectList(religions, "ReligionId", "ReligionName", aspNetUser.ReligionId);
 
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/styles");
+            List<Style> styles = JsonConvert.DeserializeObject<List<Style>>(content);
+            ViewData["StyleId"] = new SelectList(styles, "StyleId", "StyleName", aspNetUser.UserStyles.Single().Style.StyleId);
+
             return View(aspNetUser);
         }
 
@@ -246,5 +256,109 @@ namespace mvc.Controllers
             }
         }
 
+        // Sébastien Berger : Styles
+        // Met à jour le style de l'utilisateur
+        // GET: Account/EditStyle/5
+        public async Task<IActionResult> EditStyle(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // Préparation de l'appel à l'API
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            // Récurération des données et convertion des données dans le bon type
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Account/getUserInfo");
+            AspNetUser aspNetUser = JsonConvert.DeserializeObject<AspNetUser>(content);
+
+            if (aspNetUser == null)
+            {
+                return NotFound();
+            }
+
+            // Récurération des données et convertion des données dans le bon type, idem que précédemment
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/styles");
+            List<Style> styles = JsonConvert.DeserializeObject<List<Style>>(content);
+            UserStyle userStyle = aspNetUser.UserStyles.Single();
+            ViewData["StyleId"] = new SelectList(styles, "StyleId", "StyleName", userStyle.Style.StyleId);
+
+            return View(userStyle);
+        }
+
+        // POST: Account/EditStyle/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditStyle(string id, [Bind("Id, StyleId")] UserStyle userStyle)
+        {
+            // Préparation de l'appel à l'API
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            // Récurération des données et convertion des données dans le bon type
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Account/getUserInfo");
+            AspNetUser aspNetUserFromClaim = JsonConvert.DeserializeObject<AspNetUser>(content);
+            AspNetUser aspNetUser = aspNetUserFromClaim;
+            UserStyle us = aspNetUserFromClaim.UserStyles.Single(d => d.Id == aspNetUserFromClaim.Id);
+
+            if (id != userStyle.Id || id != aspNetUserFromClaim.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                // Préparation de la requête update à l'API
+                StringContent httpContent = new StringContent(userStyle.ToJson(), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + "api/Account/PutStyle", httpContent);
+                if (response.StatusCode != HttpStatusCode.NoContent)
+                {
+                    return BadRequest();
+                }
+
+                return RedirectToAction(nameof(Details));
+            }
+
+            // En cas d'erreur de modèle, il faut refournir à la vue les données...
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/corpulences");
+            List<Corpulence> corpulences = JsonConvert.DeserializeObject<List<Corpulence>>(content);
+            ViewData["CorpulenceId"] = new SelectList(corpulences, "CorpulenceId", "CorpulenceName", aspNetUser.CorpulenceId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/hairColor");
+            List<HairColor> hairColors = JsonConvert.DeserializeObject<List<HairColor>>(content);
+            ViewData["HairColorId"] = new SelectList(hairColors, "HairColorId", "HairColorName", aspNetUser.HairColorId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/hairSize");
+            List<HairSize> hairSizes = JsonConvert.DeserializeObject<List<HairSize>>(content);
+            ViewData["HairSizeId"] = new SelectList(hairSizes, "HairSizeId", "HairSizeName", aspNetUser.HairSizeId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/sex");
+            List<Sex> sexs = JsonConvert.DeserializeObject<List<Sex>>(content);
+            ViewData["SexeId"] = new SelectList(sexs, "SexeId", "SexeName", aspNetUser.SexeId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/sexuality");
+            List<Sexuality> sexualitiess = JsonConvert.DeserializeObject<List<Sexuality>>(content);
+            ViewData["SexualityId"] = new SelectList(sexualitiess, "SexualityId", "SexualityName", aspNetUser.SexualityId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/subscription");
+            List<Subscription> subscriptions = JsonConvert.DeserializeObject<List<Subscription>>(content);
+            ViewData["SubscriptionId"] = new SelectList(subscriptions, "SubscriptionId", "SubscriptionName", aspNetUser.SubscriptionId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/religions");
+            List<Religion> religions = JsonConvert.DeserializeObject<List<Religion>>(content);
+            ViewData["ReligionId"] = new SelectList(religions, "ReligionId", "ReligionName", aspNetUser.ReligionId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/styles");
+            List<Style> styles = JsonConvert.DeserializeObject<List<Style>>(content);
+            ViewData["StyleId"] = new SelectList(styles, "StyleId", "StyleName", aspNetUser.UserStyles.Single().Style.StyleId);
+
+            return View(aspNetUser);
+        }
     }
 }

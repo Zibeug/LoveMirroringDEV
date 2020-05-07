@@ -1,0 +1,27 @@
+﻿@model mvc.ViewModels.Admin.RolesModel
+
+@{
+    ViewData["Title"] = "Roles and Users Manager";
+}
+
+<h1>Roles and users manager</h1>
+<br />
+
+<p>
+    <div>
+        <h2>Existing role list</h2>
+        <ul class="list-group-item">
+            @foreach (var role in Model.Roles)
+            {
+                <li>
+                    @role
+                </li>
+            }
+        </ul>
+    </div>
+    <partial name="CreateRole" model="new mvc.Models.AspNetRole()">
+</p>
+<br />
+<p>
+    <partial name="AddUserToRole" model="new mvc.ViewModels.Admin.UpdateUserRoleModel() { Users = Model.Users, Roles = Model.Roles }">
+</p>

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace mvc.ViewModels.Admin
 {
-    public class IndexModel
+    public class RolesModel
     {
-        public int nbUsers { get; set; } 
-
+        public IEnumerable<string> Roles { get; set; }
+        public IEnumerable<UsersModel> Users { get; set; }
     }
 }

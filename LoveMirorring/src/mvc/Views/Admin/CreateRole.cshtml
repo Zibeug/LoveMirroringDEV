@@ -1,0 +1,11 @@
+﻿@model mvc.Models.AspNetRole
+
+@{ }
+
+<div>
+    <form asp-controller="Admin" asp-action="CreateRole" method="post" class="form-text">
+        <label>Create new Role</label>
+        <input asp-for="Name" />
+        <input type="submit" value="Create" />
+    </form>
+</div>

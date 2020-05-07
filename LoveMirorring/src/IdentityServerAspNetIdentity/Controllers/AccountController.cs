@@ -75,7 +75,9 @@ namespace IdentityServerAspNetIdentity.Controllers
             string hairColor = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/hairColor");
             string sexuality = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/sexuality");
             string styles = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/styles");
+            string religions = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/religions");
 
+            List<Religion> resultReligion = JsonConvert.DeserializeObject<List<Religion>>(religions);
             List<Sex> resultSexes = JsonConvert.DeserializeObject<List<Sex>>(sexes);
             List<Corpulence> resultCorpulences = JsonConvert.DeserializeObject<List<Corpulence>>(corpulences);
             List<HairColor> resultHairColors = JsonConvert.DeserializeObject<List<HairColor>>(hairColor);
@@ -89,6 +91,7 @@ namespace IdentityServerAspNetIdentity.Controllers
             ViewData["hairSizes"] = resultHairSizes;
             ViewData["sexualities"] = resultSexualities;
             ViewData["styles"] = resultStyle;
+            ViewData["religions"] = resultReligion;
 
             string ip = _accessor.ActionContext.HttpContext.Connection.RemoteIpAddress.ToString();
 
@@ -130,7 +133,7 @@ namespace IdentityServerAspNetIdentity.Controllers
 
                         var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-                        var checkUser = userMgr.FindByNameAsync(input.UserName).Result;
+                        var checkUser = _userManager.FindByNameAsync(input.UserName).Result;
                         if (checkUser == null)
                         {
                             if(input.ConfirmPassword != input.PasswordHash)
@@ -142,7 +145,7 @@ namespace IdentityServerAspNetIdentity.Controllers
                                 user = input;
                             }
 
-                            var checkEmail = userMgr.FindByEmailAsync(input.Email).Result;
+                            var checkEmail = _userManager.FindByEmailAsync(input.Email).Result;
 
                             if(checkEmail != null)
                             {
@@ -177,6 +180,7 @@ namespace IdentityServerAspNetIdentity.Controllers
                             user.HairColorId = input.HairColorId;
                             user.HairSizeId = input.HairSizeId;
                             user.QuizCompleted = false;
+                            user.ReligionId = input.ReligionId;
                             checkUser = user;
 
                             var result = userMgr.CreateAsync(checkUser, user.PasswordHash).Result;

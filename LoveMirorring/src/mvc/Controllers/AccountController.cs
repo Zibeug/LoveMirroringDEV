@@ -118,6 +118,10 @@ namespace mvc.Controllers
             List<Subscription> subscriptions = JsonConvert.DeserializeObject<List<Subscription>>(content);
             ViewData["SubscriptionId"] = new SelectList(subscriptions, "SubscriptionId", "SubscriptionName", aspNetUser.SubscriptionId);
 
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/religions");
+            List<Religion> religions = JsonConvert.DeserializeObject<List<Religion>>(content);
+            ViewData["ReligionId"] = new SelectList(religions, "ReligionId", "ReligionName", aspNetUser.ReligionId);
+
             return View(aspNetUser);
         }
 
@@ -126,7 +130,7 @@ namespace mvc.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,HairColorId,CorpulenceId,SexeId,HairSizeId,SubscriptionId,SexualityId,AccessFailedCount,ConcurrencyStamp,Email,EmailConfirmed,LockoutEnabled,LockoutEnd,NormalizedEmail,NormalizedUserName,PasswordHash,PhoneNumber,PhoneNumberConfirmed,SecurityStamp,TwoFactorEnabled,UserName,Birthday,Firstname,LastName,QuizCompleted")] AspNetUser aspNetUser)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,HairColorId,CorpulenceId,SexeId,HairSizeId,SubscriptionId,SexualityId,ReligionId,AccessFailedCount,ConcurrencyStamp,Email,EmailConfirmed,LockoutEnabled,LockoutEnd,NormalizedEmail,NormalizedUserName,PasswordHash,PhoneNumber,PhoneNumberConfirmed,SecurityStamp,TwoFactorEnabled,UserName,Birthday,Firstname,LastName,QuizCompleted")] AspNetUser aspNetUser)
         {
             // Préparation de l'appel à l'API
             string accessToken = await HttpContext.GetTokenAsync("access_token");
@@ -152,6 +156,7 @@ namespace mvc.Controllers
             aspNetUserFromClaim.HairSizeId = aspNetUser.HairSizeId;
             aspNetUserFromClaim.SexeId = aspNetUser.SexeId;
             aspNetUserFromClaim.SexualityId = aspNetUser.SexualityId;
+            aspNetUserFromClaim.ReligionId = aspNetUser.ReligionId;
 
             if (ModelState.IsValid)
             {
@@ -190,6 +195,10 @@ namespace mvc.Controllers
             content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/subscription");
             List<Subscription> subscriptions = JsonConvert.DeserializeObject<List<Subscription>>(content);
             ViewData["SubscriptionId"] = new SelectList(subscriptions, "SubscriptionId", "SubscriptionName", aspNetUser.SubscriptionId);
+
+            content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/religions");
+            List<Religion> religions = JsonConvert.DeserializeObject<List<Religion>>(content);
+            ViewData["ReligionId"] = new SelectList(religions, "ReligionId", "ReligionName", aspNetUser.ReligionId);
 
             return View(aspNetUser);
         }

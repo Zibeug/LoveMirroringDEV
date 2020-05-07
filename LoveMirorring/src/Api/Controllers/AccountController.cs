@@ -69,6 +69,7 @@ namespace Api.Controllers
                             .Include(a => a.UserStyles)
                             .Include(a => a.UserSubscriptions)
                             .Include(a => a.UserTraces)
+                            .Include(a => a.Religion)
                             .SingleOrDefaultAsync(a => a.Id == id);
 
             if (user == null)

@@ -16,5 +16,6 @@ namespace IdentityServerAspNetIdentity.ViewModels
         public string ConfirmPassword { get; set; }
         public string countryCode { get; set; }
         public short StyleId { get; set; }
+        
     }
 }

@@ -92,6 +92,7 @@ namespace Api.Controllers
 
                 IEnumerable<MatchingModel> usersChoices = _context.AspNetUsers
                                 .Include(a => a.Sexe)
+                                .Include(a => a.Religion)
                                 .Where(p => userProfils.Contains(p.Id))
                                 .Where(s => s.Sexe.SexeName.Equals(SexeName))
                                 .Where(d => DateTime.Now.Year - d.Birthday.Year <= pref.AgeMax)
@@ -110,7 +111,8 @@ namespace Api.Controllers
                                     Corpulence = u.Corpulence.CorpulenceName,
                                     HairColor = u.HairColor.HairColorName,
                                     HairSize = u.HairSize.HairSizeName,
-                                    Style = prefStyle.Style.StyleName
+                                    Style = prefStyle.Style.StyleName,
+                                    Religion = u.Religion.ReligionName
                                 });
 
                 return new JsonResult(usersChoices);

@@ -34,6 +34,7 @@ namespace IdentityServerAspNetIdentity.Models
         public short? SexualityId { get; set; }
 
         public bool QuizCompleted { get; set; }
+        public short? ReligionId { get; set; }
 
 
 

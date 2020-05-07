@@ -170,6 +170,15 @@
                             </div>
 
                             <div class="form-group">
+                                <label asp-for="ReligionId">Religion</label><br />
+                                @foreach (Religion religion in ViewData["religions"] as List<Religion>)
+                                {
+                                    <input class="radio-inline" type="radio" class="form-control" asp-for="ReligionId" value="@religion.ReligionId">
+                                    <label asp-for="ReligionId">@religion.ReligionName</label>
+                                }
+                            </div>
+
+                            <div class="form-group">
                                 <button class="btn btn-primary" name="button" value="signup">Sign Up</button>
                             </div>
 

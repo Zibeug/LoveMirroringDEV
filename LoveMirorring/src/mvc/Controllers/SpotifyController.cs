@@ -23,8 +23,9 @@ namespace mvc.Controllers
             Configuration = configuration;
         }
 
+        [HttpGet]
         [Authorize]
-        public async Task<IActionResult> CategorieAsync()
+        public async Task<IActionResult> Spotify()
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");
 
@@ -45,8 +46,9 @@ namespace mvc.Controllers
 
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Spotify/" + input.Song);
+            string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Spotify/" + input.favoriteCategory);
             List<SpotifyTrack> spotifyTracks = JsonConvert.DeserializeObject<List<SpotifyTrack>>(content);
+
             return View("Spotify");
         }
     }

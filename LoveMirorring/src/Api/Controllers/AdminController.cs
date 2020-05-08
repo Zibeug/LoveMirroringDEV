@@ -14,9 +14,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers
 {
+    [Authorize(Policy = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Policy = "RequireAdminRole")]
     public class AdminController : ControllerBase
     {
         private readonly LoveMirroringContext _context;

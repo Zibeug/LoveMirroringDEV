@@ -2,9 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityServer4.Services;
+using IdentityServer4.Validation;
 using IdentityServerAspNetIdentity.Data;
 using IdentityServerAspNetIdentity.Models;
 using IdentityServerAspNetIdentity.Services;
+using IdentityServerAspNetIdentity.Services.RolesAndClaims;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -54,6 +57,9 @@ namespace IdentityServerAspNetIdentity
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
+            services.AddTransient<IProfileService, AspNetIdentityProfileService>();
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

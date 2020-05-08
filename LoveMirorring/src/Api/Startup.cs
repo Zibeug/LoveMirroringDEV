@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Api.Models;
 using Api.Services;
+using Api.Services.RolesAndClaims;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -51,24 +52,25 @@ namespace Api
             // Sert à récupéter l'adresse IP du user
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
-<<<<<<< Updated upstream
             //services.AddIdentity<AspNetUser, AspNetRole>(options => options.Stores.MaxLengthForKeys = 128)
+            //.AddRoles<AspNetRole>()
             //.AddEntityFrameworkStores<LoveMirroringContext>()
             //.AddDefaultUI()
             //.AddDefaultTokenProviders();
-=======
-            services.AddIdentity<AspNetUser, AspNetRole>(options => options.Stores.MaxLengthForKeys = 128)
-            .AddRoles<AspNetRole>()
-            .AddEntityFrameworkStores<LoveMirroringContext>()
-            .AddDefaultUI()
-            .AddDefaultTokenProviders();
 
-            //Authorization
+            ////Authorization
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+            //});
+
+            services.AddSingleton<Microsoft.AspNetCore.Authentication.IClaimsTransformation, KarekeClaimsTransformer>();
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("Admin", policy => policy.RequireClaim("role", "Admin"));
+                options.AddPolicy("User", policy => policy.RequireClaim("role", "User"));
             });
->>>>>>> Stashed changes
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

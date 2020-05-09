@@ -54,7 +54,6 @@ namespace mvc.Controllers
 
         [HttpPost]
         [Authorize]
-        
         public async Task<IActionResult> QuizSubmit(int[] answer)
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");

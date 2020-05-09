@@ -40,6 +40,17 @@ namespace Api.Controllers
         {
             AspNetUser user = null;
             string id = "";
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string checkPref = await client.GetStringAsync(Configuration["URLAPI"] + "api/Matching/checkPreferences");
+
+            string result = JsonConvert.DeserializeObject<string>(checkPref);
+
+            if (result.Equals("error"))
+            {
+                return BadRequest();
+            }
 
             try
             {

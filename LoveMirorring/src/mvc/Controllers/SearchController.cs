@@ -32,14 +32,22 @@ namespace mvc.Controllers
         [Authorize]
         public async Task<IActionResult> Search()
         {
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            try
+            {
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
 
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            string search = await client.GetStringAsync(Configuration["URLAPI"] + "api/Search/search");
-            IEnumerable<MatchingModel> searchResult = JsonConvert.DeserializeObject<IEnumerable<MatchingModel>>(search);
-            ViewData["Search"] = searchResult;
-            return View("Search");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                string search = await client.GetStringAsync(Configuration["URLAPI"] + "api/Search/search");
+                IEnumerable<MatchingModel> searchResult = JsonConvert.DeserializeObject<IEnumerable<MatchingModel>>(search);
+                ViewData["Search"] = searchResult;
+                return View("Search");
+            }
+            catch (Exception)
+            {
+                return View("Error");
+            }
+            
         }
 
         [HttpPost]

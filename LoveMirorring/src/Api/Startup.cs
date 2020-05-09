@@ -51,24 +51,17 @@ namespace Api
             // Sert à récupéter l'adresse IP du user
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
-<<<<<<< Updated upstream
             //services.AddIdentity<AspNetUser, AspNetRole>(options => options.Stores.MaxLengthForKeys = 128)
+            //.AddRoles<AspNetRole>()
             //.AddEntityFrameworkStores<LoveMirroringContext>()
             //.AddDefaultUI()
             //.AddDefaultTokenProviders();
-=======
-            services.AddIdentity<AspNetUser, AspNetRole>(options => options.Stores.MaxLengthForKeys = 128)
-            .AddRoles<AspNetRole>()
-            .AddEntityFrameworkStores<LoveMirroringContext>()
-            .AddDefaultUI()
-            .AddDefaultTokenProviders();
 
             //Authorization
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
             });
->>>>>>> Stashed changes
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

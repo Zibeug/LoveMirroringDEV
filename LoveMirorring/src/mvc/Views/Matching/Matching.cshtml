@@ -15,11 +15,11 @@
 @if (ViewData["PrefenresCheck"].Equals("error"))
 {
     <div class="row">
-        <p>You have already registered your account preferences.</p>
+        <p>Vous avez déjà enregistré vos préférences.</p>
         <div class="col-md-4">
             <form asp-route="Matching" method="post">
                 <div class="form-group">
-                    <button class="btn btn-primary" id="editPref" asp-action="UpdateProfil">Modifier mon profil</button>
+                    <button class="btn btn-primary" id="editPref" asp-action="UpdateProfil">Modifier mes préférences</button>
                 </div>
             </form>
         </div>
@@ -169,7 +169,7 @@ else
                     }
                     else
                     {
-                        <button class="btn btn-primary" id="actionPref" asp-action="SaveProfil">Chercher</button>
+                        <button class="btn btn-primary" id="actionPref" asp-action="SaveProfil">Enregistrer</button>
                     }
 
                 </div>

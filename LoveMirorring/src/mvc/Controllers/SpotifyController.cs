@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Auteur : Sébastien Berger 
+ * Date : 10.05.2020
+ * Description : Contrôleur pour afficher les actions possibles avec Spotify
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -23,6 +28,7 @@ namespace mvc.Controllers
             Configuration = configuration;
         }
 
+        // Permet d'afficher les catégories de Spotify
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> Spotify()
@@ -38,6 +44,7 @@ namespace mvc.Controllers
             return View("Spotify");
         }
 
+        // Permet de cherche une musique en fonction de la catégorie choisie
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> SearchSong(SpotifyInput input)

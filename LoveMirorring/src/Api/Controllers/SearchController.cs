@@ -33,6 +33,8 @@ namespace Api.Controllers
             Configuration = configuration;
         }
 
+        // Permet de traiter la recherche pour l'utilisateur courant
+        // GET : api/Search/search
         [Route("search")]
         [HttpGet]
         [Authorize]
@@ -72,11 +74,6 @@ namespace Api.Controllers
                 PreferenceStyle prefStyle = _context.PreferenceStyles.Where(b => b.PreferenceId == pref.PreferenceId).Include(a => a.Style).Single();
                 UserProfil userProf = _context.UserProfils.Where(b => b.Id == user.Id).Single();
 
-                if (pref == null)
-                {
-                    throw new Exception("Enregistrez vos préférences d'abord");
-                }
-
                 string SexeName = "";
                 if (pref.SexualityId == 1) //Hetero
                 {
@@ -112,6 +109,7 @@ namespace Api.Controllers
                                 .Where(d => d.HairSizeId == prefHS.HairSizeId)
                                 .Where(d => d.HairColorId == prefHC.HairColorId)
                                 .Where(p => userStyles.Contains(p.Id))
+                                .Where(d => d.Id != user.Id)
                                 .Select(u => new MatchingModel()
                                 {
                                     Id = u.Id,
@@ -136,10 +134,13 @@ namespace Api.Controllers
             
         }
 
+
+        // Permet de liker un utilisateur
+        // POST: api/Search/Like
         [Route("Like")]
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Like([FromBody]string id)
+        public async Task<IActionResult> Like([FromBody]string username)
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");
             AspNetUser user = null;
@@ -148,9 +149,10 @@ namespace Api.Controllers
             string userString = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
             user = JsonConvert.DeserializeObject<AspNetUser>(userString);
             UserLike ul = new UserLike();
+            AspNetUser userLiked = _context.AspNetUsers.Where(d => d.UserName == username).Single();
 
             ul.Id = user.Id;
-            ul.Id1 = id;
+            ul.Id1 = userLiked.Id;
             try
             {
                 _context.UserLikes.Add(ul);
@@ -163,6 +165,8 @@ namespace Api.Controllers
             }
         }
 
+        // Permet de récupérer les likes d'un utilisateur courant
+        // GET : api/Search/GetLike
         [Route("GetLike")]
         [HttpGet]
         [Authorize]
@@ -186,17 +190,22 @@ namespace Api.Controllers
             return new JsonResult(userList);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSearch(string id)
+        // Permet d'enlever le like sur un utilisateur dans la liste des likes
+        // DELETE : /api/Search/UnLike/user1
+        [Route("UnLike/{username}")]
+        [HttpDelete("{username}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteSearch(string username)
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");
             AspNetUser currentUser = null;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             string userString = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
+            string us = username;
             currentUser = JsonConvert.DeserializeObject<AspNetUser>(userString);
 
-            AspNetUser user = _context.AspNetUsers.Where(d => d.Id == id).Single();
+            AspNetUser user = _context.AspNetUsers.Where(d => d.UserName == username).Single();
 
             if(user == null)
             {
@@ -215,6 +224,65 @@ namespace Api.Controllers
                 {
                     return BadRequest();
                 }
+            }
+        }
+
+        //Permet de retourner les détails de l'utilisateur qu'on a trouvé ou liké
+        //GET : api/Search/UserDetails/user1
+        [Route("UserDetails/{username}")]
+        [HttpGet("{username}")]
+        [Authorize]
+        public IActionResult GetDetails(string username)
+        {
+            AspNetUser userDisplay = _context.AspNetUsers
+                .Include(a => a.Corpulence)
+                .Include(a => a.HairColor)
+                .Include(a => a.HairSize)
+                .Include(a => a.Sexe)
+                .Include(a => a.Sexuality)
+                .Include(a => a.Subscription)
+                .Include(a => a.UserStyles)
+                .Include(a => a.UserSubscriptions)
+                .Include(a => a.UserTraces)
+                .Include(a => a.Religion)
+                .Include(a => a.UserStyles)
+                .Where(d => d.UserName == username)
+                .Single();
+
+            if (userDisplay == null)
+            {
+                return NotFound();
+            }
+
+            return new JsonResult(userDisplay);
+        }
+
+        //Permet de vérifier si les utilisateurs se sont likés mutuellement
+        // GET : api/Search/CheckMatch/user1
+        [Route("CheckMatch/{username}")]
+        [HttpGet("{username}")]
+        [Authorize]
+        public async Task<IActionResult> Match(string username)
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            AspNetUser currentUser = null;
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string userString = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
+            currentUser = JsonConvert.DeserializeObject<AspNetUser>(userString);
+
+            AspNetUser user = _context.AspNetUsers.Where(d => d.UserName == username).Single();
+
+            UserLike likeCurrentUser = _context.UserLikes.Where(d => d.Id == currentUser.Id && d.Id1 == user.Id).SingleOrDefault();
+            UserLike likeUser = _context.UserLikes.Where(d => d.Id == user.Id && d.Id1 == currentUser.Id).SingleOrDefault();
+
+            if(likeCurrentUser != null && likeUser != null)
+            {
+                return new JsonResult("match");
+            }
+            else
+            {
+                return new JsonResult("nMatch");
             }
         }
     }

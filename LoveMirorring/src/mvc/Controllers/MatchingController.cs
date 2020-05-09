@@ -99,7 +99,9 @@ namespace mvc.Controllers
             Preference p = new Preference();
             p = JsonConvert.DeserializeObject<Preference>(preferences);
             ViewData["preferences"] = p;
-            ViewData["PrefenresCheck"] = "success";
+
+            // Permet de définir si on affiche le bouton modification ou le formulaire
+            ViewData["PrefenresCheck"] = "error";
 
             return View("Matching");
         }
@@ -119,11 +121,13 @@ namespace mvc.Controllers
 
             var response = client.PostAsync(client.BaseAddress, httpContent);
             var responseString = response.Result;
-            ViewData["PrefenresCheck"] = "error";
+            ViewData["PrefenresCheck"] = "success";
             return View("Matching");
 
         }
 
+
+        // Traitement du formulaire si l'utilisateur modifie ses préférences
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> UpdatedProfil(UserChoiceViewModel userChoice)
@@ -137,7 +141,7 @@ namespace mvc.Controllers
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var response = client.PostAsync(client.BaseAddress, httpContent);
             var responseString = response.Result;
-            ViewData["PrefenresCheck"] = "error";
+            ViewData["PrefenresCheck"] = "success";
             if(responseString.StatusCode == HttpStatusCode.BadRequest)
             {
                 await Error();
@@ -147,7 +151,6 @@ namespace mvc.Controllers
         }
 
         // Permet de de réinitialiser les préférences en cas d'erreur avec les relations lors du traitement.
-        // Enclenchée manuellement par l'utilisateur
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> Error()

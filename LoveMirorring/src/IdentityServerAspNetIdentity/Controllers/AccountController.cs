@@ -64,6 +64,7 @@ namespace IdentityServerAspNetIdentity.Controllers
             _phoneUtil = PhoneNumberUtil.GetInstance();
         }
 
+        // Permet d'afficher l'inscription avec plusieurs données
         public async Task<IActionResult> SignUp()
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");
@@ -108,6 +109,7 @@ namespace IdentityServerAspNetIdentity.Controllers
             return View();
         }
 
+        // Traitement de l'inscription
         [Route("SignUpSend", Name = "SignUpSend")]
         [HttpPost]
         public async Task<IActionResult> SignUpSend(RegisterInput input)
@@ -265,6 +267,7 @@ namespace IdentityServerAspNetIdentity.Controllers
             return View("ConfirmEmail");
         }
 
+        // Traiter l'oubli du mot de passe
         [Route("ForgotPassword", Name = "ForgotPassword")]
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordInput input)
@@ -296,12 +299,14 @@ namespace IdentityServerAspNetIdentity.Controllers
             return View();
         }
 
+        // Retourne la vue quand on a perdu son mot de passe
         [Route("ForgotPassword", Name = "ForgotPassword")]
         public IActionResult ForgotPassword()
         {
             return View();
         }
 
+        // Traitement de l'envoi d'un nouveau mot de passe
         [Route("ForgotSend", Name = "ForgotSend")]
         [HttpPost]
         public async Task<IActionResult> ForgotSend(ForgotPasswordInput Input)
@@ -332,6 +337,7 @@ namespace IdentityServerAspNetIdentity.Controllers
             return View("ResetPasswordFail");
         }
 
+        // Reset du password
         public IActionResult ResetPassword(string code = null)
         {
             if (code == null)

@@ -859,6 +859,7 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\runtimes\w
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\IdentityModel.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.csproj.CoreCompileInputs.cache
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.MvcApplicationPartsAssemblyInfo.cache

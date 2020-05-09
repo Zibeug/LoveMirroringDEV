@@ -27,19 +27,7 @@ else
                     Sexe
                 </th>
                 <th>
-                    Corpulence
-                </th>
-                <th>
-                    Couleur de cheveux
-                </th>
-                <th>
-                    Taille de cheveux
-                </th>
-                <th>
-                    Style vestimentaire
-                </th>
-                <th>
-                    Religion
+                    Details
                 </th>
                 <th>
                     Choix
@@ -63,23 +51,14 @@ else
                         @user.Sexe
                     </td>
                     <td>
-                        @user.Corpulence
-                    </td>
-                    <td>
-                        @user.HairColor
-                    </td>
-                    <td>
-                        @user.HairSize
-                    </td>
-                    <td>
-                        @user.Style
-                    </td>
-                    <td>
-                        @user.Religion
+                        <form asp-route="Search" method="post">
+                            <input type="hidden" name="username" value="@user.UserName" />
+                            <button class="btn btn-secondary" asp-action="Details">Voir le compte</button>
+                        </form>
                     </td>
                     <td>
                         <form asp-route="Search" method="post">
-                            <input type="hidden" name="id" value="@user.Id" />
+                            <input type="hidden" name="username" value="@user.UserName" />
                             <button class="btn btn-secondary" asp-action="Like">Like</button>
                         </form>
                         @*<button class="btn btn-secondary" asp-page-handler="UnLike" asp-route-id="@item.UserName">Unlike</button>*@

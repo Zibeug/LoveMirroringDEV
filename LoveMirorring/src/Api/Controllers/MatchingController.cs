@@ -84,7 +84,7 @@ namespace Api.Controllers
             string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
             user = JsonConvert.DeserializeObject<AspNetUser>(content);
 
-            return _context.Preferences.Where(b => b.Id == user.Id).FirstOrDefault() != null
+            return _context.Preferences.Where(b => b.Id == user.Id).SingleOrDefault() == null
                 ? new JsonResult("error")
                 : new JsonResult("success");
         }

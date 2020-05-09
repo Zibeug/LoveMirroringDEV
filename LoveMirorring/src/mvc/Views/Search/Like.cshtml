@@ -24,6 +24,9 @@ else
                 Age
             </th>
             <th>
+                Details
+            </th>
+            <th>
                 Choix
             </th>
         </tr>
@@ -31,28 +34,34 @@ else
     <tbody>
         @foreach (AspNetUser user in ViewData["UserList"] as List<AspNetUser>)
         {
-            <tr>
-                <td>
-                    @user.UserName
-                </td>
-                <td>
-                    @user.Email
-                </td>
-                <td>
-                    @{
-                        int now = int.Parse(DateTime.Now.ToString("yyyyMMdd"));
-                        int dob = int.Parse(user.Birthday.ToString("yyyyMMdd"));
-                        int age = (now - dob) / 10000;
-                    }
-                    @age
-                </td>
-                <td>
-                    <form asp-route="Search" method="post">
-                        <input type="hidden" name="id" value="@user.Id" />
-                        <button type="submit" asp-action="UnLike" class="btn-secondary">Unlike</button>
-                    </form>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @user.UserName
+            </td>
+            <td>
+                @user.Email
+            </td>
+            <td>
+                @{
+                    int now = int.Parse(DateTime.Now.ToString("yyyyMMdd"));
+                    int dob = int.Parse(user.Birthday.ToString("yyyyMMdd"));
+                    int age = (now - dob) / 10000;
+                }
+                @age
+            </td>
+            <td>
+                <form asp-route="Search" method="post">
+                    <input type="hidden" name="username" value="@user.UserName" />
+                    <button class="btn btn-secondary" asp-action="Details">Voir le compte</button>
+                </form>
+            </td>
+            <td>
+                <form asp-route="Search" method="post">
+                    <input type="hidden" name="username" value="@user.UserName" />
+                    <button type="submit" asp-action="UnLike" class="btn-secondary">Unlike</button>
+                </form>
+            </td>
+        </tr>
          }
         </tbody>
 </table>

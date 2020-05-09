@@ -1,4 +1,9 @@
-﻿﻿using System;
+﻿/*
+ * Auteur : Sébastien Berger
+ * Date : 12.05.2020
+ * Description : Contrôleur pour pouvoir accéder à Spotify et ses fonctionnalités
+ */﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,6 +35,8 @@ namespace Api.Controllers
             auth = new CredentialsAuth(Configuration["ClientID"], Configuration["ClientSecret"]);
         }
 
+        // Permet de retourner les catégories de Spotify
+        // GET : api/Spotify/categories
         [Route("categories")]
         [HttpGet]
         public async Task<IActionResult> GetCategories(string type)
@@ -46,6 +53,8 @@ namespace Api.Controllers
             return new JsonResult(item);
         }
 
+        // Permet de récupérer une musique par son ID
+        // GET : api/Spotify/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSong(string id)
         {

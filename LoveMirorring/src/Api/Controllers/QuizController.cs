@@ -46,7 +46,7 @@ namespace Api.Controllers
         }
 
         // Permet de récupérer l'ensemble des réponses dans la base de données
-        // GET : api/answer
+        // GET : api/Quiz/answer
         [Route("answer")]
         [HttpGet]
         [Authorize]
@@ -55,7 +55,9 @@ namespace Api.Controllers
             List<Answer> responses = _context.Answers.ToList();
             return new JsonResult(responses);
         }
-
+        
+        // Permet de vérifier si le quiz a déjà été rempli
+        // GET : api/Quiz/checkQuiz
         [Route("checkQuiz")]
         [HttpGet]
         [Authorize]

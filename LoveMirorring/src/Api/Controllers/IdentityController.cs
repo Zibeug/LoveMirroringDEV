@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ *      Auteur : Tim Allemann
+ *      2020.05.08
+ *      Renvoie les claims de l'utilisateur
+ */
+ 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

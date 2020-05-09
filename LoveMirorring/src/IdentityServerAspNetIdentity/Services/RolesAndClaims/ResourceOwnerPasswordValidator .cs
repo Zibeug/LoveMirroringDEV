@@ -1,4 +1,11 @@
 ﻿using IdentityServer4.Validation;
+/*
+ *      Auteur : Tim Allemann
+ *      2020.05.08
+ *      Rajoute les claims identity server 4 au claims d'identity
+ *      Permet d'utiliser des policy pour gérer les accès des controlleurs
+ */
+
 using IdentityServerAspNetIdentity.Models;
 using Microsoft.AspNetCore.Identity;
 using System;

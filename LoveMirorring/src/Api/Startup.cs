@@ -64,6 +64,12 @@ namespace Api
             //    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
             //});
 
+            /*
+             *      Auteur : Tim Allemann
+             *      2020.05.08
+             *      Rajoute les claims identity server 4 au claims d'identity
+             *      Permet d'utiliser des policy pour gérer les accès des controlleurs
+             */
             services.AddSingleton<Microsoft.AspNetCore.Authentication.IClaimsTransformation, KarekeClaimsTransformer>();
             services.AddAuthorization(options =>
             {

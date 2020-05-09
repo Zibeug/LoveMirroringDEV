@@ -1,4 +1,11 @@
-﻿using IdentityModel;
+﻿/*
+ *      Auteur : Tim Allemann
+ *      2020.05.08
+ *      Rajoute les claims identity server 4 au claims d'identity
+ *      Permet d'utiliser des policy pour gérer les accès des controlleurs
+ */
+ 
+using IdentityModel;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
@@ -36,7 +43,6 @@ namespace IdentityServerAspNetIdentity.Services.RolesAndClaims
 
             var siteIdClaim = claims.SingleOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress");
             context.IssuedClaims.Add(new Claim(JwtClaimTypes.Email, user.Email));
-            //context.IssuedClaims.Add(new Claim("siteid", siteIdClaim.Value));
             context.IssuedClaims.Add(new Claim(JwtClaimTypes.Role, "User"));
 
             var roleClaims = claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role");

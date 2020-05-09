@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Api.Models;
 using Api.Services;
+using Api.Services.RolesAndClaims;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -48,7 +49,7 @@ namespace Api
 
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
-            // Sert à récupéter l'adresse IP du user
+            // Sert ï¿½ rï¿½cupï¿½ter l'adresse IP du user
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
             //services.AddIdentity<AspNetUser, AspNetRole>(options => options.Stores.MaxLengthForKeys = 128)
@@ -57,10 +58,23 @@ namespace Api
             //.AddDefaultUI()
             //.AddDefaultTokenProviders();
 
-            //Authorization
+            ////Authorization
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+            //});
+
+            /*
+             *      Auteur : Tim Allemann
+             *      2020.05.08
+             *      Rajoute les claims identity server 4 au claims d'identity
+             *      Permet d'utiliser des policy pour gï¿½rer les accï¿½s des controlleurs
+             */
+            services.AddSingleton<Microsoft.AspNetCore.Authentication.IClaimsTransformation, KarekeClaimsTransformer>();
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("Admin", policy => policy.RequireClaim("role", "Admin"));
+                options.AddPolicy("User", policy => policy.RequireClaim("role", "User"));
             });
         }
 

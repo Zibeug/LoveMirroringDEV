@@ -91,7 +91,7 @@ namespace Api.Controllers
                     SexeName = user.Sexe.SexeName;
                 }
 
-                var allUsersId = from u in await _context.AspNetUsers.ToListAsync() select u.Id;
+                var allUsersId = from u in await _context.AspNetUsers.ToListAsync() where u.Id != user.Id select u.Id;
                 var allUsersLikeId = from us in await _context.UserLikes.ToListAsync() select us.Id1;
                 var allUsersNotLike = allUsersId.Except(allUsersLikeId);
 

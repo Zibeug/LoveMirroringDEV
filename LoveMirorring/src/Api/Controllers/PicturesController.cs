@@ -123,11 +123,10 @@ namespace Api.Controllers
                 {
                     if (file.Length > 0)
                     {
-                        // Ne marche pas sur Azure
-                        //if (!Directory.Exists(_environnement.WebRootPath + "\\Upload\\"))
-                        //{
-                        //    Directory.CreateDirectory(_environnement.WebRootPath + "\\Upload\\");
-                        //}
+                        if (!Directory.Exists(Path.Combine(_environnement.WebRootPath, folder)))
+                        {
+                            Directory.CreateDirectory(Path.Combine(_environnement.WebRootPath, folder));
+                        }
 
                         string filename = userName + DateTime.Now.ToString("_yyyy-MM-dd_HH-mm-ss") + file.FileName;
                         using (FileStream fileStream = System.IO.File.Create(Path.Combine(_environnement.WebRootPath, folder, filename)))

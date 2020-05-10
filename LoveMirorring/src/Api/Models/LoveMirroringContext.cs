@@ -61,7 +61,6 @@ namespace Api.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=LoveMirroring;Trusted_Connection=True;");
             }
         }
@@ -120,6 +119,11 @@ namespace Api.Models
                     .WithMany(p => p.AspNetUsers)
                     .HasForeignKey(d => d.HairSizeId)
                     .HasConstraintName("FK_ASPNETUSERS_HAIRSIZES");
+
+                entity.HasOne(d => d.Religion)
+                    .WithMany(p => p.AspNetUsers)
+                    .HasForeignKey(d => d.ReligionId)
+                    .HasConstraintName("FK_ASPNETUSERS_RELIGION");
 
                 entity.HasOne(d => d.Sexe)
                     .WithMany(p => p.AspNetUsers)

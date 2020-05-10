@@ -8,17 +8,18 @@
     int? religionId = null;
     int? corpulenceId = null;
     Preference pref = null;
+    int? styleId = null;
 }
 <h1>Matching</h1>
 <br />
-@if (ViewData["PrefenresCheck"].Equals("error"))
+@if (ViewData["PrefenresCheck"].Equals("success"))
 {
     <div class="row">
-        <p>You have already registered your account preferences.</p>
+        <p>Vous avez déjà enregistré vos préférences.</p>
         <div class="col-md-4">
             <form asp-route="Matching" method="post">
                 <div class="form-group">
-                    <button class="btn btn-primary" id="editPref" asp-action="UpdateProfil">Modifier mon profil</button>
+                    <button class="btn btn-primary" id="editPref" asp-action="UpdateProfil">Modifier mes préférences</button>
                 </div>
             </form>
         </div>
@@ -35,6 +36,7 @@ else
         hairColorId = pref.PreferenceHairColors.FirstOrDefault().HairColorId;
         religionId = pref.PreferenceReligions.FirstOrDefault().ReligionId;
         corpulenceId = pref.PreferenceCorpulences.FirstOrDefault().CorpulenceId;
+        styleId = pref.PreferenceStyles.FirstOrDefault().StyleId;
     }
 
 
@@ -131,6 +133,22 @@ else
                     }
                 </div>
                 <div class="form-group">
+                    <label asp-for="@Model.StyleId">Style</label><br />
+                    @foreach (Style style in ViewData["styles"] as List<Style>)
+                    {
+                        if (styleId != null && style.StyleId == styleId)
+                        {
+                            <input asp-for="@Model.StyleId" type="radio" value="@style.StyleId" checked>
+                        }
+                        else
+                        {
+                            <input asp-for="@Model.StyleId" type="radio" value="@style.StyleId" />
+                        }
+                        <label asp-for="@Model.StyleId">@style.StyleName</label><br />
+                        <span asp-validation-for="@Model.StyleId" class="text-danger"></span>
+                    }
+                </div>
+                <div class="form-group">
                     <label asp-for="@Model.Age"></label>
                     @if (pref != null && pref.AgeMax != 0)
                     {
@@ -151,7 +169,7 @@ else
                     }
                     else
                     {
-                        <button class="btn btn-primary" id="actionPref" asp-action="SaveProfil">Chercher</button>
+                        <button class="btn btn-primary" id="actionPref" asp-action="SaveProfil">Enregistrer</button>
                     }
 
                 </div>

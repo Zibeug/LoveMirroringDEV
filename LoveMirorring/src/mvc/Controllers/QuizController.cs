@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Auteur : Sébastien Berger 
+ * Date : 09.05.2020
+ * Description : Contrôleur pour afficher et traiter le Quiz pour établir un profil
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -27,6 +32,7 @@ namespace mvc.Controllers
             Configuration = configuration;
         }
 
+        // Affiche le quiz avec les questions et les réponses
         [Authorize]
         public async Task<IActionResult> QuizAsync()
         {
@@ -52,9 +58,9 @@ namespace mvc.Controllers
             return View();
         }
 
+        // Traitement de l'envoi du Quiz
         [HttpPost]
         [Authorize]
-        
         public async Task<IActionResult> QuizSubmit(int[] answer)
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");

@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Auteurs : Sébastien Berger, Tim Allemann
+ * Date : 05.05.2020
+ * Détail : Contrôleur séparé pour l'inscription, la confirmation Email ainsi que la vérification SMS
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -59,6 +64,7 @@ namespace IdentityServerAspNetIdentity.Controllers
             _phoneUtil = PhoneNumberUtil.GetInstance();
         }
 
+        // Permet d'afficher l'inscription avec plusieurs données
         public async Task<IActionResult> SignUp()
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");
@@ -69,18 +75,24 @@ namespace IdentityServerAspNetIdentity.Controllers
             string hairSize = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/hairSize");
             string hairColor = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/hairColor");
             string sexuality = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/sexuality");
+            string styles = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/styles");
+            string religions = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/religions");
 
+            List<Religion> resultReligion = JsonConvert.DeserializeObject<List<Religion>>(religions);
             List<Sex> resultSexes = JsonConvert.DeserializeObject<List<Sex>>(sexes);
             List<Corpulence> resultCorpulences = JsonConvert.DeserializeObject<List<Corpulence>>(corpulences);
             List<HairColor> resultHairColors = JsonConvert.DeserializeObject<List<HairColor>>(hairColor);
             List<HairSize> resultHairSizes = JsonConvert.DeserializeObject<List<HairSize>>(hairSize);
             List<Sexuality> resultSexualities = JsonConvert.DeserializeObject<List<Sexuality>>(sexuality);
+            List<Style> resultStyle = JsonConvert.DeserializeObject<List<Style>>(styles);
 
             ViewData["sexes"] = resultSexes;
             ViewData["corpulences"] = resultCorpulences;
             ViewData["hairColors"] = resultHairColors;
             ViewData["hairSizes"] = resultHairSizes;
             ViewData["sexualities"] = resultSexualities;
+            ViewData["styles"] = resultStyle;
+            ViewData["religions"] = resultReligion;
 
             string ip = _accessor.ActionContext.HttpContext.Connection.RemoteIpAddress.ToString();
 
@@ -97,6 +109,7 @@ namespace IdentityServerAspNetIdentity.Controllers
             return View();
         }
 
+        // Traitement de l'inscription
         [Route("SignUpSend", Name = "SignUpSend")]
         [HttpPost]
         public async Task<IActionResult> SignUpSend(RegisterInput input)
@@ -122,7 +135,7 @@ namespace IdentityServerAspNetIdentity.Controllers
 
                         var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-                        var checkUser = userMgr.FindByNameAsync(input.UserName).Result;
+                        var checkUser = _userManager.FindByNameAsync(input.UserName).Result;
                         if (checkUser == null)
                         {
                             if(input.ConfirmPassword != input.PasswordHash)
@@ -134,7 +147,7 @@ namespace IdentityServerAspNetIdentity.Controllers
                                 user = input;
                             }
 
-                            var checkEmail = userMgr.FindByEmailAsync(input.Email).Result;
+                            var checkEmail = _userManager.FindByEmailAsync(input.Email).Result;
 
                             if(checkEmail != null)
                             {
@@ -169,6 +182,7 @@ namespace IdentityServerAspNetIdentity.Controllers
                             user.HairColorId = input.HairColorId;
                             user.HairSizeId = input.HairSizeId;
                             user.QuizCompleted = false;
+                            user.ReligionId = input.ReligionId;
                             checkUser = user;
 
                             var result = userMgr.CreateAsync(checkUser, user.PasswordHash).Result;
@@ -189,6 +203,11 @@ namespace IdentityServerAspNetIdentity.Controllers
                                     Pagevisited = "SignUp : User created a new account",
                                     Id = userId
                                 };
+                                UserStyle us = new UserStyle();
+                                us.Id = user.Id;
+                                us.StyleId = input.StyleId;
+
+                                _context.UserStyles.Add(us);
                                 _context.UserTraces.Add(trace);
                                 _context.SaveChanges();
 
@@ -248,6 +267,7 @@ namespace IdentityServerAspNetIdentity.Controllers
             return View("ConfirmEmail");
         }
 
+        // Traiter l'oubli du mot de passe
         [Route("ForgotPassword", Name = "ForgotPassword")]
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordInput input)
@@ -279,12 +299,14 @@ namespace IdentityServerAspNetIdentity.Controllers
             return View();
         }
 
+        // Retourne la vue quand on a perdu son mot de passe
         [Route("ForgotPassword", Name = "ForgotPassword")]
         public IActionResult ForgotPassword()
         {
             return View();
         }
 
+        // Traitement de l'envoi d'un nouveau mot de passe
         [Route("ForgotSend", Name = "ForgotSend")]
         [HttpPost]
         public async Task<IActionResult> ForgotSend(ForgotPasswordInput Input)
@@ -315,6 +337,7 @@ namespace IdentityServerAspNetIdentity.Controllers
             return View("ResetPasswordFail");
         }
 
+        // Reset du password
         public IActionResult ResetPassword(string code = null)
         {
             if (code == null)

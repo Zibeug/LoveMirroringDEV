@@ -1,0 +1,99 @@
+﻿@model mvc.Models.AspNetUser
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+<div class="figure">
+    @if (ViewData["match"].Equals("match"))
+    {
+        <img src="~/img/match.png" width="126px"/>
+    }
+</div>
+<hr />
+<dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.UserName)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.UserName)
+        @{
+            string username = @Model.UserName;
+        }
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Birthday)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Birthday)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Firstname)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Firstname)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.LastName)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.LastName)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Corpulence)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Corpulence.CorpulenceName)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.HairColor)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.HairColor.HairColorName)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.HairSize)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.HairSize.HairSizeName)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Sexe)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Sexe.SexeName)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Sexuality)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Sexuality.SexualityName)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Religion)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Religion.ReligionName)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.UserStyles)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.UserStyles.Single(d => d.Id == model.Id).Style.StyleName)
+    </dd>
+</dl>
+
+@if (ViewData["userLike"].Equals("Like"))
+{
+    <form asp-route="Search" method="post">
+        <input type="hidden" name="username" value="@username" />
+        <button type="submit" asp-action="UnLike" class="btn-secondary">Unlike</button>
+    </form>
+}
+else
+{
+    <form asp-route="Search" method="post">
+        <input type="hidden" name="username" value="@username" />
+        <button class="btn btn-secondary" asp-action="Like">Like</button>
+    </form>
+}

@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Auteur : Sébastien Berger 
+ * Date : 10.05.2020
+ * Description : Contrôleur pour afficher les actions possibles avec Spotify
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -16,7 +21,6 @@ namespace mvc.Controllers
 {
     public class SpotifyController : Controller
     {
-        private HttpClient client = new HttpClient();
         private IConfiguration Configuration { get; }
 
         public SpotifyController(IConfiguration configuration)
@@ -24,8 +28,10 @@ namespace mvc.Controllers
             Configuration = configuration;
         }
 
+        // Permet d'afficher les catégories de Spotify
+        [HttpGet]
         [Authorize]
-        public async Task<IActionResult> CategorieAsync()
+        public async Task<IActionResult> Spotify()
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");
 
@@ -38,20 +44,18 @@ namespace mvc.Controllers
             return View("Spotify");
         }
 
+        // Permet de cherche une musique en fonction de la catégorie choisie
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> SearchSong(string id)
+        public async Task<IActionResult> SearchSong(SpotifyInput input)
         {
-            using (var client = new HttpClient())
-            {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
 
-                client.BaseAddress = new Uri(Configuration["URLAPI"] + "api/Spotify/SearchSong?id=" + id);
-                HttpContent c = new StringContent("OK", Encoding.UTF8, "application/json");
-                var responseTask = client.PostAsync(client.BaseAddress, c);
-                responseTask.Wait();
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Spotify/" + input.favoriteCategory);
+            List<SpotifyTrack> spotifyTracks = JsonConvert.DeserializeObject<List<SpotifyTrack>>(content);
 
-                var result = responseTask.Result;
-            }
             return View("Spotify");
         }
     }

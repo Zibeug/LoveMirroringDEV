@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Auteur : Sébastien Berger
+ * Date : 06.05.2020
+ * Détail : Contrôleur pour pouvoir gérer le Quiz afin d'établir un profil pour l'utilisateur
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -41,7 +46,7 @@ namespace Api.Controllers
         }
 
         // Permet de récupérer l'ensemble des réponses dans la base de données
-        // GET : api/answer
+        // GET : api/Quiz/answer
         [Route("answer")]
         [HttpGet]
         [Authorize]
@@ -50,7 +55,32 @@ namespace Api.Controllers
             List<Answer> responses = _context.Answers.ToList();
             return new JsonResult(responses);
         }
+        
+        // Permet de vérifier si le quiz a déjà été rempli
+        // GET : api/Quiz/checkQuiz
+        [Route("checkQuiz")]
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> CheckQuiz()
+        {
+            AspNetUser user = null;
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
+            // Récurération des données et convertion des données dans le bon type
+            string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
+            user = JsonConvert.DeserializeObject<AspNetUser>(content);
+            if (user.QuizCompleted)
+            {
+                return new JsonResult("success");
+            }
+            else
+            {
+                return new JsonResult("error");
+            }
+           
+        }
 
         //Permet d'envoyer le quiz une fois qu'il a été rempli
         // POST : api/QuizSubmit
@@ -80,12 +110,19 @@ namespace Api.Controllers
 
             user.QuizCompleted = true;
 
-            _context.AspNetUsers.Update(user);
+            try
+            {
+                _context.AspNetUsers.Update(user);
 
-            _context.UserProfils.Add(userProfil);
-            _context.SaveChanges();
+                _context.UserProfils.Add(userProfil);
+                _context.SaveChanges();
 
-            return Ok();
+                return NoContent();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }

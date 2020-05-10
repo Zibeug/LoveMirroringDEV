@@ -1,23 +1,24 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Api.Models
 {
-    public partial class AspNetUserLogin
+    public partial class AspNetUserLogin : IdentityUserLogin<string>
     {
         [Key]
         [StringLength(450)]
-        public string LoginProvider { get; set; }
+        public override string LoginProvider { get; set; }
         [Key]
         [StringLength(450)]
-        public string ProviderKey { get; set; }
+        public override string ProviderKey { get; set; }
         [Required]
         [StringLength(450)]
-        public string UserId { get; set; }
+        public override string UserId { get; set; }
         [Column(TypeName = "text")]
-        public string ProviderDisplayName { get; set; }
+        public override string ProviderDisplayName { get; set; }
 
         [ForeignKey(nameof(UserId))]
         [InverseProperty(nameof(AspNetUser.AspNetUserLogins))]

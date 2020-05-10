@@ -23,5 +23,6 @@ namespace mvc.ViewModels
         public string HairSize { get; set; }
         public string HairColor { get; set; }
         public string Sexuality { get; set; }
+        public string Style { get; set; }
     }
 }

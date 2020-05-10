@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Auteurs : Sébastien Berger, Tim Allemann 
+ * Date : 09.05.2020
+ * Description : permet de récupérer plusieurs données pour les exploiter dans le profil, les préférences et l'inscription
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,6 +25,8 @@ namespace Api.Controllers
             _context = context;
         }
 
+        // Permet de récupérer une liste de sexes
+        // GET : api/Data/sex
         [Route("sex")]
         [HttpGet]
         public IActionResult GetSex()
@@ -28,6 +35,8 @@ namespace Api.Controllers
             return new JsonResult(responses);
         }
 
+        // Permet de récupérer une liste de corpulences
+        // GET : api/Data/corpulences
         [Route("corpulences")]
         [HttpGet]
         public IActionResult GetCorpulences()
@@ -36,6 +45,8 @@ namespace Api.Controllers
             return new JsonResult(responses);
         }
 
+        // Permet de récupérer une liste de religions
+        // GET : api/Data/religions
         [Route("religions")]
         [HttpGet]
         public IActionResult GetReligion()
@@ -44,6 +55,8 @@ namespace Api.Controllers
             return new JsonResult(responses);
         }
 
+        // Permet de récupérer une liste de profils
+        // GET : api/Data/profils
         [Route("profils")]
         [HttpGet]
         public IActionResult GetProfils()
@@ -52,6 +65,8 @@ namespace Api.Controllers
             return new JsonResult(responses);
         }
 
+        // Permet de récupérer une liste de taille de cheveux
+        // GET : api/Data/hairSize
         [Route("hairSize")]
         [HttpGet]
         public IActionResult GetHairSize()
@@ -60,6 +75,8 @@ namespace Api.Controllers
             return new JsonResult(responses);
         }
 
+        // Permet de récupérer une liste de sexualités
+        // GET : api/Data/sexuality
         [Route("sexuality")]
         [HttpGet]
         public IActionResult GetSexuality()
@@ -68,6 +85,8 @@ namespace Api.Controllers
             return new JsonResult(responses);
         }
 
+        // Permet de récupérer une liste de couleurs de cheveux
+        // GET : api/Data/hairColor
         [Route("hairColor")]
         [HttpGet]
         public IActionResult GetHairColor()
@@ -76,6 +95,8 @@ namespace Api.Controllers
             return new JsonResult(responses);
         }
 
+        // Permet de récupérer une liste de souscriptions à un abonnement
+        // GET : api/Data/subscription
         [Route("subscription")]
         [HttpGet]
         public IActionResult GetSubscription()
@@ -84,6 +105,18 @@ namespace Api.Controllers
             return new JsonResult(responses);
         }
 
+        // Permet de récupérer une liste de styles vestimentaires
+        // GET : api/Data/styles
+        [Route("styles")]
+        [HttpGet]
+        public IActionResult GetStyles()
+        {
+            List<Style> responses = _context.Styles.ToList();
+            return new JsonResult(responses);
+        }
+        
+        //Permet de récupérer la liste des abonnements
+        // GET : api/Data/userSubscription
         [Route("userSubscription")]
         [HttpGet]
         public IActionResult GetUserSubscription()

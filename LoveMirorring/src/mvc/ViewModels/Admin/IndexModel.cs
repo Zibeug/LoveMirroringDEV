@@ -8,5 +8,6 @@ namespace mvc.ViewModels.Admin
     public class IndexModel
     {
         public int nbUsers { get; set; } 
+
     }
 }

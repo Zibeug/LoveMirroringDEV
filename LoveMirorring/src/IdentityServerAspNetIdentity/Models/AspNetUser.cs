@@ -37,6 +37,7 @@ namespace IdentityServerAspNetIdentity.Models
         public short? HairSizeId { get; set; }
         public short? SubscriptionId { get; set; }
         public short? SexualityId { get; set; }
+        public short? ReligionId { get; set; }
         public int AccessFailedCount { get; set; }
         public string ConcurrencyStamp { get; set; }
         [StringLength(256)]
@@ -69,6 +70,9 @@ namespace IdentityServerAspNetIdentity.Models
         [ForeignKey(nameof(HairSizeId))]
         [InverseProperty("AspNetUsers")]
         public virtual HairSize HairSize { get; set; }
+        [ForeignKey(nameof(ReligionId))]
+        [InverseProperty("AspNetUsers")]
+        public virtual Religion Religion { get; set; }
         [ForeignKey(nameof(SexeId))]
         [InverseProperty(nameof(Sex.AspNetUsers))]
         public virtual Sex Sexe { get; set; }

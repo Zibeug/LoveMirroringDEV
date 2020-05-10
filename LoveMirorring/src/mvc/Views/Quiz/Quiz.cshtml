@@ -6,7 +6,7 @@
 <h1>Laissez nous établir votre plan de match</h1>
 <pre>@ViewBag.Json</pre>
 
-@if (ViewData["message"] == "success")
+@if (ViewData["message"] != null && ViewData["message"].Equals("success"))
 {
     <p>Bien joué vous avez répondu au Quizz</p>
 }

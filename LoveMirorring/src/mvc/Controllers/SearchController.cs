@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Auteur : Sébastien Berger 
+ * Date : 10.05.2020
+ * Description : Contrôleur pour effectuer des recherches à partir de la vue et liker des utilisateurs
+ * 
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -29,37 +35,46 @@ namespace mvc.Controllers
             return View("Search");
         }
 
+        // Retourne la vue avec les profils qui correspondent
         [Authorize]
         public async Task<IActionResult> Search()
         {
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            try
+            {
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
 
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            string search = await client.GetStringAsync(Configuration["URLAPI"] + "api/Search/search");
-
-            IEnumerable<MatchingModel> searchResult = JsonConvert.DeserializeObject<IEnumerable<MatchingModel>>(search);
-
-            ViewData["Search"] = searchResult;
-
-            return View("Search");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                string search = await client.GetStringAsync(Configuration["URLAPI"] + "api/Search/search");
+                IEnumerable<MatchingModel> searchResult = JsonConvert.DeserializeObject<IEnumerable<MatchingModel>>(search);
+                ViewData["Search"] = searchResult;
+                return View("Search");
+            }
+            catch (Exception)
+            {
+                return View("Error");
+            }
+            
         }
 
+        // Permet de liker un utilisateur
+        [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Like(string id)
+        public async Task<IActionResult> Like(string username)
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");
 
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             client.BaseAddress = new Uri(Configuration["URLAPI"] + "api/Search/Like");
-            string json = JsonConvert.SerializeObject(id);
+            string json = JsonConvert.SerializeObject(username);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var response = client.PostAsync(client.BaseAddress, httpContent);
             var responseString = response.Result;
             return View("Like");
         }
 
+        // Retourne les likes de l'utilisateur
         [Authorize]
         public async Task<IActionResult> Like()
         {
@@ -72,6 +87,53 @@ namespace mvc.Controllers
             ViewData["UserList"] = userList;
 
             return View("Like");
+        }
+
+        // Permet d'enlever son like d'un utilisateur
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> UnLike(string username)
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            client.BaseAddress = new Uri(Configuration["URLAPI"] + "api/Search/UnLike/" + username);
+            var response = client.DeleteAsync(client.BaseAddress);
+            var responseString = response.Result;
+            return View("Search");
+        }
+
+        // Retourne les détails de l'utilisateur choisi dans la recherche ou dans les likes
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Details(string username)
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            client.BaseAddress = new Uri(Configuration["URLAPI"] + "api/Search/UserDetails/" + username);
+            string userToDisplay = await client.GetStringAsync(client.BaseAddress);
+            string userList = await client.GetStringAsync(Configuration["URLAPI"] + "api/Search/GetLike");
+            string userMatch = await client.GetStringAsync(Configuration["URLAPI"] + "api/Search/CheckMatch/" + username);
+
+            string userMatched = JsonConvert.DeserializeObject<string>(userMatch);
+            List<AspNetUser> userLike = JsonConvert.DeserializeObject<List<AspNetUser>>(userList);
+            AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(userToDisplay);
+
+            ViewData["userLike"] = "NotLike";
+            foreach (AspNetUser temp in userLike)
+            {
+                if (temp.Id == user.Id)
+                {
+                    ViewData["userLike"] = "Like";
+                }
+            }
+
+            ViewData["match"] = userMatched;
+
+            return View(user);
         }
     }
 }

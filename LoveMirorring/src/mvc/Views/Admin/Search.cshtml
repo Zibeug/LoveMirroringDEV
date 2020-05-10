@@ -4,15 +4,18 @@
 }
 
 <h1>Search</h1>
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
 <p>
     @using (Html.BeginForm("Search", "Admin", FormMethod.Get))
     {
 
         <b>Search Username:</b>
-        @Html.TextBox("username")<input type="submit" value="Search" />
+        @Html.TextBox("username")<input type="submit" value="Search" id="UserName"
+                                        name="UserName" />
 
     }
 </p>
+
 
 @if (Model != null)
 {
@@ -70,6 +73,7 @@
     </table>
 
 }
+
 
 
 

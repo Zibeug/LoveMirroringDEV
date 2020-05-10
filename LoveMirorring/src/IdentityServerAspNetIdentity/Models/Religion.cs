@@ -9,6 +9,7 @@ namespace IdentityServerAspNetIdentity.Models
     {
         public Religion()
         {
+            AspNetUsers = new HashSet<AspNetUser>();
             PreferenceReligions = new HashSet<PreferenceReligion>();
         }
 
@@ -18,6 +19,8 @@ namespace IdentityServerAspNetIdentity.Models
         [StringLength(32)]
         public string ReligionName { get; set; }
 
+        [InverseProperty(nameof(AspNetUser.Religion))]
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
         [InverseProperty(nameof(PreferenceReligion.Religion))]
         public virtual ICollection<PreferenceReligion> PreferenceReligions { get; set; }
     }

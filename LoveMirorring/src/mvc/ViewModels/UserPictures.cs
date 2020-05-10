@@ -8,6 +8,6 @@ namespace mvc.ViewModels
 {
     public class UserPictures
     {
-        public IFormFileCollection Pictures { get; set; }       
+        public List<IFormFile> Pictures { get; set; }       
     }
 }

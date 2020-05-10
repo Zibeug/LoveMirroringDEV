@@ -75,6 +75,7 @@ namespace Api.Controllers
                             .Include(a => a.UserTraces)
                             .Include(a => a.Religion)
                             .Include(a => a.UserStyles)
+                            .Include(a => a.Pictures)
                             .SingleOrDefaultAsync(a => a.Id == id);
 
             user.UserStyles.Add(us);

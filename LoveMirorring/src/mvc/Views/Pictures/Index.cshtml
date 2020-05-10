@@ -13,10 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PictureView)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdNavigation)
+                Image
             </th>
             <th></th>
         </tr>
@@ -25,14 +22,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.PictureView)
+                <img class="img-fluid" src="@(ViewData["URLAPI"] + item.PictureView)" alt="Alternate Text" />
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdNavigation.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PictureId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PictureId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.PictureId">Delete</a>
             </td>
         </tr>

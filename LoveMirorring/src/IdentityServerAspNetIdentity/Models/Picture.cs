@@ -18,8 +18,8 @@ namespace IdentityServerAspNetIdentity.Models
         [StringLength(450)]
         public string Id { get; set; }
         [Required]
-        [Column(TypeName = "image")]
-        public byte[] PictureView { get; set; }
+        [StringLength(450)]
+        public string PictureView { get; set; }
 
         [ForeignKey(nameof(Id))]
         [InverseProperty(nameof(AspNetUser.Pictures))]

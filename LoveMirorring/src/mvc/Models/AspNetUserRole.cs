@@ -12,11 +12,11 @@ namespace mvc.Models
         [Key]
         public string RoleId { get; set; }
 
-        [ForeignKey(nameof(UserId))]
+        [ForeignKey(nameof(RoleId))]
         [InverseProperty(nameof(AspNetRole.AspNetUserRoles))]
-        public virtual AspNetRole User { get; set; }
+        public virtual AspNetRole Role { get; set; }
         [ForeignKey(nameof(UserId))]
         [InverseProperty(nameof(AspNetUser.AspNetUserRoles))]
-        public virtual AspNetUser UserNavigation { get; set; }
+        public virtual AspNetUser User { get; set; }
     }
 }

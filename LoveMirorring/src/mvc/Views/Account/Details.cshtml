@@ -123,3 +123,12 @@
 <div>
     <a asp-controller="UserSubscriptions" asp-action="Index">Voir mon type d'abonnement</a>
 </div>
+<div>
+    <a asp-controller="Pictures" asp-action="Index">Voir mes images de profils</a>
+</div>
+@*<div>
+    @foreach (var item in Model.Pictures)
+    {
+        <img class="img-fluid" src="@(ViewData["URLAPI"] + item.PictureView)" alt="Alternate Text" />
+    }
+</div>*@

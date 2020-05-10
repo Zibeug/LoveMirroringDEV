@@ -9,6 +9,7 @@ using Api.Models;
 using Api.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Unosquare.Swan;
 
 namespace Api.Controllers
 {
@@ -30,7 +31,19 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Picture>>> GetPictures()
         {
-            return await _context.Pictures.ToListAsync();
+            string id = "";
+
+            try
+            {
+                // Il faut utiliser le Claim pour retrouver l'identifiant de l'utilisateur
+                id = User.Claims.Where(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").SingleOrDefault().Value;
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+            return await _context.Pictures.Where(p => p.Id == id).ToListAsync();
         }
 
         // GET: api/Pictures/5
@@ -88,16 +101,22 @@ namespace Api.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public string PostPicture(List<IFormFile> files)
+        public async Task<ActionResult> PostPicture(List<IFormFile> files)
         {
+            string id = "";
+
             try
             {
-                string message = "No files found";
+                // Il faut utiliser le Claim pour retrouver l'identifiant de l'utilisateur
+                id = User.Claims.Where(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").SingleOrDefault().Value;
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
 
-                if (files.Count() > 0)
-                {
-                    message = "";
-                }
+            try
+            {
                 foreach (var file in files)
                 {
                     if (file.Length > 0)
@@ -106,19 +125,21 @@ namespace Api.Controllers
                         {
                             Directory.CreateDirectory(_environnement.WebRootPath + "\\Upload\\");
                         }
-                        using (FileStream fileStream = System.IO.File.Create(_environnement.WebRootPath + "\\Upload\\" + file.FileName))
+                        string path = id + DateTime.Now.ToString("_yyyy-MM-dd_HH-mm-ss") + file.FileName;
+                        using (FileStream fileStream = System.IO.File.Create(_environnement.WebRootPath + "\\Upload\\" + path))
                         {
                             file.CopyTo(fileStream);
                             fileStream.Flush();
-                            message += "\\Upload\\" + file.FileName + "\n";
+                            _context.Pictures.Add(new Picture { Id = id, PictureView = "Upload/" + path});
+                            _context.SaveChanges();
                         }
                     }
                 }
-                return message;
+                return Ok();
             }
             catch (Exception ex)
             {
-                return ex.Message.ToString();
+                return BadRequest();
             }
             //Picture picture = null;
             //_context.Pictures.Add(picture);

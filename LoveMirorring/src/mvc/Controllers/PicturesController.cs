@@ -47,6 +47,8 @@ namespace mvc.Controllers
             content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Pictures");
             List<Picture> pictures = JsonConvert.DeserializeObject<List<Picture>>(content);
 
+            ViewData["URLAPI"] = _configuration["URLAPI"];
+
             return View(pictures);
         }
 
@@ -90,9 +92,25 @@ namespace mvc.Controllers
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
                 // Préparation de la requête update à l'API
-                StringContent httpContent = new StringContent(userPictures.Pictures.ToJson(), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/Pictures", httpContent);
-                if (response.StatusCode != HttpStatusCode.Created)
+                MultipartFormDataContent form = new MultipartFormDataContent();
+                HttpContent content = new StringContent("files");
+                form.Add(content, "files");
+
+                foreach (var item in userPictures.Pictures)
+                {
+                    var stream = item.OpenReadStream();
+                    content = new StreamContent(stream);
+                    content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "files",
+                        FileName = item.FileName
+                    };
+                    form.Add(content);
+                }
+                
+
+                HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/Pictures", form);
+                if (response.StatusCode != HttpStatusCode.OK)
                 {
                     return BadRequest();
                 }
@@ -101,88 +119,56 @@ namespace mvc.Controllers
             return View(userPictures);
         }
 
-        // GET: Pictures/Edit/5
-        //public async Task<IActionResult> Edit(short? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        //GET: Pictures/Delete/5
+        public async Task<IActionResult> Delete(short? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var picture = await _context.Pictures.FindAsync(id);
-        //    if (picture == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["Id"] = new SelectList(_context.AspNetUsers, "Id", "Id", picture.Id);
-        //    return View(picture);
-        //}
+            // Préparation de l'appel à l'API
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-        // POST: Pictures/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(short id, [Bind("PictureId,Id,PictureView")] Picture picture)
-        //{
-        //    if (id != picture.PictureId)
-        //    {
-        //        return NotFound();
-        //    }
+            // Récurération des données et convertion des données dans le bon type
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Pictures/" + id);
+            Picture picture = JsonConvert.DeserializeObject<Picture>(content);
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(picture);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!PictureExists(picture.PictureId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["Id"] = new SelectList(_context.AspNetUsers, "Id", "Id", picture.Id);
-        //    return View(picture);
-        //}
+            if (picture == null)
+            {
+                return NotFound();
+            }
 
-        // GET: Pictures/Delete/5
-        //public async Task<IActionResult> Delete(short? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+            ViewData["URLAPI"] = _configuration["URLAPI"];
 
-        //    var picture = await _context.Pictures
-        //        .Include(p => p.IdNavigation)
-        //        .FirstOrDefaultAsync(m => m.PictureId == id);
-        //    if (picture == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(picture);
-        //}
+            return View(picture);
+        }
 
         // POST: Pictures/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(short id)
-        //{
-        //    var picture = await _context.Pictures.FindAsync(id);
-        //    _context.Pictures.Remove(picture);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(short id)
+        {
+            // Préparation de l'appel à l'API
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            // Envoie de la demande du suppression du compte
+            HttpResponseMessage content = await client.DeleteAsync(_configuration["URLAPI"] + "api/Pictures/" + id);
+
+            if (content.StatusCode == HttpStatusCode.OK)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+        }
 
         //private bool PictureExists(short id)
         //{

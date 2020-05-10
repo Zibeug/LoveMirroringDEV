@@ -1,20 +1,19 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Api.Models
 {
-    public partial class AspNetUserToken : IdentityUserToken<string>
+    public partial class AspNetUserToken
     {
         [Key]
-        public override string UserId { get; set; }
+        public string UserId { get; set; }
         [Key]
-        public override string LoginProvider { get; set; }
+        public string LoginProvider { get; set; }
         [Key]
-        public override string Name { get; set; }
-        public override string Value { get; set; }
+        public string Name { get; set; }
+        public string Value { get; set; }
 
         [ForeignKey(nameof(UserId))]
         [InverseProperty(nameof(AspNetUser.AspNetUserTokens))]

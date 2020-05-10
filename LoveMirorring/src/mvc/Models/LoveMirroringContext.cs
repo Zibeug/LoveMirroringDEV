@@ -61,6 +61,7 @@ namespace mvc.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=LoveMirroring;Trusted_Connection=True;");
             }
         }
@@ -168,16 +169,6 @@ namespace mvc.Models
             modelBuilder.Entity<AspNetUserRole>(entity =>
             {
                 entity.HasKey(e => new { e.UserId, e.RoleId });
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.AspNetUserRoles)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK_ASPNETUSERROLES_ASPNETROLES");
-
-                entity.HasOne(d => d.UserNavigation)
-                    .WithMany(p => p.AspNetUserRoles)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK_ASPNETUSERROLES_ASPNETUSERS");
             });
 
             modelBuilder.Entity<AspNetUserToken>(entity =>
@@ -298,7 +289,6 @@ namespace mvc.Models
                 entity.HasOne(d => d.Preference)
                     .WithMany(p => p.PreferenceCorpulences)
                     .HasForeignKey(d => d.PreferenceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PREFERENCECORPULENCES_PREFERENCES");
             });
 
@@ -316,7 +306,6 @@ namespace mvc.Models
                 entity.HasOne(d => d.Preference)
                     .WithMany(p => p.PreferenceHairColors)
                     .HasForeignKey(d => d.PreferenceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PREFERENCEHAIRCOLORS_PREFERENCES");
             });
 
@@ -334,7 +323,6 @@ namespace mvc.Models
                 entity.HasOne(d => d.Preference)
                     .WithMany(p => p.PreferenceHairSizes)
                     .HasForeignKey(d => d.PreferenceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PREFERENCEHAIRSIZES_PREFERENCES");
             });
 
@@ -352,7 +340,6 @@ namespace mvc.Models
                 entity.HasOne(d => d.Preference)
                     .WithMany(p => p.PreferenceMusics)
                     .HasForeignKey(d => d.PreferenceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PREFERENCEMUSICS_PREFERENCES");
             });
 
@@ -364,7 +351,6 @@ namespace mvc.Models
                 entity.HasOne(d => d.Preference)
                     .WithMany(p => p.PreferenceReligions)
                     .HasForeignKey(d => d.PreferenceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PREFERENCERELIGIONS_PREFERENCES");
 
                 entity.HasOne(d => d.Religion)
@@ -382,7 +368,6 @@ namespace mvc.Models
                 entity.HasOne(d => d.Preference)
                     .WithMany(p => p.PreferenceStyles)
                     .HasForeignKey(d => d.PreferenceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PREFERENCESTYLES_PREFERENCES");
 
                 entity.HasOne(d => d.Style)

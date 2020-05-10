@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Api.Models
 {
-    public partial class AspNetUser:IdentityUser
+    public partial class AspNetUser
     {
         public AspNetUser()
         {
@@ -31,7 +30,7 @@ namespace Api.Models
         }
 
         [Key]
-        public override string Id { get; set; }
+        public string Id { get; set; }
         public short? HairColorId { get; set; }
         public short? CorpulenceId { get; set; }
         public short? SexeId { get; set; }
@@ -39,24 +38,24 @@ namespace Api.Models
         public short? SubscriptionId { get; set; }
         public short? SexualityId { get; set; }
         public short? ReligionId { get; set; }
-        public override int AccessFailedCount { get; set; }
-        public override string ConcurrencyStamp { get; set; }
+        public int AccessFailedCount { get; set; }
+        public string ConcurrencyStamp { get; set; }
         [StringLength(256)]
-        public override string Email { get; set; }
-        public override bool EmailConfirmed { get; set; }
-        public override bool LockoutEnabled { get; set; }
-        public override DateTimeOffset? LockoutEnd { get; set; }
+        public string Email { get; set; }
+        public bool EmailConfirmed { get; set; }
+        public bool LockoutEnabled { get; set; }
+        public DateTimeOffset? LockoutEnd { get; set; }
         [StringLength(256)]
-        public override string NormalizedEmail { get; set; }
+        public string NormalizedEmail { get; set; }
         [StringLength(256)]
-        public override string NormalizedUserName { get; set; }
-        public override string PasswordHash { get; set; }
-        public override string PhoneNumber { get; set; }
-        public override bool PhoneNumberConfirmed { get; set; }
-        public override string SecurityStamp { get; set; }
-        public override bool TwoFactorEnabled { get; set; }
+        public string NormalizedUserName { get; set; }
+        public string PasswordHash { get; set; }
+        public string PhoneNumber { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
+        public string SecurityStamp { get; set; }
+        public bool TwoFactorEnabled { get; set; }
         [StringLength(256)]
-        public override string UserName { get; set; }
+        public string UserName { get; set; }
         public DateTime Birthday { get; set; }
         public string Firstname { get; set; }
         public string LastName { get; set; }
@@ -87,7 +86,7 @@ namespace Api.Models
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         [InverseProperty(nameof(AspNetUserLogin.User))]
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
-        [InverseProperty(nameof(AspNetUserRole.UserNavigation))]
+        [InverseProperty(nameof(AspNetUserRole.User))]
         public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; }
         [InverseProperty(nameof(AspNetUserToken.User))]
         public virtual ICollection<AspNetUserToken> AspNetUserTokens { get; set; }

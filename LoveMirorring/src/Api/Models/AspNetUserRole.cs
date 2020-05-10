@@ -1,23 +1,22 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Api.Models
 {
-    public partial class AspNetUserRole : IdentityUserRole<string>
+    public partial class AspNetUserRole
     {
         [Key]
-        public override string UserId { get; set; }
+        public string UserId { get; set; }
         [Key]
-        public override string RoleId { get; set; }
+        public string RoleId { get; set; }
 
-        [ForeignKey(nameof(UserId))]
+        [ForeignKey(nameof(RoleId))]
         [InverseProperty(nameof(AspNetRole.AspNetUserRoles))]
-        public virtual AspNetRole User { get; set; }
+        public virtual AspNetRole Role { get; set; }
         [ForeignKey(nameof(UserId))]
         [InverseProperty(nameof(AspNetUser.AspNetUserRoles))]
-        public virtual AspNetUser UserNavigation { get; set; }
+        public virtual AspNetUser User { get; set; }
     }
 }

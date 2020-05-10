@@ -86,7 +86,7 @@ namespace IdentityServerAspNetIdentity.Models
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         [InverseProperty(nameof(AspNetUserLogin.User))]
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
-        [InverseProperty(nameof(AspNetUserRole.UserNavigation))]
+        [InverseProperty(nameof(AspNetUserRole.User))]
         public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; }
         [InverseProperty(nameof(AspNetUserToken.User))]
         public virtual ICollection<AspNetUserToken> AspNetUserTokens { get; set; }

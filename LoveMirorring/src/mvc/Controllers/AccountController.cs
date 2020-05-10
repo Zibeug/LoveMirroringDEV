@@ -54,6 +54,8 @@ namespace mvc.Controllers
                 return NotFound();
             }
 
+            ViewData["URLAPI"] = _configuration["URLAPI"];
+
             return View(user);
         }
 

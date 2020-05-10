@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -26,5 +27,6 @@ namespace mvc.Models
         public virtual AspNetUser IdNavigation { get; set; }
         [InverseProperty(nameof(PictureTag.Picture))]
         public virtual ICollection<PictureTag> PictureTags { get; set; }
+
     }
 }

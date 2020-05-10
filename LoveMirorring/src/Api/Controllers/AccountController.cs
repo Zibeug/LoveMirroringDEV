@@ -138,5 +138,6 @@ namespace Api.Controllers
         {
             return _context.AspNetUsers.Any(e => e.Id == id);
         }
+
     }
 }

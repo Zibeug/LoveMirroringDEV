@@ -92,7 +92,7 @@ namespace Api.Controllers
             return NoContent();
         }
 
-        public class FilUploadAPI 
+        public class FilUploadAPI
         {
             public IFormFile files { get; set; }
         }
@@ -101,7 +101,7 @@ namespace Api.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult> PostPicture(List<IFormFile> files)
+        public async Task<IActionResult> PostPicture(List<IFormFile> files)
         {
             string id = "";
 
@@ -115,22 +115,26 @@ namespace Api.Controllers
                 return BadRequest();
             }
 
+            string userName = await _context.AspNetUsers.Where(a => a.Id == id).Select(a => a.UserName).SingleOrDefaultAsync();
             try
             {
+                string folder = "Upload";
                 foreach (var file in files)
                 {
                     if (file.Length > 0)
                     {
-                        if (!Directory.Exists(_environnement.WebRootPath + "\\Upload\\"))
-                        {
-                            Directory.CreateDirectory(_environnement.WebRootPath + "\\Upload\\");
-                        }
-                        string path = id + DateTime.Now.ToString("_yyyy-MM-dd_HH-mm-ss") + file.FileName;
-                        using (FileStream fileStream = System.IO.File.Create(_environnement.WebRootPath + "\\Upload\\" + path))
+                        // Ne marche pas sur Azure
+                        //if (!Directory.Exists(_environnement.WebRootPath + "\\Upload\\"))
+                        //{
+                        //    Directory.CreateDirectory(_environnement.WebRootPath + "\\Upload\\");
+                        //}
+
+                        string filename = userName + DateTime.Now.ToString("_yyyy-MM-dd_HH-mm-ss") + file.FileName;
+                        using (FileStream fileStream = System.IO.File.Create(Path.Combine(_environnement.WebRootPath, folder, filename)))
                         {
                             file.CopyTo(fileStream);
                             fileStream.Flush();
-                            _context.Pictures.Add(new Picture { Id = id, PictureView = "Upload/" + path});
+                            _context.Pictures.Add(new Picture { Id = id, PictureView = folder + "/" + filename });
                             _context.SaveChanges();
                         }
                     }

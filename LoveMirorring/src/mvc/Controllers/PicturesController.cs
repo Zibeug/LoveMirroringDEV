@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -103,7 +104,7 @@ namespace mvc.Controllers
                     content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                     {
                         Name = "files",
-                        FileName = item.FileName
+                        FileName = Path.GetExtension(item.FileName)
                     };
                     form.Add(content);
                 }
@@ -112,7 +113,7 @@ namespace mvc.Controllers
                 HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/Pictures", form);
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    return BadRequest();
+                    return BadRequest(response.Content);
                 }
                 return RedirectToAction(nameof(Index));
             }

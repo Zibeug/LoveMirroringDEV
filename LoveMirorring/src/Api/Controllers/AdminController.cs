@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ *      Auteur : Hans Morsch
+ *      11.05.2020
+ *      Contrôleur Api pour l'admin
+ *      Permet de gérer les utilisateurs et rôles
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,24 +26,8 @@ namespace Api.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
-        //private readonly LoveMirroringContext _context;
-        //private readonly IEmailSender _emailSender;
-        //private readonly RoleManager<AspNetRole> _roleManager;
-        //private readonly UserManager<AspNetUser> _userManager;
-
-
-        //public AdminController(LoveMirroringContext context, IEmailSender emailSender, RoleManager<AspNetRole> roleManager, UserManager<AspNetUser> userManager)
-        //{
-        //    _context = context;
-        //    _emailSender = emailSender;
-        //    _roleManager = roleManager;
-        //    _userManager = userManager;
-        //}
-
         private readonly LoveMirroringContext _context;
         private readonly IEmailSender _emailSender;
-
-
 
         public AdminController(LoveMirroringContext context, IEmailSender emailSender)
         {
@@ -62,8 +53,6 @@ namespace Api.Controllers
             {
                 return StatusCode(500, ex);
             }
-
-
         }
 
         [Route("Search/{username}")]
@@ -98,8 +87,6 @@ namespace Api.Controllers
             {
                 return StatusCode(500, ex);
             }
-           
-
         }
 
         [Route("GetUser/{id}")]
@@ -141,7 +128,6 @@ namespace Api.Controllers
             {
                 return StatusCode(500, ex);
             }
-
         }
 
         [Route("Details/{id}")]
@@ -172,7 +158,6 @@ namespace Api.Controllers
             {
                 return StatusCode(500, ex);
             }
-
         }
 
         [Route("Edit")]
@@ -211,7 +196,6 @@ namespace Api.Controllers
             {
                 return StatusCode(500, ex);
             }
-
         }
 
         private bool UserExists(string id)
@@ -291,44 +275,31 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRole(AspNetRole role)
         {
-            //await _roleManager.CreateAsync(new AspNetRole { Name = role.Name, NormalizedName = role.Name.ToUpper() });
-            AspNetRole newRole = new AspNetRole { Name = role.Name, NormalizedName = role.NormalizedName };
+            AspNetRole exist = await _context.AspNetRoles.Where(r => r.NormalizedName == role.Name.ToUpper()).FirstOrDefaultAsync();
 
-            await _context.AspNetRoles.AddAsync(newRole);
+            if (exist == null)
+            {
+                AspNetRole newRole = new AspNetRole { Id = role.Name, Name = role.Name, NormalizedName = role.Name.ToUpper() };
+                await _context.AspNetRoles.AddAsync(newRole);
+                await _context.SaveChangesAsync();
+                
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest();
+            }
 
-            return NoContent();
         }
 
         [Route("UpdateUserRole")]
         [HttpPost]
         public async Task<IActionResult> UpdateUserRole(UpdateUserRoleModel vm)
         {
-            //if (vm.UserEmail != null && vm.Role != null)
-            //{
-
-            //    AspNetUser user = await _userManager.FindByEmailAsync(vm.UserEmail);
-            //    AspNetRole role = await _roleManager.FindByNameAsync(vm.Role);
-
-            //    AspNetUserRole userRole = _context.AspNetUserRoles.Where(r => r.RoleId.Equals(role.Id)).Where(u => u.UserId.Equals(user.Id)).FirstOrDefault();
-
-            //    if (vm.DeleteRole)
-            //    {
-            //        _context.AspNetUserRoles.Remove(userRole);
-            //    }
-            //    else
-            //    {
-            //        _context.AspNetUserRoles.Add(new AspNetUserRole { RoleId = role.Id, UserId = user.Id });
-            //    }
-
-            //    await _context.SaveChangesAsync();
-            //}
-
             if (vm.UserEmail != null && vm.Role != null)
             {
-
-                AspNetUser user = await _context.AspNetUsers.FindAsync(vm.UserEmail);
-                AspNetRole role = await _context.AspNetRoles.FindAsync(vm.Role);
-
+                AspNetUser user = await _context.AspNetUsers.Where(u => u.Email == vm.UserEmail).FirstOrDefaultAsync();
+                AspNetRole role = await _context.AspNetRoles.Where(r => r.NormalizedName == vm.Role).FirstOrDefaultAsync();
                 AspNetUserRole userRole = _context.AspNetUserRoles.Where(r => r.RoleId.Equals(role.Id)).Where(u => u.UserId.Equals(user.Id)).FirstOrDefault();
 
                 if (vm.DeleteRole)
@@ -344,5 +315,6 @@ namespace Api.Controllers
             }
             return NoContent();
         }
+
     }
 }

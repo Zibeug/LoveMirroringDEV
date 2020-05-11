@@ -66,7 +66,7 @@ namespace IdentityServerAspNetIdentity
                     ClientId = "mvc",
                     ClientSecrets = { new Secret("secret".Sha256()) },
 
-                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                     RequireConsent = false,
                     RequirePkce = true,
 

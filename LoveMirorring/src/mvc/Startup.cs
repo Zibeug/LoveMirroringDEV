@@ -10,17 +10,17 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using mvc.Services.RolesAndClaims;
 
 namespace mvc
 {
     public class Startup
     {
+        public IConfiguration Configuration { get;}
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -50,6 +50,20 @@ namespace mvc
                     options.Scope.Add("api1");
                     options.Scope.Add("offline_access");
                 });
+
+            /*
+             *      Auteur : Hans Morsch
+             *      11.05.2020
+             *      Rajoute les claims identity server 4 au claims d'identity
+             *      Permet d'utiliser des policy pour gérer les accés des controlleurs
+             */
+            services.AddSingleton<Microsoft.AspNetCore.Authentication.IClaimsTransformation, KarekeClaimsTransformer>();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
+                options.AddPolicy("User", policy => policy.RequireClaim("Role", "User"));
+                options.AddPolicy("Moderator", policy => policy.RequireClaim("Role", "Moderator"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

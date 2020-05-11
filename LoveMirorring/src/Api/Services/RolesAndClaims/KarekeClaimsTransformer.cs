@@ -21,7 +21,7 @@ namespace Api.Services.RolesAndClaims
         {
             if (principal.Identity.IsAuthenticated)
             {
-                Claim userId = principal.FindFirst("sub"); if (principal.FindFirst("role") == null && userId != null)
+                Claim userId = principal.FindFirst("sub"); if (principal.FindFirst("Role") == null && userId != null)
                 {
                     using (var context = new LoveMirroringContext())
                     {

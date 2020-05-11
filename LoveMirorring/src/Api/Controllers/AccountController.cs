@@ -186,5 +186,18 @@ namespace Api.Controllers
         {
             return _context.UserStyles.Any(e => e.Id == id);
         }
+        /*
+         *      Auteur : Hans Morsch
+         *      11.05.2020
+         *      Permet de récupérer les roles de l'utilisateur
+         */
+        [HttpGet("GetRole/{userId}")]
+        public async Task<ActionResult<IEnumerable<string>>> GetRole(string userId = "")
+        {
+            return await _context.AspNetUserRoles
+                            .Where(a => a.UserId == userId)
+                            .Select(a => a.RoleId)
+                            .ToListAsync();
+        }
     }
 }

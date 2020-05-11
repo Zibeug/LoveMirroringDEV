@@ -20,7 +20,7 @@ namespace Api
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get;}
 
         public Startup(IConfiguration configuration)
         {
@@ -73,8 +73,9 @@ namespace Api
             services.AddSingleton<Microsoft.AspNetCore.Authentication.IClaimsTransformation, KarekeClaimsTransformer>();
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Admin", policy => policy.RequireClaim("role", "Admin"));
-                options.AddPolicy("User", policy => policy.RequireClaim("role", "User"));
+                options.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
+                options.AddPolicy("User", policy => policy.RequireClaim("Role", "User"));
+                options.AddPolicy("Moderator", policy => policy.RequireClaim("Role", "Moderator"));
             });
         }
 

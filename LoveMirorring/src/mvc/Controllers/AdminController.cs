@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ *      Auteur : Hans Morsch
+ *      11.05.2020
+ *      Contrôleur Api pour l'admin
+ *      Permet de gérer les utilisateurs et rôles
+ */
+
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -18,7 +25,7 @@ using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
-    //[Authorize(Policy = "RequireAdminRole")]
+    [Authorize]
     public class AdminController : Controller
     {
         private IConfiguration _configuration { get; }

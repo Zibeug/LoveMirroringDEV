@@ -14,23 +14,34 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers
 {
-    [Authorize(Policy = "Admin")]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
     {
+        //private readonly LoveMirroringContext _context;
+        //private readonly IEmailSender _emailSender;
+        //private readonly RoleManager<AspNetRole> _roleManager;
+        //private readonly UserManager<AspNetUser> _userManager;
+
+
+        //public AdminController(LoveMirroringContext context, IEmailSender emailSender, RoleManager<AspNetRole> roleManager, UserManager<AspNetUser> userManager)
+        //{
+        //    _context = context;
+        //    _emailSender = emailSender;
+        //    _roleManager = roleManager;
+        //    _userManager = userManager;
+        //}
+
         private readonly LoveMirroringContext _context;
         private readonly IEmailSender _emailSender;
-        private readonly RoleManager<AspNetRole> _roleManager;
-        private readonly UserManager<AspNetUser> _userManager;
 
 
-        public AdminController(LoveMirroringContext context, IEmailSender emailSender, RoleManager<AspNetRole> roleManager, UserManager<AspNetUser> userManager)
+
+        public AdminController(LoveMirroringContext context, IEmailSender emailSender)
         {
             _context = context;
             _emailSender = emailSender;
-            _roleManager = roleManager;
-            _userManager = userManager;
         }
 
         [Route("Welcome")]
@@ -280,7 +291,10 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRole(AspNetRole role)
         {
-            await _roleManager.CreateAsync(new AspNetRole { Name = role.Name, NormalizedName = role.Name.ToUpper() });
+            //await _roleManager.CreateAsync(new AspNetRole { Name = role.Name, NormalizedName = role.Name.ToUpper() });
+            AspNetRole newRole = new AspNetRole { Name = role.Name, NormalizedName = role.NormalizedName };
+
+            await _context.AspNetRoles.AddAsync(newRole);
 
             return NoContent();
         }
@@ -289,11 +303,31 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateUserRole(UpdateUserRoleModel vm)
         {
+            //if (vm.UserEmail != null && vm.Role != null)
+            //{
+
+            //    AspNetUser user = await _userManager.FindByEmailAsync(vm.UserEmail);
+            //    AspNetRole role = await _roleManager.FindByNameAsync(vm.Role);
+
+            //    AspNetUserRole userRole = _context.AspNetUserRoles.Where(r => r.RoleId.Equals(role.Id)).Where(u => u.UserId.Equals(user.Id)).FirstOrDefault();
+
+            //    if (vm.DeleteRole)
+            //    {
+            //        _context.AspNetUserRoles.Remove(userRole);
+            //    }
+            //    else
+            //    {
+            //        _context.AspNetUserRoles.Add(new AspNetUserRole { RoleId = role.Id, UserId = user.Id });
+            //    }
+
+            //    await _context.SaveChangesAsync();
+            //}
+
             if (vm.UserEmail != null && vm.Role != null)
             {
 
-                AspNetUser user = await _userManager.FindByEmailAsync(vm.UserEmail);
-                AspNetRole role = await _roleManager.FindByNameAsync(vm.Role);
+                AspNetUser user = await _context.AspNetUsers.FindAsync(vm.UserEmail);
+                AspNetRole role = await _context.AspNetRoles.FindAsync(vm.Role);
 
                 AspNetUserRole userRole = _context.AspNetUserRoles.Where(r => r.RoleId.Equals(role.Id)).Where(u => u.UserId.Equals(user.Id)).FirstOrDefault();
 

@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ *      Auteur : Tim Allemann
+ *      2020.04.27
+ *      Permet de gérer les images des profils de l'utilisateur
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -144,11 +150,6 @@ namespace Api.Controllers
             {
                 return BadRequest();
             }
-            //Picture picture = null;
-            //_context.Pictures.Add(picture);
-            //await _context.SaveChangesAsync();
-
-            //return CreatedAtAction("GetPicture", new { id = picture.PictureId }, picture);
         }
 
         // DELETE: api/Pictures/5

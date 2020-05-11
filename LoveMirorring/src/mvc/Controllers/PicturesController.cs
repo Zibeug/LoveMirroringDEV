@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ *      Auteur : Tim Allemann
+ *      2020.04.27
+ *      Permet de gérer les images de profils de l'utilisateur
+ */
+ 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -52,25 +58,6 @@ namespace mvc.Controllers
 
             return View(pictures);
         }
-
-        // GET: Pictures/Details/5
-        //public async Task<IActionResult> Details(short? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var picture = await _context.Pictures
-        //        .Include(p => p.IdNavigation)
-        //        .FirstOrDefaultAsync(m => m.PictureId == id);
-        //    if (picture == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(picture);
-        //}
 
         // GET: Pictures/Create
         public IActionResult Create()
@@ -171,9 +158,5 @@ namespace mvc.Controllers
 
         }
 
-        //private bool PictureExists(short id)
-        //{
-        //    return _context.Pictures.Any(e => e.PictureId == id);
-        //}
     }
 }

@@ -192,12 +192,15 @@ namespace Api.Controllers
          *      Permet de récupérer les roles de l'utilisateur
          */
         [HttpGet("GetRole/{userId}")]
-        public async Task<ActionResult<IEnumerable<string>>> GetRole(string userId = "")
+        public async Task<IEnumerable<string>> GetRole(string userId = "")
         {
-            return await _context.AspNetUserRoles
-                            .Where(a => a.UserId == userId)
-                            .Select(a => a.RoleId)
-                            .ToListAsync();
+
+            IEnumerable<string> userroles = from ur in await _context.AspNetUserRoles.ToListAsync()
+                                            where ur.UserId == userId
+                                            join r in await _context.AspNetRoles.ToListAsync() on ur.RoleId equals r.Id
+                                            select r.Name;
+
+            return  userroles;
         }
     }
 }

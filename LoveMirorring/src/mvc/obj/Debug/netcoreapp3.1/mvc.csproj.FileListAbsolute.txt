@@ -987,3 +987,6 @@ C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\R
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Spotify\Spotify.cshtml.g.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Stripe\Details.cshtml.g.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\UserSubscriptions\Index.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Pictures\Create.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Pictures\Delete.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Pictures\Index.cshtml.g.cs

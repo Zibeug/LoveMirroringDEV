@@ -1,4 +1,11 @@
-﻿using Api.Models;
+﻿/*
+ *      Auteur : Hans Morsch
+ *      11.05.2020
+ *      Model pour l'Api
+ *      Permet de récuper un utilisisateur et ses rôles
+ */
+
+using Api.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

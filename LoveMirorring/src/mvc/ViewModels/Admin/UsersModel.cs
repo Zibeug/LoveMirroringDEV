@@ -1,4 +1,11 @@
-﻿using mvc.Models;
+﻿/*
+ *      Auteur : Hans Morsch
+ *      11.05.2020
+ *      Model pour le MVC
+ *      Permet de récuper un utilisisateur et ses rôles
+ */
+
+using mvc.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

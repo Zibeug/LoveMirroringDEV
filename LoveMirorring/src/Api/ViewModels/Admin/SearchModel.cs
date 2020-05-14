@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ *      Auteur : Hans Morsch
+ *      11.05.2020
+ *      Model pour l'Api
+ *      Permet de récupérer des informations d'un utilisateur
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

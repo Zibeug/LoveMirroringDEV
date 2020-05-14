@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Api.Models;
 using Api.Services;
@@ -73,9 +74,9 @@ namespace Api
             services.AddSingleton<Microsoft.AspNetCore.Authentication.IClaimsTransformation, KarekeClaimsTransformer>();
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
-                options.AddPolicy("User", policy => policy.RequireClaim("Role", "User"));
-                options.AddPolicy("Moderator", policy => policy.RequireClaim("Role", "Moderator"));
+                options.AddPolicy("Administrateur", policy => policy.RequireClaim(ClaimTypes.Role, "Administrateur"));
+                options.AddPolicy("Utilisateur", policy => policy.RequireClaim(ClaimTypes.Role, "Utilisateur"));
+                options.AddPolicy("Moderateur", policy => policy.RequireClaim(ClaimTypes.Role, "Moderateur"));
             });
         }
 

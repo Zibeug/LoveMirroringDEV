@@ -192,6 +192,11 @@ namespace IdentityServerAspNetIdentity.Controllers
                             }
                             else
                             {
+                                AspNetUserRole userRole = new AspNetUserRole();
+                                userRole.UserId = checkUser.Id;
+                                userRole.RoleId = "Utilisateur";
+
+                                _context.AspNetUserRoles.Add(userRole);
                                 string ip = _accessor.ActionContext.HttpContext.Connection.RemoteIpAddress.ToString();
                                 _logger.LogInformation("User created a new account with password with ip: " + ip);
 

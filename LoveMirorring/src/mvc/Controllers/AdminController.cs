@@ -25,7 +25,7 @@ using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "Administrateur")]
     public class AdminController : Controller
     {
         private IConfiguration _configuration { get; }

@@ -60,9 +60,9 @@ namespace mvc
             services.AddSingleton<Microsoft.AspNetCore.Authentication.IClaimsTransformation, KarekeClaimsTransformer>();
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Admin", policy => policy.RequireClaim("Role", "Admin"));
-                options.AddPolicy("User", policy => policy.RequireClaim("Role", "User"));
-                options.AddPolicy("Moderator", policy => policy.RequireClaim("Role", "Moderator"));
+                options.AddPolicy("Administrateur", policy => policy.RequireClaim("Role", "Administrateur"));
+                options.AddPolicy("Utilisateur", policy => policy.RequireClaim("Role", "Utilisateur"));
+                options.AddPolicy("Moderateur", policy => policy.RequireClaim("Role", "Moderateur"));
             });
         }
 

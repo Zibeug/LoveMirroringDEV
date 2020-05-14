@@ -990,3 +990,4 @@ C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\R
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Pictures\Create.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Pictures\Delete.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Pictures\Index.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\IdentityModel.dll

@@ -8,31 +8,37 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Api.Models;
 using Api.ViewModels.Admin;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace Api.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "Administrateur")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
     {
         private readonly LoveMirroringContext _context;
         private readonly IEmailSender _emailSender;
+        private IConfiguration Configuration { get; set; }
 
-        public AdminController(LoveMirroringContext context, IEmailSender emailSender)
+        public AdminController(LoveMirroringContext context, IEmailSender emailSender, IConfiguration configuration)
         {
             _context = context;
             _emailSender = emailSender;
+            Configuration = configuration;
         }
 
         [Route("Welcome")]

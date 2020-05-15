@@ -1,0 +1,46 @@
+﻿@model IEnumerable<mvc.Models.Picture>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PictureView)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PictureConfirmed)
+            </th>
+            <th>
+                User
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <img class="img-fluid" src="@(ViewData["URLAPI"] + item.PictureView)" alt="Alternate Text" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PictureConfirmed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdNavigation.UserName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PictureId">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.PictureId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

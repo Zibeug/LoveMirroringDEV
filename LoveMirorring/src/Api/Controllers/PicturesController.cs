@@ -16,9 +16,11 @@ using Api.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Unosquare.Swan;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PicturesController : ControllerBase
@@ -146,7 +148,7 @@ namespace Api.Controllers
                 }
                 return Ok();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return BadRequest();
             }

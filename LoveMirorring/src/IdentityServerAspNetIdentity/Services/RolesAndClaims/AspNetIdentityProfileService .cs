@@ -43,9 +43,10 @@ namespace IdentityServerAspNetIdentity.Services.RolesAndClaims
 
             var siteIdClaim = claims.SingleOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress");
             context.IssuedClaims.Add(new Claim(JwtClaimTypes.Email, user.Email));
+            //context.IssuedClaims.Add(new Claim("siteid", siteIdClaim.Value));
             context.IssuedClaims.Add(new Claim(JwtClaimTypes.Role, "User"));
 
-            var roleClaims = claims.Where(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role");
+            var roleClaims = claims.Where(x => x.Type == "role");
             foreach (var roleClaim in roleClaims)
             {
                 context.IssuedClaims.Add(new Claim(JwtClaimTypes.Role, roleClaim.Value));

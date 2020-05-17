@@ -119,6 +119,7 @@ namespace IdentityServer4.Quickstart.UI
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, lockoutOnFailure: true);
                 
+                
                 if (result.Succeeded)
                 {
                     string ip = _accessor.ActionContext.HttpContext.Connection.RemoteIpAddress.ToString();
@@ -178,6 +179,13 @@ namespace IdentityServer4.Quickstart.UI
                         // user might have clicked on a malicious link - should be logged
                         throw new Exception("invalid return URL");
                     }
+                }
+                
+                if (result.IsLockedOut)
+                {
+                    ApplicationUser user = await _userManager.FindByNameAsync(model.Username);
+                    ViewData["Lockout"] = await _userManager.GetLockoutEndDateAsync(user);
+                    return View("Banned");
                 }
 
                 await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId:context?.ClientId));

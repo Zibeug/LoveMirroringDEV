@@ -201,8 +201,8 @@ namespace mvc.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    StringContent httpContent = new StringContent(user.ToJson(), Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/Admin/Edit", httpContent);
+                    StringContent httpContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + "api/Admin/Edit", httpContent);
                     if (response.StatusCode != HttpStatusCode.NoContent)
                     {
                         return BadRequest();

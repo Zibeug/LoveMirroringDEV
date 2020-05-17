@@ -1098,3 +1098,4 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\PhoneNumbers.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.csprojAssemblyReference.cache
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.csprojAssemblyReference.cache
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Account\Banned.cshtml.g.cs

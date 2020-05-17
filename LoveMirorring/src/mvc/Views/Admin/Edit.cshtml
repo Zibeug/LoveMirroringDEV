@@ -40,7 +40,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="LockoutEnd" class="control-label"></label>
-                <input asp-for="LockoutEnd" class="form-control" />
+                @if (Model.LockoutEnd != null)
+                {
+                    <input type="text" asp-for="LockoutEnd" value="@Model.LockoutEnd.Value.ToString("yyyy-MM-dd")" class="form-control datetimepicker" />
+                }
+                else
+                {
+                    <input type="text" asp-for="LockoutEnd" class="form-control datetimepicker" />
+                }
                 <span asp-validation-for="LockoutEnd" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -99,3 +106,13 @@
     <a asp-action="Details">Back to List</a>
 </div>
 
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $('.datetimepicker').datetimepicker({
+                locale: 'fr',
+                format: 'yyyy-MM-DD'
+            });
+        });
+    </script>
+}

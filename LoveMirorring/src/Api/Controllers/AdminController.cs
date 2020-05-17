@@ -25,7 +25,7 @@ using Newtonsoft.Json;
 
 namespace Api.Controllers
 {
-    [Authorize(Policy = "Administrateur")]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -75,7 +75,7 @@ namespace Api.Controllers
                 string UserName = username.ToUpper();
 
                 string id = (from u in await _context.AspNetUsers.ToListAsync()
-                             where u.NormalizedUserName.Equals(UserName)
+                             where u.NormalizedUserName.Contains(UserName)
                              select u.Id).FirstOrDefault();
 
                 if (id == null) 
@@ -167,7 +167,7 @@ namespace Api.Controllers
         }
 
         [Route("Edit")]
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<IActionResult> Edit(AspNetUser user)
         {
             try

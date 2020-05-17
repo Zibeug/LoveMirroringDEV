@@ -39,8 +39,8 @@ namespace mvc.Controllers
         {
             try
             {
+                // Préparation de l'appel à l'API
                 string accessToken = await HttpContext.GetTokenAsync("access_token");
-
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 

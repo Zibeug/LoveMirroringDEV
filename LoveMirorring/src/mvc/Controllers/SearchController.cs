@@ -30,8 +30,55 @@ namespace mvc.Controllers
             Configuration = configuration;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
+            /*
+                 * Auteur : Tim Allemann 
+                 * Date : 15.05.2020
+                 * Description : vérifie si l'utilisateur a un abonnement ou pas
+                 * 
+                 */
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/account/getUserInfo");
+            AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(content);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/userSubscription");
+            List<UserSubscription> userSubscriptions = JsonConvert.DeserializeObject<List<UserSubscription>>(content);
+            userSubscriptions = userSubscriptions.Where(u => u.UserId == user.Id).ToList();
+
+            if (userSubscriptions.Count() == 0)
+            {
+                ViewData["HasSubscription"] = false;
+            }
+            else
+            {
+                ViewData["HasSubscription"] = true;
+                DateTime firstSubscriptionDate = userSubscriptions.Last().UserSubscriptionsDate;
+
+                if (userSubscriptions.Last().Subscriptions.SubscriptionName == "1 Mois")
+                {
+                    firstSubscriptionDate = firstSubscriptionDate.AddMonths(1);
+                }
+                else if (userSubscriptions.Last().Subscriptions.SubscriptionName == "1 Année")
+                {
+                    firstSubscriptionDate = firstSubscriptionDate.AddYears(1);
+                }
+
+                if (firstSubscriptionDate < DateTime.Now)
+                {
+                    ViewData["HasSubscription"] = false;
+                }
+            }
+
             return View("Search");
         }
 
@@ -48,6 +95,49 @@ namespace mvc.Controllers
                 string search = await client.GetStringAsync(Configuration["URLAPI"] + "api/Search/search");
                 IEnumerable<MatchingModel> searchResult = JsonConvert.DeserializeObject<IEnumerable<MatchingModel>>(search);
                 ViewData["Search"] = searchResult;
+
+                /*
+                 * Auteur : Tim Allemann 
+                 * Date : 15.05.2020
+                 * Description : vérifie si l'utilisateur a un abonnement ou pas
+                 * 
+                 */
+                string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/account/getUserInfo");
+                AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(content);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/userSubscription");
+                List<UserSubscription> userSubscriptions = JsonConvert.DeserializeObject<List<UserSubscription>>(content);
+                userSubscriptions = userSubscriptions.Where(u => u.UserId == user.Id).ToList();
+
+                if (userSubscriptions.Count() == 0)
+                {
+                    ViewData["HasSubscription"] = false;
+                }
+                else
+                {
+                    ViewData["HasSubscription"] = true;
+                    DateTime firstSubscriptionDate = userSubscriptions.Last().UserSubscriptionsDate;
+
+                    if (userSubscriptions.Last().Subscriptions.SubscriptionName == "1 Mois")
+                    {
+                        firstSubscriptionDate = firstSubscriptionDate.AddMonths(1);
+                    }
+                    else if (userSubscriptions.Last().Subscriptions.SubscriptionName == "1 Année")
+                    {
+                        firstSubscriptionDate = firstSubscriptionDate.AddYears(1);
+                    }
+
+                    if (firstSubscriptionDate < DateTime.Now)
+                    {
+                        ViewData["HasSubscription"] = false;
+                    }
+                }
+
                 return View("Search");
             }
             catch (Exception)

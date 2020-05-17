@@ -58,15 +58,6 @@ namespace IdentityServerAspNetIdentity
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            /*
-             *      Auteur : Tim Allemann
-             *      2020.05.08
-             *      Rajoute les claims identity server 4 au claims d'identity
-             *      Permet d'utiliser des policy pour gérer les accès des controlleurs
-             */
-            services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
-            services.AddTransient<IProfileService, AspNetIdentityProfileService>();
-
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -145,6 +136,15 @@ namespace IdentityServerAspNetIdentity
 
             // Sert à récupéter l'adresse IP du user
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
+            /*
+             *      Auteur : Tim Allemann
+             *      2020.05.08
+             *      Rajoute les claims identity server 4 au claims d'identity
+             *      Permet d'utiliser des policy pour gérer les accès des controlleurs
+             */
+            services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
+            services.AddTransient<IProfileService, AspNetIdentityProfileService>();
         }
 
         public void Configure(IApplicationBuilder app)

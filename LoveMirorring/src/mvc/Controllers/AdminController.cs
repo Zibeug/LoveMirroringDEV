@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -108,7 +109,7 @@ namespace mvc.Controllers
 
                 return View();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return View("Home");
 
@@ -116,6 +117,65 @@ namespace mvc.Controllers
 
 
 
+        }
+
+        /*
+         * Auteur : Sébastien Berger 
+         * Date : 18.05.2020
+         * Description : récupérer les utilisateurs depuis l'API et les afficher dans la vue.
+         */
+        public async Task<IActionResult> GetAllUsers()
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Admin/GetAllUsers");
+            List<AspNetUser> users = JsonConvert.DeserializeObject<List<AspNetUser>>(content);
+
+            ViewData["users"] = users;
+            return View("Users");
+        }
+
+        /*
+         * Auteur : Sébastien Berger
+         * Date : 18.05.2020
+         * Description : récupérer les utilisateur qui ont été banni depuis l'API et les afficher dans la vue.
+         */
+        public async Task<IActionResult> GetAllBan()
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Admin/GetAllBan");
+            List<AspNetUser> users = JsonConvert.DeserializeObject<List<AspNetUser>>(content);
+
+            ViewData["users"] = users;
+            return View("BannedUsers");
+        }
+
+        /*
+         * 
+         * 
+         * 
+         */
+        public async Task<IActionResult> UnBan(string username)
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            StringContent httpContent = new StringContent(JsonConvert.SerializeObject(username), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + "api/Admin/UnBan/", httpContent);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return View("Index");
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         public async Task<IActionResult> Details(string id)

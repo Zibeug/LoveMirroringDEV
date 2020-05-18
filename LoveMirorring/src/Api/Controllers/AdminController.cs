@@ -48,9 +48,39 @@ namespace Api.Controllers
             try
             {
                 int accounts = await _context.AspNetUsers.CountAsync();
+                List<UserSubscription> userSubscriptionsMonthly = await _context.UserSubscriptions.Where(d => d.UserSubscriptionsId == 1).ToListAsync();
+                List<UserSubscription> userSubscriptionsAnnualy = await _context.UserSubscriptions.Where(d => d.UserSubscriptionsId == 2).ToListAsync();
+
+                int nbConnexion = _context.UserTraces.Count();
+
+                AspNetUser user = null;
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
+                user = JsonConvert.DeserializeObject<AspNetUser>(content);
+
+                decimal earningMonthly = 0;
+                decimal earningAnnualy = 0;
+
+                foreach(UserSubscription u in userSubscriptionsMonthly)
+                {
+                    earningMonthly += u.UserSubscriptionsAmount;
+                }
+
+                foreach(UserSubscription u in userSubscriptionsAnnualy)
+                {
+                    earningAnnualy = u.UserSubscriptionsAmount;
+                }
+
                 IndexModel overView = new IndexModel
                 {
-                    nbUsers = accounts
+                    nbUsers = accounts,
+                    earningsMonthly = earningMonthly,
+                    earningsAnnualy = earningAnnualy,
+                    nbConnexion = nbConnexion
                 };
 
                 return new JsonResult(overView);
@@ -92,6 +122,87 @@ namespace Api.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, ex);
+            }
+        }
+
+        /*
+         * Auteur : Sébastien Berger 
+         * Date : 18.05.2020
+         * Description : permet de récupérer l'ensembles des utilisateurs pour les afficher dans l'interface administrateur
+         */
+        [Route("GetAllUsers")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            try
+            {
+                List<AspNetUser> users = await _context.AspNetUsers.ToListAsync();
+
+                if (users == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return new JsonResult(users);
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            
+        }
+
+        /*
+         * Auteur : Sébastien Berger 
+         * Date : 18.05.2020
+         * Description : permet de récupérer la liste des utilisateurs qui ont été bannis et les afficher dans l'interface administrateur
+         */
+        [Route("GetAllBan")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllBan()
+        {
+            try
+            {
+                List<AspNetUser> users = await _context.AspNetUsers.Where(d => d.LockoutEnd != null).ToListAsync();
+
+                return new JsonResult(users);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [Route("UnBan")]
+        [HttpPut]
+        public async Task<IActionResult> UnBan([FromBody]string username)
+        {
+            try
+            {
+                if (username == null)
+                {
+                    return NotFound();
+                }
+
+                AspNetUser user = _context.AspNetUsers.Where(d => d.UserName.Equals(username)).Single();
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                user.LockoutEnd = null;
+
+                _context.Entry(user).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
             }
         }
 

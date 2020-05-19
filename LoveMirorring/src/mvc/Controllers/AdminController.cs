@@ -387,5 +387,47 @@ namespace mvc.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> GiveNewPassword(AspNetUser user)
+        {
+
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            StringContent httpContent = new StringContent(user.ToJson(), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/Admin/GiveNewPassword/{user.Id}", httpContent);
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction("Search");
+
+        }
+
+        public async Task<IActionResult> GiveNewPassword(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Admin/Details/{id}");
+            AspNetUser aspNetUser = JsonConvert.DeserializeObject<AspNetUser>(content);
+
+            if (aspNetUser == null)
+            {
+                return NotFound();
+            }
+
+            return View(aspNetUser);
+        }
     }
 }

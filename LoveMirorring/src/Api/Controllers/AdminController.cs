@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Api.Models;
 using Api.ViewModels.Admin;
@@ -431,6 +432,69 @@ namespace Api.Controllers
                 await _context.SaveChangesAsync();
             }
             return NoContent();
+        }
+
+        private string GeneratePassword()
+        {
+            int length = 10;
+
+            bool nonAlphanumeric = true;
+            bool digit = true;
+            bool lowercase = true;
+            bool uppercase = true;
+
+            StringBuilder password = new StringBuilder();
+            Random random = new Random();
+
+            while (password.Length < length)
+            {
+                char c = (char)random.Next(32, 126);
+
+                password.Append(c);
+
+                if (char.IsDigit(c))
+                    digit = false;
+                else if (char.IsLower(c))
+                    lowercase = false;
+                else if (char.IsUpper(c))
+                    uppercase = false;
+                else if (!char.IsLetterOrDigit(c))
+                    nonAlphanumeric = false;
+            }
+
+            if (nonAlphanumeric)
+                password.Append((char)random.Next(33, 48));
+            if (digit)
+                password.Append((char)random.Next(48, 58));
+            if (lowercase)
+                password.Append((char)random.Next(97, 123));
+            if (uppercase)
+                password.Append((char)random.Next(65, 91));
+
+            return password.ToString();
+        }
+
+        [Route("GiveNewPassword/{id}")]
+        [HttpPut]
+        public async Task<IActionResult> GiveNewPassword(string id)
+        {
+            if (id != null)
+            {
+                string newpassword = GeneratePassword();
+                var hashed = new PasswordHasher<AspNetUser>();
+                AspNetUser user = await _context.AspNetUsers.Where(u => u.Id == id).FirstOrDefaultAsync();
+                user.PasswordHash = hashed.HashPassword(user, newpassword);
+                _context.Entry(user).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+
+                await _emailSender.SendEmailAsync(
+                    user.Email,
+                    "Your password has been changed from the Administrator.",
+                    $"Your new password is -->{newpassword}<--." + "</br> Have a nice day !");
+
+                return Ok();
+            }
+            return null;
         }
 
     }

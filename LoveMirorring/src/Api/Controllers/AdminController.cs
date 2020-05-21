@@ -175,6 +175,11 @@ namespace Api.Controllers
             }
         }
 
+        /*
+         * Auteur : Sébastien Berger 
+         * Date : 18.05.2020
+         * Description : permet de mettre à jour un utilisateur s'il est de nouveau autorisé à utiliser l'application
+         */
         [Route("UnBan")]
         [HttpPut]
         public async Task<IActionResult> UnBan([FromBody]string username)
@@ -198,11 +203,80 @@ namespace Api.Controllers
                 _context.Entry(user).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception)
             {
                 return BadRequest();
+            }
+        }
+
+        /*
+         * Auteur : Sébastien Berger 
+         * Date : 18.05.2020
+         * Description : Permet de récupérer les utilisateurs qui ont répondu au Quizz
+         */
+        [Route("GetAllQuiz")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllQuiz()
+        {
+            try
+            {
+                List<AspNetUser> users = await _context.AspNetUsers.Where(d => d.QuizCompleted == true).ToListAsync();
+
+                return new JsonResult(users);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
+        /*
+         * Auteur : Sébastien Berger 
+         * Date : 18.05.2020
+         * Description : Permet de supprimer la relations qui lie un profil à un utilisateur et remet la valeur du Quiz à zéro pour l'utilisateur.
+         */
+        [Route("ResetQuiz/{id}")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> ResetQuiz(string id)
+        {
+            try
+            {
+                AspNetUser user = _context.AspNetUsers.Single(d => d.UserName == id);
+
+                if(user == null)
+                {
+                    return NotFound();
+                }
+
+                UserProfil userProfil = _context.UserProfils.Where(d => d.Id == user.Id).SingleOrDefault();
+                user.QuizCompleted = false;
+
+                _context.UserProfils.Remove(userProfil);
+                _context.AspNetUsers.Update(user);
+                await _context.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch(Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [Route("UserToValidate")]
+        [HttpGet]
+        public async Task<IActionResult> UserToValidate()
+        {
+            try
+            {
+                List<AspNetUser> users = await _context.AspNetUsers.Where(d => d.EmailConfirmed == false || d.PhoneNumberConfirmed == false).ToListAsync();
+                return new JsonResult(users);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
             }
         }
 

@@ -20,7 +20,6 @@ namespace mvc.Models
         [Required]
         [StringLength(450)]
         public string PictureView { get; set; }
-
         public bool PictureConfirmed { get; set; }
 
         [ForeignKey(nameof(Id))]

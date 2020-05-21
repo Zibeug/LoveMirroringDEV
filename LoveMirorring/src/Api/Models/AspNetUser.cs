@@ -60,6 +60,7 @@ namespace Api.Models
         public string Firstname { get; set; }
         public string LastName { get; set; }
         public bool QuizCompleted { get; set; }
+        public bool AccountCompleted { get; set; }
 
         [ForeignKey(nameof(CorpulenceId))]
         [InverseProperty("AspNetUsers")]

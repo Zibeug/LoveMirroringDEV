@@ -119,7 +119,7 @@ namespace Api.Controllers
 
                 return NoContent();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return BadRequest();
             }

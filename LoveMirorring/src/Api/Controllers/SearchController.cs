@@ -92,7 +92,7 @@ namespace Api.Controllers
                 }
 
                 var allUsersId = from u in await _context.AspNetUsers.ToListAsync() where u.Id != user.Id select u.Id;
-                var allUsersLikeId = from us in await _context.UserLikes.ToListAsync() select us.Id1;
+                var allUsersLikeId = from us in await _context.UserLikes.Where(x => x.Id == user.Id).ToListAsync() select us.Id1;
                 var allUsersNotLike = allUsersId.Except(allUsersLikeId);
 
                 var userProfils = _context.UserProfils.Where(d => d.ProfilId == userProf.ProfilId).Select(d => d.Id).ToList();

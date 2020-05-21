@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -14,7 +16,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using PhoneNumbers;
+using IdentityServerAspNetIdentity.ViewModels;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace IdentityServer4.Quickstart.UI
 {
@@ -28,6 +37,10 @@ namespace IdentityServer4.Quickstart.UI
         private readonly IClientStore _clientStore;
         private readonly IEventService _events;
         private readonly ILogger<ExternalController> _logger;
+        private readonly LoveMirroringContext _context;
+        private IConfiguration Configuration { get; set; }
+        private readonly IActionContextAccessor _accessor;
+        private static PhoneNumberUtil _phoneUtil;
 
         public ExternalController(
             UserManager<ApplicationUser> userManager,
@@ -35,7 +48,10 @@ namespace IdentityServer4.Quickstart.UI
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IEventService events,
-            ILogger<ExternalController> logger)
+            ILogger<ExternalController> logger,
+            LoveMirroringContext context,
+            IConfiguration configuration,
+            IActionContextAccessor accessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -43,6 +59,9 @@ namespace IdentityServer4.Quickstart.UI
             _clientStore = clientStore;
             _events = events;
             _logger = logger;
+            _context = context;
+            Configuration = configuration;
+            _accessor = accessor;
         }
 
         /// <summary>
@@ -82,10 +101,10 @@ namespace IdentityServer4.Quickstart.UI
             }
         }
 
+        
         /// <summary>
         /// Post processing of external authentication
         /// </summary>
-        [HttpGet]
         public async Task<IActionResult> Callback()
         {
             // read external identity from the temporary cookie
@@ -262,7 +281,8 @@ namespace IdentityServer4.Quickstart.UI
                     filtered.Add(new Claim(JwtClaimTypes.Name, last));
                 }
             }
-
+            
+            HttpClient client = new HttpClient();
             // email
             var email = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Email)?.Value ??
                claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
@@ -271,17 +291,58 @@ namespace IdentityServer4.Quickstart.UI
                 filtered.Add(new Claim(JwtClaimTypes.Email, email));
             }
 
+            short sexeId = 0;
+
+            if(claims.FirstOrDefault(x => x.Type.Contains("gender")).Value.Contains("male"))
+            {
+                sexeId = 1;
+            }
+            else
+            {
+                sexeId = 2;
+            }
+
             var user = new ApplicationUser
             {
                 UserName = Guid.NewGuid().ToString(),
+                Sexeid = sexeId,
+                Birthday = DateTime.Parse(claims.FirstOrDefault(x => x.Type.Contains("dateofbirth")).Value),
+                Email = claims.FirstOrDefault(x => x.Type.Contains("email")).Value,
+                HairColorId = 1,
+                CorpulenceId = 1,
+                HairSizeId = 1,
+                SexualityId = 1,
+                ReligionId = 1,
+                EmailConfirmed = true,
+                LastName = claims.FirstOrDefault(x => x.Type.Contains("surname")).Value,
+                Firstname = claims.FirstOrDefault(x => x.Type.Contains("givenname")).Value,
+                AccountCompleted = false,
             };
+            
             var identityResult = await _userManager.CreateAsync(user);
             if (!identityResult.Succeeded) throw new Exception(identityResult.Errors.First().Description);
 
+            UserStyle userStyle = new UserStyle();
+            userStyle.Id = user.Id;
+            userStyle.StyleId = 1;
+
+            AspNetUserRole aspNetUserRole = new AspNetUserRole();
+            aspNetUserRole.UserId = user.Id;
+            aspNetUserRole.RoleId = "Utilisateur";
+
+            _context.AspNetUserRoles.Add(aspNetUserRole);
+            _context.UserStyles.Add(userStyle);
+            _context.SaveChanges();
+
+            
             if (filtered.Any())
             {
                 identityResult = await _userManager.AddClaimsAsync(user, filtered);
-                if (!identityResult.Succeeded) throw new Exception(identityResult.Errors.First().Description);
+                if (!identityResult.Succeeded)
+                {
+                    throw new Exception(identityResult.Errors.First().Description);
+                }
+                    
             }
 
             identityResult = await _userManager.AddLoginAsync(user, new UserLoginInfo(provider, providerUserId, provider));
@@ -308,6 +369,8 @@ namespace IdentityServer4.Quickstart.UI
                 localSignInProps.StoreTokens(new[] { new AuthenticationToken { Name = "id_token", Value = id_token } });
             }
         }
+
+        
 
         //private void ProcessLoginCallbackForWsFed(AuthenticateResult externalResult, List<Claim> localClaims, AuthenticationProperties localSignInProps)
         //{

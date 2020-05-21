@@ -1,0 +1,91 @@
+﻿@model IdentityServerAspNetIdentity.ViewModels.RegisterExternalInput
+@using IdentityServerAspNetIdentity.Models
+<div class="signup-page">
+    <div class="page-header">
+        <h1>Sign Up</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">External Sign Up</h3>
+                </div>
+
+                <div class="panel-body">
+                    @if (ViewData["error"] != null)
+                    {
+                        <div class="alert-danger">
+                            <p>@ViewData["error"].ToString()</p>
+                        </div>
+                    }
+                    <form asp-route="PostProfil">
+                        <fieldset>
+                           <div class="panel-title">
+                                <h4>Informations complémentaires</h4>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="CorpulenceId">Corpulences</label><br />
+                                @foreach (Corpulence corpulence in ViewData["corpulences"] as List<Corpulence>)
+                                {
+                                    <input class="radio-inline" type="radio" class="form-control" asp-for="CorpulenceId" value="@corpulence.CorpulenceId">
+                                    <label asp-for="CorpulenceId">@corpulence.CorpulenceName</label>
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="SexualityId">Orientation sexuelle</label><br />
+                                @foreach (Sexuality sexuality in ViewData["sexualities"] as List<Sexuality>)
+                                {
+                                    <input class="radio-inline" type="radio" class="form-control" asp-for="SexualityId" value="@sexuality.SexualityId">
+                                    <label asp-for="SexualityId">@sexuality.SexualityName</label>
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="HairColorId">Couleur de cheveux</label><br />
+                                @foreach (HairColor hairColor in ViewData["hairColors"] as List<HairColor>)
+                                {
+                                    <input class="radio-inline" type="radio" class="form-control" asp-for="HairColorId" value="@hairColor.HairColorId">
+                                    <label asp-for="HairColorId">@hairColor.HairColorName</label>
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="HairSizeId">Taille des cheveaux</label><br />
+                                @foreach (HairSize hairSize in ViewData["hairSizes"] as List<HairSize>)
+                                {
+                                    <input class="radio-inline" type="radio" class="form-control" asp-for="HairSizeId" value="@hairSize.HairSizeId">
+                                    <label asp-for="HairSizeId">@hairSize.HairSizeName</label>
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="StyleId">Style vestimentaire</label><br />
+                                @foreach (Style style in ViewData["styles"] as List<Style>)
+                                {
+                                    <input class="radio-inline" type="radio" class="form-control" asp-for="StyleId" value="@style.StyleId">
+                                    <label asp-for="StyleId">@style.StyleName</label>
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ReligionId">Religion</label><br />
+                                @foreach (Religion religion in ViewData["religions"] as List<Religion>)
+                                {
+                                    <input class="radio-inline" type="radio" class="form-control" asp-for="ReligionId" value="@religion.ReligionId">
+                                    <label asp-for="ReligionId">@religion.ReligionName</label>
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-primary" name="button" value="signup">Compléter mon profil</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

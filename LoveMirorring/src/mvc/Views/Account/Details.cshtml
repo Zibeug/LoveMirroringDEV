@@ -4,6 +4,14 @@
     ViewData["Title"] = "Details";
 }
 
+@if(ViewData["Account"] != null && ViewData["Account"].Equals("NOK"))
+{
+    <div class="alert-warning">
+        <p> Veuillez modifier votre profil pour qu'il vous corresponde</p>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    </div>
+}
+
 <h1>Details</h1>
 
 <div>

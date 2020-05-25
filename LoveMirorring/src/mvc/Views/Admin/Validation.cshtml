@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "Validation";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Reset Quiz</h1>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        UserName
+                    </th>
+                    <th>
+                        Email Confirmed
+                    </th>
+                    <th>
+                        Phone Number Confirmed
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (AspNetUser user in ViewData["users"] as List<AspNetUser>)
+                {
+                    <tr>
+                        <td>
+                            @user.UserName
+                        </td>
+                        <td>
+                            @user.EmailConfirmed
+                        </td>
+                        <td>
+                            @user.PhoneNumberConfirmed
+                        </td>
+                        <td>
+                            <a asp-action="ValidationAccount" asp-route-id="@user.UserName">Autoriser le compte à se connecter</a> |
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

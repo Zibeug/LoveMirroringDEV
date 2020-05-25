@@ -113,9 +113,6 @@ namespace mvc.Controllers
                 return View("Home");
 
             }
-
-
-
         }
 
         /*
@@ -155,26 +152,91 @@ namespace mvc.Controllers
         }
 
         /*
-         * 
-         * 
-         * 
+         * Auteur : Sébastien Berger
+         * Date: 18.05.2020
+         * Description : Enlever le ban d'un utilisateur directement depuis l'interface administrateur
          */
-        public async Task<IActionResult> UnBan(string username)
+        public async Task<IActionResult> UnBan(string id)
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            StringContent httpContent = new StringContent(JsonConvert.SerializeObject(username), Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + "api/Admin/UnBan/", httpContent);
+            StringContent httpContent = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + "api/Admin/UnBan", httpContent);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
+                await Index();
                 return View("Index");
             }
             else
             {
                 return BadRequest();
             }
+        }
+
+        /*
+         * Auteur : Sébastien Berger
+         * Date : 18.05.2020
+         * Description : permet de récuperer les utilisateurs qui ont répondu au Quiz pour pouvoir le reset
+         */
+        public async Task<IActionResult> ViewQuiz()
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Admin/GetAllQuiz");
+            List<AspNetUser> users = JsonConvert.DeserializeObject<List<AspNetUser>>(content);
+
+            ViewData["users"] = users;
+            return View("Quiz");
+        }
+
+        /*
+         * Auteur : Sébastien Berger
+         * Date : 18.05.2020
+         * Description : permet de Reset le Quiz d'un utilisateur en cas de problème ou si l'utilisateur souhaite changer son profil.
+         */
+        public async Task<IActionResult> ResetQuiz(string id)
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            HttpResponseMessage response = await client.DeleteAsync(_configuration["URLAPI"] + "api/Admin/ResetQuiz/" + id);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                await Index();
+                return View("Index");
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        /*
+         * Auteur : Sébastien Berger 
+         * Date : 18.05.2020
+         * Description : permet d'afficher les comptes qui n'ont pas été encore complétement validé
+         */
+        public async Task<IActionResult> Validation()
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Admin/UserToValidate");
+            List<AspNetUser> users = JsonConvert.DeserializeObject<List<AspNetUser>>(content);
+
+            ViewData["users"] = users;
+            return View("Validation");
+        }
+
+        public async Task<IActionResult> ValidationAccount(string id)
+        {
+            return null;
         }
 
         public async Task<IActionResult> Details(string id)
@@ -385,6 +447,48 @@ namespace mvc.Controllers
             }
 
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> GiveNewPassword(AspNetUser user)
+        {
+
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            StringContent httpContent = new StringContent(user.ToJson(), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/Admin/GiveNewPassword/{user.Id}", httpContent);
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction("Search");
+
+        }
+
+        public async Task<IActionResult> GiveNewPassword(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Admin/Details/{id}");
+            AspNetUser aspNetUser = JsonConvert.DeserializeObject<AspNetUser>(content);
+
+            if (aspNetUser == null)
+            {
+                return NotFound();
+            }
+
+            return View(aspNetUser);
         }
     }
 }

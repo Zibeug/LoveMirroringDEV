@@ -8,6 +8,7 @@ using IdentityServerAspNetIdentity.Data;
 using IdentityServerAspNetIdentity.Models;
 using IdentityServerAspNetIdentity.Services;
 using IdentityServerAspNetIdentity.Services.RolesAndClaims;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -18,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using Twilio;
 
@@ -61,7 +63,7 @@ namespace IdentityServerAspNetIdentity
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-            
+
             var builder = services.AddIdentityServer(options =>
                 {
                     options.Events.RaiseErrorEvents = true;
@@ -112,14 +114,30 @@ namespace IdentityServerAspNetIdentity
             }
 
             services.AddAuthentication()
-                .AddGoogle(options =>
+                /*
+                 * Auteur : Sébastien Berger 
+                 * Date : 18.05.2020
+                 * Description : Ajouter l'authentification externe via facebook
+                 */
+                .AddFacebook(facebookOptions =>
                 {
-                    // register your IdentityServer with Google at https://console.developers.google.com
-                    // enable the Google+ API
-                    // set the redirect URI to http://localhost:5000/signin-google
-                    options.ClientId = "copy client ID from Google here";
-                    options.ClientSecret = "AIzaSyD-YSbwpf8n11acjTZL8RknbBACSLfgIIw";
+                    facebookOptions.AppId = Configuration["Facebook:AppID"];
+                    facebookOptions.AppSecret = Configuration["Facebook:AppSecret"];
+                    facebookOptions.SaveTokens = true;
+                    facebookOptions.Scope.Add("user_birthday");
+                    facebookOptions.Scope.Add("user_gender");
+                    facebookOptions.Fields.Add("birthday");
+                    facebookOptions.Fields.Add("gender");
                 });
+                //.AddGoogle(options =>
+                //{
+                //    // register your IdentityServer with Google at https://console.developers.google.com
+                //    // enable the Google+ API
+                //    // set the redirect URI to http://localhost:5000/signin-google
+                //    options.ClientId = "copy client ID from Google here";
+                //    options.ClientSecret = "AIzaSyD-YSbwpf8n11acjTZL8RknbBACSLfgIIw";
+                //});
+                
 
             //SeedData.EnsureSeedData(Configuration.GetConnectionString("DefaultConnection"));
 

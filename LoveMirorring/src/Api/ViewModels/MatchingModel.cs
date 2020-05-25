@@ -24,5 +24,6 @@ namespace Api.Models
         public string Sexuality { get; set; }
         public string Corpulence { get; set; }
         public string Style { get; set; }
+        public double PourcentageMatching { get; set; }
     }
 }

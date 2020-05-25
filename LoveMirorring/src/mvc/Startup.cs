@@ -23,6 +23,7 @@ namespace mvc
             services.AddControllersWithViews();
 
             JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+            Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
 
             // Besoin de l'utilisation des cookies pour gérer les authentification avec le protocole OpenIdConnect
             services.AddAuthentication(options =>

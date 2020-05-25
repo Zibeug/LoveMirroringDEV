@@ -1,0 +1,83 @@
+﻿@using mvc.ViewModels.Chat
+@model CreateMessageViewModel
+@{
+    ViewData["Title"] = "Chat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chat</h1>
+
+<div class="container">
+    <form asp-controller="PrivateChat" asp-action="CreateMessage" method="post">
+        <div class="row">
+
+            <div class="col">
+
+                <div class="form-group row">
+                    <label for="message" class="col-sm-2 col-form-label">Message</label>
+                    <div class="col-sm-10">
+                        <textarea asp-for="NewMessage.MessageText"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input type="hidden" asp-for="NewMessage.TalkId" value="@Model.Talk.TalkId" />
+                        <input type="hidden" asp-for="NewMessage.Id" value="@Model.UserId" />
+                        <input type="hidden" asp-for="UserLikedId" value="@Model.UserLikedId" />
+                        <input type="submit" name="Envoyer" value="Envoyer">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col">
+            <h1>Votre conversation</h1>
+
+            <div class="form-group row">
+                @if (Model == null)
+                {
+                    <p>Aucun message à afficher</p>
+                }
+                else
+                {
+
+                    <table class="table">
+                        <thead class="">
+                            <tr>
+                                <th>Pseudo</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (GetMessagesViewModel data in Model.DisplayMessages)
+                            {
+                                <tr>
+                                    <td>
+                                        @data.Username
+                                    </td>
+                                    <td>
+                                        @data.Message
+                                    </td>
+                                    <td>
+                                        @data.Date
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

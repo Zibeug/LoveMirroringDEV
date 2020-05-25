@@ -196,7 +196,6 @@ namespace IdentityServer4.Quickstart.UI
             var vm = await BuildLoginViewModelAsync(model);
             return View(vm);
         }
-
         
         /// <summary>
         /// Show logout page

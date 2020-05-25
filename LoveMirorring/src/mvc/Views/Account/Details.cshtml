@@ -4,6 +4,14 @@
     ViewData["Title"] = "Details";
 }
 
+@if(ViewData["Account"] != null && ViewData["Account"].Equals("NOK"))
+{
+    <div class="alert-warning">
+        <p> Veuillez modifier votre profil pour qu'il vous corresponde</p>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    </div>
+}
+
 <h1>Details</h1>
 
 <div>
@@ -110,7 +118,7 @@
             @Html.DisplayNameFor(model => model.UserStyles)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserStyles.Single(d => d.Id == model.Id).Style.StyleName)
+            @Html.DisplayFor(model => model.UserStyles.First(d => d.Id == model.Id).Style.StyleName)
             <a asp-action="EditStyle" asp-route-id="@Model.Id">Edit Style</a>
         </dd>
     </dl>

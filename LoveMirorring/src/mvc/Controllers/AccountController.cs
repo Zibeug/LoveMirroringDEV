@@ -56,6 +56,11 @@ namespace mvc.Controllers
 
             ViewData["URLAPI"] = _configuration["URLAPI"];
 
+            if (!user.AccountCompleted)
+            {
+                ViewData["Account"] = "NOK";
+            }
+
             return View(user);
         }
 
@@ -165,6 +170,7 @@ namespace mvc.Controllers
             aspNetUserFromClaim.SexeId = aspNetUser.SexeId;
             aspNetUserFromClaim.SexualityId = aspNetUser.SexualityId;
             aspNetUserFromClaim.ReligionId = aspNetUser.ReligionId;
+            aspNetUserFromClaim.AccountCompleted = true;
 
             if (ModelState.IsValid)
             {

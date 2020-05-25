@@ -183,6 +183,7 @@ namespace IdentityServerAspNetIdentity.Controllers
                             user.HairSizeId = input.HairSizeId;
                             user.QuizCompleted = false;
                             user.ReligionId = input.ReligionId;
+                            user.AccountCompleted = true;
                             checkUser = user;
 
                             var result = userMgr.CreateAsync(checkUser, user.PasswordHash).Result;

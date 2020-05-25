@@ -78,6 +78,13 @@ namespace Api
                 options.AddPolicy("Utilisateur", policy => policy.RequireClaim(ClaimTypes.Role, "Utilisateur"));
                 options.AddPolicy("Moderateur", policy => policy.RequireClaim(ClaimTypes.Role, "Moderateur"));
             });
+
+            /*
+             *      Auteur : Tim Allemann
+             *      2020.05.18
+             *      Rajoute un service qui tourne touts les x secondes
+             */
+            services.AddHostedService<NewMatchHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -15,6 +15,7 @@ namespace Api.Models
     {
         public string Id { get; set; }
         public string UserName { get; set; }
+        public string Firstname { get; set; }
         public int Age { get; set; }
         public string Sexe { get; set; }
         public string Profil { get; set; }

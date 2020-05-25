@@ -18,6 +18,9 @@ namespace Api.Models
         [Required]
         [StringLength(32)]
         public string MusicName { get; set; }
+        [Required]
+        [StringLength(64)]
+        public string ArtistName { get; set; }
 
         [InverseProperty(nameof(PreferenceMusic.Music))]
         public virtual ICollection<PreferenceMusic> PreferenceMusics { get; set; }

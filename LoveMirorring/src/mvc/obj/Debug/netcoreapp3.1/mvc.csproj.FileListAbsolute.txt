@@ -997,9 +997,10 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\View
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\PicturesAdmin\Delete.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\PicturesAdmin\Edit.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\PicturesAdmin\Index.cshtml.g.cs
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csprojAssemblyReference.cache
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LayoutAdmin.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Users.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Admin\BannedUsers.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Quiz.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Validation.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Admin\GiveNewPassword.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csprojAssemblyReference.cache

@@ -220,6 +220,8 @@ namespace Api.Models
 
             modelBuilder.Entity<Music>(entity =>
             {
+                entity.Property(e => e.ArtistName).IsUnicode(false);
+
                 entity.Property(e => e.MusicName).IsUnicode(false);
             });
 

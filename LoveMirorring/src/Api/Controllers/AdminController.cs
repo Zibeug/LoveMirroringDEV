@@ -413,6 +413,12 @@ namespace Api.Controllers
                     return new JsonResult(null);
                 }
 
+                List<UserLike> userlikes = await _context.UserLikes.Where(ul => ul.Id == user.Id || ul.Id1 == user.Id).ToListAsync();
+                foreach (UserLike like in userlikes)
+                {
+                    _context.UserLikes.Remove(like);
+                }
+
                 _context.AspNetUsers.Remove(user);
                 await _context.SaveChangesAsync();
 

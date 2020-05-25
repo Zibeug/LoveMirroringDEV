@@ -59,10 +59,6 @@ namespace Api.Controllers
             {
                 return BadRequest();
             }
-            UserStyle us = _context.UserStyles
-                .Where(d => d.Id == id)
-                .Include(d => d.Style)
-                .SingleOrDefault();
 
             user = await _context.AspNetUsers
                             .Include(a => a.Corpulence)
@@ -72,14 +68,12 @@ namespace Api.Controllers
                             .Include(a => a.Sexuality)
                             .Include(a => a.Subscription)
                             .Include(a => a.UserStyles)
+                                .ThenInclude(a => a.Style)
                             .Include(a => a.UserSubscriptions)
                             .Include(a => a.UserTraces)
                             .Include(a => a.Religion)
-                            .Include(a => a.UserStyles)
                             .Include(a => a.Pictures)
                             .SingleOrDefaultAsync(a => a.Id == id);
-
-            user.UserStyles.Add(us);
 
             if (user == null)
             {

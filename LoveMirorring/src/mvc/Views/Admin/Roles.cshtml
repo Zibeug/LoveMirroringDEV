@@ -1,27 +1,40 @@
 ﻿@model mvc.ViewModels.Admin.RolesModel
 
 @{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     ViewData["Title"] = "Roles and Users Manager";
 }
 
-<h1>Roles and users manager</h1>
-<br />
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
-<p>
-    <div>
-        <h2>Existing role list</h2>
-        <ul class="list-group-item">
-            @foreach (var role in Model.Roles)
-            {
-                <li>
-                    @role
-                </li>
-            }
-        </ul>
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Roles and users manager</h1>
     </div>
-    <partial name="CreateRole" model="new mvc.Models.AspNetRole()">
-</p>
-<br />
-<p>
-    <partial name="AddUserToRole" model="new mvc.ViewModels.Admin.UpdateUserRoleModel() { Users = Model.Users, Roles = Model.Roles }">
-</p>
+
+    <!-- Content Row -->
+    <div class="row">
+        <p>
+            <div>
+                <h2>Existing role list</h2>
+                <ul class="list-group-item">
+                    @foreach (var role in Model.Roles)
+                    {
+                        <li>
+                            @role
+                        </li>
+                    }
+                </ul>
+            </div>
+            <br />
+            <partial name="CreateRole" model="new mvc.Models.AspNetRole()">
+        </p>
+        <br />
+        <p>
+            <partial name="AddUserToRole" model="new mvc.ViewModels.Admin.UpdateUserRoleModel() { Users = Model.Users, Roles = Model.Roles }">
+        </p>
+    </div>
+</div>
+
+        

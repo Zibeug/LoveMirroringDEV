@@ -86,10 +86,10 @@ namespace IdentityServerAspNetIdentity.Services.RolesAndClaims
         private async Task<IEnumerable<Claim>> GetClaimsFromUser(ApplicationUser user)
         {
             var claims = new List<Claim>
-        {
-            new Claim(JwtClaimTypes.Subject, user.Id),
-            new Claim(JwtClaimTypes.PreferredUserName, user.UserName)
-        };
+            {
+                new Claim(JwtClaimTypes.Subject, user.Id),
+                new Claim(JwtClaimTypes.PreferredUserName, user.UserName)
+            };
 
             if (_userManager.SupportsUserEmail)
             {

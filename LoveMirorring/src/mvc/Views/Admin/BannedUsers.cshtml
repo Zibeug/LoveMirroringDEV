@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "BannedUsers";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Banned Users</h1>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        UserName
+                    </th>
+                    <th>
+                        Date of Lockout
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (AspNetUser user in ViewData["users"] as List<AspNetUser>)
+                {
+                    <tr>
+                        <td>
+                            @user.UserName
+                        </td>
+                        <td>
+                            @user.LockoutEnd
+                        </td>
+                        <td>
+                            <a asp-action="UnBan" asp-route-id="@user.UserName">UnBan</a> |
+                            <a asp-action="Details" asp-route-id="@user.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

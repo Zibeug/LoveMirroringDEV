@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using mvc.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace mvc.Controllers
@@ -28,9 +29,26 @@ namespace mvc.Controllers
         }
 
         [Authorize]
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            // Préparation de l'appel à l'API
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/account/getUserInfo");
+
+            AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(content);
+
+            if (user != null && !user.AccountCompleted)
+            {
+                return Redirect("Account/Details/");
+            }
+            else
+            {
+                return View();
+            }
+            
         }
 
         [Authorize]

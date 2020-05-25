@@ -62,7 +62,7 @@ namespace Api.Controllers
             UserStyle us = _context.UserStyles
                 .Where(d => d.Id == id)
                 .Include(d => d.Style)
-                .Single();
+                .SingleOrDefault();
 
             user = await _context.AspNetUsers
                             .Include(a => a.Corpulence)

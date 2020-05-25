@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "Chat";
+}
+
+<h1>Chat</h1>
+
+@if (ViewData["UserList"] == null)
+{
+    <p>Aucune conversation à afficher</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Pseudo
+                </th>
+                <th>
+                    Consulter
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (AspNetUser user in ViewData["UserList"] as List<AspNetUser>)
+            {
+                <tr>
+                    <td>
+                        @user.UserName
+                    </td>
+                    <td>
+                        <form asp-route="Chat" method="post">
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button class="btn btn-secondary" asp-action="Chat">Messages</button>
+                        </form>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}

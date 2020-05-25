@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LoveMirroring</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/quizz.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/admin.css" />
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-controller="Home" asp-action="Index">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Love Mirroring Admin</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" asp-action="Index">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Identity
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link" asp-action="GetAllUsers">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Utilisateurs</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-action="Roles">
+                    <i class="fas fa-fw fa-lock"></i>
+                    <span>Rôle</span>
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Outils
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-action="Search">
+                    <i class="fas fa-fw fa-search"></i>
+                    <span>Chercher un utilisateur</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-action="GetAllBan">
+                    <i class="fas fa-fw fa-ban"></i>
+                    <span>Utilisateurs bannis</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-action="ViewQuiz">
+                    <i class="fas fa-fw fa-trash-restore"></i>
+                    <span>Reset Quizz</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-action="ViewCorpulences">
+                    <i class="fas fa-fw fa-trash-restore"></i>
+                    <span>Corpulences</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-action="ViewReligions">
+                    <i class="fas fa-fw fa-trash-restore"></i>
+                    <span>Religions</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-action="ViewSexuality">
+                    <i class="fas fa-fw fa-trash-restore"></i>
+                    <span>Sexualités</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-action="ViewSexes">
+                    <i class="fas fa-fw fa-trash-restore"></i>
+                    <span>Sexes</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-action="ViewStyles">
+                    <i class="fas fa-fw fa-trash-restore"></i>
+                    <span>Styles</span>
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Modérateur
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-action="Validation">
+                    <i class="fas fa-fw fa-check"></i>
+                    <span>Compte à valider</span>
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item d-sm-none">
+                            <button type="button" class="btn-secondary" asp-action="Search">Search</button>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Logout
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+                @RenderBody()
+            </div>
+        </div>
+        <!-- Footer -->
+        @*<footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Your Website 2019</span>
+                </div>
+            </div>
+        </footer>*@
+        <!-- End of Footer -->
+
+        <script type="text/javascript" src="~/js/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.25.3/moment-with-locales.min.js"></script>
+        @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="~/js/quizz.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/admin.js" type="text/javascript"></script>
+        @RenderSection("Scripts", required: false)
+</body>
+    </html>

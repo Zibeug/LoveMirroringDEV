@@ -18,5 +18,6 @@ namespace Api.ViewModels.Admin
         public string Email { get; set; }
         public IEnumerable<AspNetRole> Roles { get; set; }
         public string UserId { get; set; }
+        public string CurrentUserName { get; set; }
     }
 }

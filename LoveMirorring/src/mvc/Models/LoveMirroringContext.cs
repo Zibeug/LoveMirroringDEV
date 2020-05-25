@@ -144,8 +144,6 @@ namespace mvc.Models
 
             modelBuilder.Entity<AspNetUserClaim>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserClaims)
                     .HasForeignKey(d => d.UserId)

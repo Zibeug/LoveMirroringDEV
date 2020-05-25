@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewData["Title"] = "Quiz";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Reset Quiz</h1>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        UserName
+                    </th>
+                    <th>
+                        QuizCompleted
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (AspNetUser user in ViewData["users"] as List<AspNetUser>)
+                {
+                    <tr>
+                        <td>
+                            @user.UserName
+                        </td>
+                        <td>
+                            @user.QuizCompleted
+                        </td>
+                        <td>
+                            <a asp-action="ResetQuiz" asp-route-id="@user.UserName">Reset</a> |
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+

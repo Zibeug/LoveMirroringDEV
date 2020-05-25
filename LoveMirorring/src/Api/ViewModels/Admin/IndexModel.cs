@@ -14,6 +14,9 @@ namespace Api.ViewModels.Admin
 {
     public class IndexModel
     {
-        public int nbUsers { get; set; } 
+        public int nbUsers { get; set; }
+        public decimal earningsMonthly { get; set; }
+        public decimal earningsAnnualy { get; set; }
+        public int nbConnexion { get; set; }
     }
 }

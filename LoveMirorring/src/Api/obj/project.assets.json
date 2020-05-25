@@ -9963,25 +9963,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\zibeu\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\Paul\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\Api\\Api.csproj",
+      "projectUniqueName": "C:\\Users\\Paul\\Documents\\GitHub\\LoveMirroringDEV\\LoveMirorring\\src\\Api\\Api.csproj",
       "projectName": "Api",
-      "projectPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\Api\\Api.csproj",
-      "packagesPath": "C:\\Users\\zibeu\\.nuget\\packages\\",
-      "outputPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\Api\\obj\\",
+      "projectPath": "C:\\Users\\Paul\\Documents\\GitHub\\LoveMirroringDEV\\LoveMirorring\\src\\Api\\Api.csproj",
+      "packagesPath": "C:\\Users\\Paul\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Paul\\Documents\\GitHub\\LoveMirroringDEV\\LoveMirorring\\src\\Api\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\"
-      ],
       "configFilePaths": [
-        "C:\\Users\\zibeu\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\Paul\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -10091,7 +10086,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
       }
     }
   }

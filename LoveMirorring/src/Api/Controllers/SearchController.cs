@@ -154,8 +154,18 @@ namespace Api.Controllers
 
             ul.Id = user.Id;
             ul.Id1 = userLiked.Id;
+
+            //cherche si il existe une conversation entre les deux personnes
+            Talk talk = _context.Talks.Where(t => t.Id == user.Id && t.IdUser2Talk == userLiked.Id).SingleOrDefault();
             try
             {
+                //crée une conversation si la conversation n'existe pas
+                if (talk == null)
+                {
+                    Talk newtalk = new Talk { Id = user.Id, IdUser2Talk = userLiked.Id,TalkName = user.NormalizedUserName + userLiked.NormalizedUserName };
+                    _context.Talks.Add(newtalk);
+                    await _context.SaveChangesAsync();
+                }
                 _context.UserLikes.Add(ul);
                 _context.SaveChanges();
                 return Ok();
@@ -215,9 +225,16 @@ namespace Api.Controllers
             else
             {
                 UserLike userLike = _context.UserLikes.Where(d => d.Id == currentUser.Id && d.Id1 == user.Id).Single();
+                Talk talk = _context.Talks.Where(t => t.Id == currentUser.Id && t.IdUser2Talk == user.Id).SingleOrDefault();
+                List<Message> messages = _context.Messages.Where(m => m.TalkId == talk.TalkId).ToList();
                 try
                 {
                     _context.UserLikes.Remove(userLike);
+                    foreach (Message message in messages)
+                    {
+                        _context.Remove(message);
+                    }
+                    _context.Talks.Remove(talk);
                     _context.SaveChanges();
                     return Ok();
                 }

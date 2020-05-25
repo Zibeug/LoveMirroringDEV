@@ -71,7 +71,6 @@ namespace mvc.Controllers
             {
                 return View("~/Home/Error"); 
             }
-        
         }
 
         public async Task<IActionResult> Search(string username)

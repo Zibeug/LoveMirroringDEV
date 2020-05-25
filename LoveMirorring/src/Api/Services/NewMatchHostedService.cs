@@ -1,4 +1,9 @@
-﻿using Api.Models;
+﻿/*
+ * Auteur : Tim Allemann
+ * Date : 25.05.2020
+ * Description : Automatisations des nouveaux matchs du jour par mail
+ */
+using Api.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

@@ -10,6 +10,7 @@ namespace mvc.ViewModels
     {
         public string Id { get; set; }
         public string UserName { get; set; }
+        public string Firstname { get; set; }
         [Required]
         public string Sexe { get; set; }
         [Required]

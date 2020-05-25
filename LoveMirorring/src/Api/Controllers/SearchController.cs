@@ -121,7 +121,8 @@ namespace Api.Controllers
                                     HairColor = u.HairColor.HairColorName,
                                     HairSize = u.HairSize.HairSizeName,
                                     Style = prefStyle.Style.StyleName,
-                                    Religion = u.Religion.ReligionName
+                                    Religion = u.Religion.ReligionName,
+                                    Firstname = u.Firstname
                                 });
 
                 return new JsonResult(usersChoices);

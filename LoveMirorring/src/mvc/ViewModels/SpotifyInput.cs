@@ -8,10 +8,6 @@ namespace mvc.ViewModels
     public class SpotifyInput
     {
         // Représente ses préférences en musique
-        public string favoriteCategory { get; set; }
-
-        // Représente ce que son potentiel match poourrait écouter commme style de musique
-        public string likeCategory { get; set; }
-        public string Song { get; set; }
+        public string searchSong { get; set; }
     }
 }

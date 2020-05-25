@@ -234,11 +234,6 @@ namespace mvc.Controllers
             return View("Validation");
         }
 
-        public async Task<IActionResult> ValidationAccount(string id)
-        {
-            return null;
-        }
-
         public async Task<IActionResult> Details(string id)
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");

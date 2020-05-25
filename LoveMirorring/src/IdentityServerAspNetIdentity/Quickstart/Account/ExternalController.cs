@@ -24,6 +24,7 @@ using PhoneNumbers;
 using IdentityServerAspNetIdentity.ViewModels;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.RegularExpressions;
 
 namespace IdentityServer4.Quickstart.UI
 {
@@ -304,9 +305,9 @@ namespace IdentityServer4.Quickstart.UI
 
             var user = new ApplicationUser
             {
-                UserName = Guid.NewGuid().ToString(),
+                UserName = ("fb" + claims.FirstOrDefault(x => x.Type.Contains("givenname")).Value + claims.FirstOrDefault(x => x.Type.Contains("surname")).Value).ToLower(),
                 Sexeid = sexeId,
-                Birthday = DateTime.Parse(claims.FirstOrDefault(x => x.Type.Contains("dateofbirth")).Value),
+                Birthday = DateTime.ParseExact(claims.FirstOrDefault(x => x.Type.Contains("dateofbirth")).Value, "MM/dd/yyyy", null),
                 Email = claims.FirstOrDefault(x => x.Type.Contains("email")).Value,
                 HairColorId = 1,
                 CorpulenceId = 1,
@@ -318,7 +319,15 @@ namespace IdentityServer4.Quickstart.UI
                 Firstname = claims.FirstOrDefault(x => x.Type.Contains("givenname")).Value,
                 AccountCompleted = false,
             };
-            
+
+            int cptUser = _context.AspNetUsers.Where(x => x.UserName.Contains(user.UserName)).Count();
+
+            if(cptUser != 0)
+            {
+                user.UserName += (cptUser + 1).ToString();
+            }
+
+            user.UserName = RemoveSpecialCharacters(user.UserName);
             var identityResult = await _userManager.CreateAsync(user);
             if (!identityResult.Succeeded) throw new Exception(identityResult.Errors.First().Description);
 
@@ -370,7 +379,10 @@ namespace IdentityServer4.Quickstart.UI
             }
         }
 
-        
+        private string RemoveSpecialCharacters(string str)
+        {
+            return Regex.Replace(str, @"[^0-9a-zA-Z\._]", string.Empty);
+        }
 
         //private void ProcessLoginCallbackForWsFed(AuthenticateResult externalResult, List<Claim> localClaims, AuthenticationProperties localSignInProps)
         //{

@@ -32,7 +32,7 @@ namespace mvc.Controllers
 
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            string search = await client.GetStringAsync(Configuration["URLAPI"] + "api/Search/GetLike");
+            string search = await client.GetStringAsync(Configuration["URLAPI"] + "api/PrivateChat/GetMatch");
             List<AspNetUser> userList = JsonConvert.DeserializeObject<List<AspNetUser>>(search);
             ViewData["UserList"] = userList;
 

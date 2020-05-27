@@ -1,7 +1,7 @@
 ﻿/*
  * Auteur : Gillet Paul
- * Date : 18.05.2020
- * Description : Contrôleur pour afficher et traiter les Sexes
+ * Date : 26.05.2020
+ * Description : Contrôleur pour afficher et traiter les tailles de cheveux
  */
 
 using Microsoft.AspNetCore.Authentication;
@@ -19,16 +19,16 @@ using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
-    public class SexesController : Controller
+    public class HairSizesController : Controller
     {
         private readonly IConfiguration _configuration;
 
-        public SexesController(IConfiguration configuration)
+        public HairSizesController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        // GET: Sexes
+        // GET: HairSizes
         public async Task<IActionResult> Index()
         {
             // Préparation de l'appel à l'API
@@ -37,13 +37,13 @@ namespace mvc.Controllers
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Sexes");
-            List<Sex> sexes = JsonConvert.DeserializeObject<List<Sex>>(content);
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/HairSizes");
+            List<HairSize> hairSizes = JsonConvert.DeserializeObject<List<HairSize>>(content);
 
-            return View(sexes);
+            return View(hairSizes);
         }
 
-        // GET: Sexes/Details/5
+        // GET: HairSizes/Details/5
         public async Task<IActionResult> Details(short? id)
         {
             if (id == null)
@@ -57,29 +57,29 @@ namespace mvc.Controllers
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Sexes/{id}");
-            Sex sexe = JsonConvert.DeserializeObject<Sex>(content);
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/HairSizes/{id}");
+            HairSize hairSize = JsonConvert.DeserializeObject<HairSize>(content);
 
-            if (sexe == null)
+            if (hairSize == null)
             {
                 return NotFound();
             }
 
-            return View(sexe);
+            return View(hairSize);
         }
 
-        // GET: Sexes/Create
+        // GET: HairSizes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Sexes/Create
+        // POST: HairSizes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SexeId,SexeName")] Sex sex)
+        public async Task<IActionResult> Create([Bind("HairSizeId,HairSizeName")] HairSize hairSize)
         {
             // Préparation de l'appel à l'API
             string accessToken = await HttpContext.GetTokenAsync("access_token");
@@ -88,8 +88,8 @@ namespace mvc.Controllers
 
             if (ModelState.IsValid)
             {
-                StringContent httpContent = new StringContent(sex.ToJson(), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/Sexes", httpContent);
+                StringContent httpContent = new StringContent(hairSize.ToJson(), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/HairSizes", httpContent);
 
                 if (response.StatusCode == HttpStatusCode.Unauthorized)
                 {
@@ -98,10 +98,10 @@ namespace mvc.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(sex);
+            return View(hairSize);
         }
 
-        // GET: Sexes/Edit/5
+        // GET: HairSizes/Edit/5
         public async Task<IActionResult> Edit(short? id)
         {
             if (id == null)
@@ -115,25 +115,25 @@ namespace mvc.Controllers
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Sexes/{id}");
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/HairSizes/{id}");
 
-            Sex sexe = JsonConvert.DeserializeObject<Sex>(content);
+            HairSize hairSize = JsonConvert.DeserializeObject<HairSize>(content);
 
-            if (sexe == null)
+            if (hairSize == null)
             {
                 return NotFound();
             }
-            return View(sexe);
+            return View(hairSize);
         }
 
-        // POST: Sexes/Edit/5
+        // POST: HairSizes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(short id, [Bind("SexeId,SexeName")] Sex sex)
+        public async Task<IActionResult> Edit(short id, [Bind("HairSizeId,HairSizeName")] HairSize hairSize)
         {
-            if (id != sex.SexeId)
+            if (id != hairSize.HairSizeId)
             {
                 return NotFound();
             }
@@ -146,18 +146,18 @@ namespace mvc.Controllers
             if (ModelState.IsValid)
             {
                 // Préparation de la requête update à l'API
-                StringContent httpContent = new StringContent(sex.ToJson(), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/Sexes/{id}", httpContent);
+                StringContent httpContent = new StringContent(hairSize.ToJson(), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/HairSizes/{id}", httpContent);
                 if (response.StatusCode != HttpStatusCode.NoContent)
                 {
                     return BadRequest();
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(sex);
+            return View(hairSize);
         }
 
-        // GET: Sexes/Delete/5
+        // GET: HairSizes/Delete/5
         public async Task<IActionResult> Delete(short? id)
         {
             if (id == null)
@@ -171,27 +171,22 @@ namespace mvc.Controllers
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Sexes/{id}");
-            Sex sexe = JsonConvert.DeserializeObject<Sex>(content);
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/HairSizes/{id}");
+            HairSize hairSize = JsonConvert.DeserializeObject<HairSize>(content);
 
-            if (sexe == null)
+            if (hairSize == null)
             {
                 return NotFound();
             }
 
-            return View(sexe);
+            return View(hairSize);
         }
 
-        // POST: Sexes/Delete/5
+        // POST: HairSizes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(short? id)
+        public async Task<IActionResult> DeleteConfirmed(short id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             // Préparation de l'appel à l'API
             string accessToken = await HttpContext.GetTokenAsync("access_token");
             HttpClient client = new HttpClient();
@@ -199,7 +194,7 @@ namespace mvc.Controllers
 
             if (ModelState.IsValid)
             {
-                HttpResponseMessage response = await client.DeleteAsync(_configuration["URLAPI"] + $"api/Sexes/{id}");
+                HttpResponseMessage response = await client.DeleteAsync(_configuration["URLAPI"] + $"api/HairSizes/{id}");
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {

@@ -1,62 +1,58 @@
-﻿/*
- * Auteur : Gillet Paul
- * Date : 18.05.2020
- * Description : Contrôleur pour afficher et traiter les Sexes
- */
-
-using Api.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Api.Models;
 
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SexesController : ControllerBase
+    public class StylesController : ControllerBase
     {
         private readonly LoveMirroringContext _context;
 
-        public SexesController(LoveMirroringContext context)
+        public StylesController(LoveMirroringContext context)
         {
             _context = context;
         }
 
-        // GET: api/Sexes
+        // GET: api/Styles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Sex>>> GetSexes()
+        public async Task<ActionResult<IEnumerable<Style>>> GetStyles()
         {
-            return await _context.Sexes.ToListAsync();
+            return await _context.Styles.ToListAsync();
         }
 
-        // GET: api/Sexes/5
+        // GET: api/Styles/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Sex>> GetSex(short id)
+        public async Task<ActionResult<Style>> GetStyle(short id)
         {
-            var sex = await _context.Sexes.FindAsync(id);
+            var style = await _context.Styles.FindAsync(id);
 
-            if (sex == null)
+            if (style == null)
             {
                 return NotFound();
             }
 
-            return sex;
+            return style;
         }
 
-        // PUT: api/Sexes/5
+        // PUT: api/Styles/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSex(short id, Sex sex)
+        public async Task<IActionResult> PutStyle(short id, Style style)
         {
-            if (id != sex.SexeId)
+            if (id != style.StyleId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(sex).State = EntityState.Modified;
+            _context.Entry(style).State = EntityState.Modified;
 
             try
             {
@@ -64,7 +60,7 @@ namespace Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SexExists(id))
+                if (!StyleExists(id))
                 {
                     return NotFound();
                 }
@@ -77,37 +73,37 @@ namespace Api.Controllers
             return NoContent();
         }
 
-        // POST: api/Sexes
+        // POST: api/Styles
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Sex>> PostSex(Sex sex)
+        public async Task<ActionResult<Style>> PostStyle(Style style)
         {
-            _context.Sexes.Add(sex);
+            _context.Styles.Add(style);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSex", new { id = sex.SexeId }, sex);
+            return CreatedAtAction("GetStyle", new { id = style.StyleId }, style);
         }
 
-        // DELETE: api/Sexes/5
+        // DELETE: api/Styles/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Sex>> DeleteSex(short id)
+        public async Task<ActionResult<Style>> DeleteStyle(short id)
         {
-            var sex = await _context.Sexes.FindAsync(id);
-            if (sex == null)
+            var style = await _context.Styles.FindAsync(id);
+            if (style == null)
             {
                 return NotFound();
             }
 
-            _context.Sexes.Remove(sex);
+            _context.Styles.Remove(style);
             await _context.SaveChangesAsync();
 
-            return sex;
+            return style;
         }
 
-        private bool SexExists(short id)
+        private bool StyleExists(short id)
         {
-            return _context.Sexes.Any(e => e.SexeId == id);
+            return _context.Styles.Any(e => e.StyleId == id);
         }
     }
 }

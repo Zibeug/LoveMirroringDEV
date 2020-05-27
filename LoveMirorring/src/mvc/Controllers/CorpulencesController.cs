@@ -1,7 +1,7 @@
 ﻿/*
  * Auteur : Gillet Paul
- * Date : 18.05.2020
- * Description : Contrôleur pour afficher et traiter les Sexes
+ * Date : 26.05.2020
+ * Description : Contrôleur pour afficher et traiter les corpulences
  */
 
 using Microsoft.AspNetCore.Authentication;
@@ -19,16 +19,16 @@ using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
-    public class SexesController : Controller
+    public class CorpulencesController : Controller
     {
         private readonly IConfiguration _configuration;
 
-        public SexesController(IConfiguration configuration)
+        public CorpulencesController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        // GET: Sexes
+        // GET: Corpulences
         public async Task<IActionResult> Index()
         {
             // Préparation de l'appel à l'API
@@ -37,13 +37,13 @@ namespace mvc.Controllers
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Sexes");
-            List<Sex> sexes = JsonConvert.DeserializeObject<List<Sex>>(content);
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Corpulences");
+            List<Corpulence> corpulences = JsonConvert.DeserializeObject<List<Corpulence>>(content);
 
-            return View(sexes);
+            return View(corpulences);
         }
 
-        // GET: Sexes/Details/5
+        // GET: Corpulences/Details/5
         public async Task<IActionResult> Details(short? id)
         {
             if (id == null)
@@ -57,29 +57,29 @@ namespace mvc.Controllers
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Sexes/{id}");
-            Sex sexe = JsonConvert.DeserializeObject<Sex>(content);
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Corpulences/{id}");
+            Corpulence corpulence = JsonConvert.DeserializeObject<Corpulence>(content);
 
-            if (sexe == null)
+            if (corpulence == null)
             {
                 return NotFound();
             }
 
-            return View(sexe);
+            return View(corpulence);
         }
 
-        // GET: Sexes/Create
+        // GET: Corpulences/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Sexes/Create
+        // POST: Corpulences/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SexeId,SexeName")] Sex sex)
+        public async Task<IActionResult> Create([Bind("CorpulenceId,CorpulenceName")] Corpulence corpulence)
         {
             // Préparation de l'appel à l'API
             string accessToken = await HttpContext.GetTokenAsync("access_token");
@@ -88,8 +88,8 @@ namespace mvc.Controllers
 
             if (ModelState.IsValid)
             {
-                StringContent httpContent = new StringContent(sex.ToJson(), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/Sexes", httpContent);
+                StringContent httpContent = new StringContent(corpulence.ToJson(), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/Corpulences", httpContent);
 
                 if (response.StatusCode == HttpStatusCode.Unauthorized)
                 {
@@ -98,10 +98,10 @@ namespace mvc.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(sex);
+            return View(corpulence);
         }
 
-        // GET: Sexes/Edit/5
+        // GET: Corpulences/Edit/5
         public async Task<IActionResult> Edit(short? id)
         {
             if (id == null)
@@ -115,25 +115,25 @@ namespace mvc.Controllers
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Sexes/{id}");
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Corpulences/{id}");
 
-            Sex sexe = JsonConvert.DeserializeObject<Sex>(content);
+            Corpulence corpulence = JsonConvert.DeserializeObject<Corpulence>(content);
 
-            if (sexe == null)
+            if (corpulence == null)
             {
                 return NotFound();
             }
-            return View(sexe);
+            return View(corpulence);
         }
 
-        // POST: Sexes/Edit/5
+        // POST: Corpulences/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(short id, [Bind("SexeId,SexeName")] Sex sex)
+        public async Task<IActionResult> Edit(short id, [Bind("CorpulenceId,CorpulenceName")] Corpulence corpulence)
         {
-            if (id != sex.SexeId)
+            if (id != corpulence.CorpulenceId)
             {
                 return NotFound();
             }
@@ -146,18 +146,18 @@ namespace mvc.Controllers
             if (ModelState.IsValid)
             {
                 // Préparation de la requête update à l'API
-                StringContent httpContent = new StringContent(sex.ToJson(), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/Sexes/{id}", httpContent);
+                StringContent httpContent = new StringContent(corpulence.ToJson(), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/Corpulences/{id}", httpContent);
                 if (response.StatusCode != HttpStatusCode.NoContent)
                 {
                     return BadRequest();
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(sex);
+            return View(corpulence);
         }
 
-        // GET: Sexes/Delete/5
+        // GET: Corpulences/Delete/5
         public async Task<IActionResult> Delete(short? id)
         {
             if (id == null)
@@ -171,27 +171,22 @@ namespace mvc.Controllers
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Sexes/{id}");
-            Sex sexe = JsonConvert.DeserializeObject<Sex>(content);
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Corpulences/{id}");
+            Corpulence corpulence = JsonConvert.DeserializeObject<Corpulence>(content);
 
-            if (sexe == null)
+            if (corpulence == null)
             {
                 return NotFound();
             }
 
-            return View(sexe);
+            return View(corpulence);
         }
 
-        // POST: Sexes/Delete/5
+        // POST: Corpulences/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(short? id)
+        public async Task<IActionResult> DeleteConfirmed(short id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             // Préparation de l'appel à l'API
             string accessToken = await HttpContext.GetTokenAsync("access_token");
             HttpClient client = new HttpClient();
@@ -199,7 +194,7 @@ namespace mvc.Controllers
 
             if (ModelState.IsValid)
             {
-                HttpResponseMessage response = await client.DeleteAsync(_configuration["URLAPI"] + $"api/Sexes/{id}");
+                HttpResponseMessage response = await client.DeleteAsync(_configuration["URLAPI"] + $"api/Corpulences/{id}");
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {

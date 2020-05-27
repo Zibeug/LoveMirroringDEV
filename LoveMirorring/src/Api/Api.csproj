@@ -34,4 +34,8 @@
     <Folder Include="wwwroot\Upload\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\mvc\mvc.csproj" />
+  </ItemGroup>
+
 </Project>

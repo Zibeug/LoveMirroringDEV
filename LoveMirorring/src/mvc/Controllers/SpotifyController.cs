@@ -12,10 +12,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using mvc.Models;
 using mvc.ViewModels;
 using Newtonsoft.Json;
+using SpotifyAPI.Web.Models;
 
 namespace mvc.Controllers
 {
@@ -37,10 +40,10 @@ namespace mvc.Controllers
 
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Spotify/categories");
+            string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Spotify/SongsLiked");
             //List<Question> questionList = new List<Question>();
-            List<SpotifyItem> resultCategories = JsonConvert.DeserializeObject<List<SpotifyItem>>(content);
-            ViewData["categories"] = resultCategories;
+            List<Music> resultSong = JsonConvert.DeserializeObject<List<Music>>(content);
+            ViewData["SongsLiked"] = resultSong;
             return View("Spotify");
         }
 
@@ -53,10 +56,27 @@ namespace mvc.Controllers
 
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Spotify/" + input.favoriteCategory);
-            List<SpotifyTrack> spotifyTracks = JsonConvert.DeserializeObject<List<SpotifyTrack>>(content);
+            string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Spotify/" + input.searchSong);
+            List<FullTrack> spotifyTracks = JsonConvert.DeserializeObject<List<FullTrack>>(content);
 
+            ViewData["tracks"] = spotifyTracks;
+            await Spotify();
             return View("Spotify");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> SaveSong(string songname)
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            string temp = songname;
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string json = JsonConvert.SerializeObject(songname);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var result = await client.PostAsync(Configuration["URLAPI"] + "api/Spotify/SaveSong", httpContent);
+            
+            return Redirect("~/Account/Details");
         }
     }
 }

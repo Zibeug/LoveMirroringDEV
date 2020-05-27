@@ -1,5 +1,6 @@
 ﻿@model mvc.ViewModels.SpotifyInput
 @using mvc.ViewModels
+@using SpotifyAPI.Web.Models
 @{
     ViewData["Title"] = "Spotify";
 }
@@ -9,25 +10,38 @@
 
 <form asp-route="Spotify" method="post">
     <div class="form-group">
-        @if (ViewData["categories"] != null)
+        @if (ViewData["SongsLiked"] != null)
         {
-            <label asp-for="@Model.favoriteCategory">Vous aimez ?</label>
-            <select asp-for="@Model.favoriteCategory" class="browser-default custom-select mb-4">
-                @foreach (SpotifyItem item in ViewData["categories"] as List<SpotifyItem>)
-                {
-                    <option value="@item.id" selected>@item.name</option>
-                }
-            </select>
+            <h4>Les sons que nos utilisateurs ont aimé.</h4>
+            @foreach (Music item in ViewData["SongsLiked"] as List<Music>)
+            {
+                <p> Musique : @item.MusicName</p>
+                <p> Artiste : @item.ArtistName</p>
+                <hr />
+            }
 
-            <label asp-for="@Model.likeCategory">Vous aimez les gens qui écoute ?</label>
-            <select asp-for="@Model.likeCategory" class="browser-default custom-select mb-4">
-                @foreach (SpotifyItem item in ViewData["categories"] as List<SpotifyItem>)
-                {
-                    <option value="@item.id" selected>@item.name</option>
-                }
-            </select>
+            <label asp-for="@Model.searchSong">Entrez le titre de votre musique préférée</label>
+            <input type="text" asp-for="@Model.searchSong" />
 
             <button type="submit" asp-action="SearchSong">Chercher des musiques</button>
         }
     </div>
 </form>
+
+@if (ViewData["tracks"] != null)
+{
+    <form asp-route="Spotify" method="post">
+        <div class="form-group">
+            <label>Votre choix</label>
+            <select name="songname">
+                @foreach (FullTrack track in ViewData["tracks"] as List<FullTrack>)
+                {
+                    string value = track.Name + "-" + track.Artists.FirstOrDefault().Name;
+                    <option value="@value"> @track.Name - @track.Artists.FirstOrDefault().Name</option>
+                    
+                }
+            </select>
+                <button type="submit" asp-action="SaveSong">Choisir ma musique préférée</button>
+            </div>
+    </form>
+}

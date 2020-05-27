@@ -31,6 +31,37 @@ namespace Api.Controllers
         }
 
 
+        [Route("GetMatch")]
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetLike()
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            AspNetUser currentuser = null;
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string userString = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
+            currentuser = JsonConvert.DeserializeObject<AspNetUser>(userString);
+
+            List<AspNetUser> othersuser = await _context.AspNetUsers.Where(u => u.Id != currentuser.Id).ToListAsync();
+            List<AspNetUser> usermatch = new List<AspNetUser>();
+
+            foreach (AspNetUser user in othersuser)
+            {
+                UserLike likeCurrentUser = _context.UserLikes.Where(d => d.Id == currentuser.Id && d.Id1 == user.Id).SingleOrDefault();
+                UserLike likeUser = _context.UserLikes.Where(d => d.Id == user.Id && d.Id1 == currentuser.Id).SingleOrDefault();
+
+                if (likeCurrentUser != null && likeUser != null)
+                {
+                    usermatch.Add(user);
+                }
+            }
+
+            return new JsonResult(usermatch);
+        }
+
+
+
         [Route("CreateMessage")]
         [HttpPost]
         [Authorize]

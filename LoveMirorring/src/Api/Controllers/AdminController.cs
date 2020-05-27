@@ -418,6 +418,16 @@ namespace Api.Controllers
                 {
                     _context.UserLikes.Remove(like);
                 }
+                List<Talk> talks = await _context.Talks.Where(t => t.Id == user.Id || t.IdUser2Talk == user.Id).ToListAsync();
+                foreach (Talk talk in talks)
+                {
+                    _context.Talks.Remove(talk);
+                }
+                List<Message> messages = await _context.Messages.Where(m => m.Id == user.Id).ToListAsync();
+                foreach (Message message in messages)
+                {
+                    _context.Messages.Remove(message);
+                }
 
                 _context.AspNetUsers.Remove(user);
                 await _context.SaveChangesAsync();

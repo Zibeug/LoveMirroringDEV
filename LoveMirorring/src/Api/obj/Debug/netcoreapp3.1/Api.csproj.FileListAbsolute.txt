@@ -853,3 +853,15 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\staticweba
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.pdb
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.genruntimeconfig.cache
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\libman.json
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\mvc.Views.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\mvc.Views.pdb
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\mvc.exe
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\MessagePack.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Http.Connections.Client.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.Azure.SignalR.Common.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.Azure.SignalR.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.Azure.SignalR.Protocols.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\mvc.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\mvc.pdb

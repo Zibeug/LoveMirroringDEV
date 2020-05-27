@@ -9995,8 +9995,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj": {
-              "projectPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj"
+            "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj": {
+              "projectPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj"
             }
           }
         }

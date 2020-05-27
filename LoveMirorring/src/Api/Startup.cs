@@ -9,6 +9,7 @@ using Api.Services.RolesAndClaims;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -84,12 +85,20 @@ namespace Api
              *      2020.05.18
              *      Rajoute un service qui tourne touts les x secondes
              */
-            services.AddHostedService<NewMatchHostedService>();
+            //services.AddHostedService<NewMatchHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var fordwardedHeaderOptions = new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            };
+            fordwardedHeaderOptions.KnownNetworks.Clear();
+            fordwardedHeaderOptions.KnownProxies.Clear();
+            app.UseForwardedHeaders(fordwardedHeaderOptions);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

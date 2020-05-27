@@ -1092,7 +1092,6 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Account\VerifyPhone.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\PhoneNumbers.dll
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\PhoneNumbers.dll
-C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.csprojAssemblyReference.cache
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Account\Banned.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.Facebook.dll
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.csproj.CoreCompileInputs.cache
@@ -1101,3 +1100,6 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\EFCorePluralizer.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Views\External\ExternalForm.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.csprojAssemblyReference.cache
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.Facebook.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Account\Banned.cshtml.g.cs
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Views\External\ExternalForm.cshtml.g.cs

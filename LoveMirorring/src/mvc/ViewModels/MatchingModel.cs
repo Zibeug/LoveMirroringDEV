@@ -25,5 +25,7 @@ namespace mvc.ViewModels
         public string HairColor { get; set; }
         public string Sexuality { get; set; }
         public string Style { get; set; }
+        public string MusicName { get; set; }
+        public string ArtisteName { get; set; }
     }
 }

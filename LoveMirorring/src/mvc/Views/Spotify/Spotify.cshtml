@@ -17,6 +17,10 @@
             {
                 <p> Musique : @item.MusicName</p>
                 <p> Artiste : @item.ArtistName</p>
+                <form asp-route="Spotify" method="post">
+                    <input type="hidden" name="songname" value="@item.MusicName-@item.ArtistName" />
+                    <button type="submit" asp-action="SaveSong">J'aime cette musique</button>
+                </form>
                 <hr />
             }
 

@@ -1,0 +1,9 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@if (ViewData["img"] != null)
+{
+    string imgPath = (ViewData["URLAPI"] as string) + (ViewData["img"] as string);
+    <a href="@ViewData["link"]" target="_blank"><img class="img-fluid" src="@imgPath" alt="Alternate Text" /></a>
+}

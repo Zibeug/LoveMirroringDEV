@@ -84,7 +84,7 @@ namespace Api
              *      2020.05.18
              *      Rajoute un service qui tourne touts les x secondes
              */
-            services.AddHostedService<NewMatchHostedService>();
+            //services.AddHostedService<NewMatchHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

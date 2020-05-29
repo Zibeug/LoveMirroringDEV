@@ -69,14 +69,36 @@ namespace mvc.Controllers
         public async Task<IActionResult> SaveSong(string songname)
         {
             string accessToken = await HttpContext.GetTokenAsync("access_token");
-            string temp = songname;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             string json = JsonConvert.SerializeObject(songname);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-            var result = await client.PostAsync(Configuration["URLAPI"] + "api/Spotify/SaveSong", httpContent);
+
+            string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Spotify/CheckSong");
+            PreferenceMusic pM = JsonConvert.DeserializeObject<PreferenceMusic>(content);
+
+            HttpResponseMessage result = null;
+
+            if (pM != null)
+            {
+                result = await client.PostAsync(Configuration["URLAPI"] + "api/Spotify/UpdateSong", httpContent);
+            }
+            else
+            {
+                result = await client.PostAsync(Configuration["URLAPI"] + "api/Spotify/SaveSong", httpContent);
+            }
             
-            return Redirect("~/Account/Details");
+            
+            if(result.StatusCode.Equals(StatusCodes.Status404NotFound))
+            {
+                ViewData["error"] = "Remplir vos préférences d'abord";
+                return View("Spotify");
+            }
+            else
+            {
+                return Redirect("~/Account/Details");
+            }
+            
         }
     }
 }

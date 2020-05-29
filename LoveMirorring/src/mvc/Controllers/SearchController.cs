@@ -138,6 +138,18 @@ namespace mvc.Controllers
                     }
                 }
 
+                content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Home/GetAds");
+
+                List<Ad> ads = JsonConvert.DeserializeObject<List<Ad>>(content);
+
+                if (user.SubscriptionId == null)
+                {
+                    ViewData["img"] = this.RandomPicture(ads);
+                    ViewData["URLAPI"] = Configuration["URLAPI"];
+                    ViewData["link"] = ads.Where(x => x.AdView.Equals(ViewData["img"] as string)).SingleOrDefault().Link;
+
+                }
+
                 return View("Search");
             }
             catch (Exception)
@@ -224,6 +236,15 @@ namespace mvc.Controllers
             ViewData["match"] = userMatched;
 
             return View(user);
+        }
+
+        private string RandomPicture(List<Ad> ads)
+        {
+            Ad[] tabAd = ads.ToArray();
+            Random rand = new Random();
+            int nb = rand.Next(1, ads.Count() + 1);
+
+            return tabAd[nb - 1].AdView;
         }
     }
 }

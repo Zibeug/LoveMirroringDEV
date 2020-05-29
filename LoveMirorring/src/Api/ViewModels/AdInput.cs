@@ -1,21 +1,19 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
 
-namespace mvc.Models
+namespace Api.ViewModels
 {
-    public partial class Ad
+    public class AdInput
     {
-        [Key]
         public short Id { get; set; }
-        [Required]
         public string Titre { get; set; }
-        [Required]
         public string Description { get; set; }
-        [Required]
-        [StringLength(450)]
-        public string AdView { get; set; }
         public string Link { get; set; }
+        public IFormFile file { get; set; }
     }
 }

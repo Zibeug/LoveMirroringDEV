@@ -1,0 +1,53 @@
+﻿@model mvc.Models.Ad
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Details</h1>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+
+            <div>
+                <h4>Ad</h4>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.Titre)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.Titre)
+                    </dd>
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.AdView)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.AdView)
+                    </dd>
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.Link)
+                    </dt>
+                    <dd class="col-sm-7">
+                        @Html.DisplayFor(model => model.Link)
+                    </dd>
+                </dl>
+            </div>
+            <div>
+                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                <a asp-action="Index">Back to List</a>
+            </div>
+        </div>
+    </div>

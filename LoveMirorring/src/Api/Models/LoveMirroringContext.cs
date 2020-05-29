@@ -15,6 +15,7 @@ namespace Api.Models
         {
         }
 
+        public virtual DbSet<Ad> Ads { get; set; }
         public virtual DbSet<Answer> Answers { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }

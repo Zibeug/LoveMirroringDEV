@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using mvc.Models;
@@ -40,12 +41,24 @@ namespace mvc.Controllers
 
             AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(content);
 
+            content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Home/GetAds");
+
+            List<Ad> ads = JsonConvert.DeserializeObject<List<Ad>>(content);
+
             if (user != null && !user.AccountCompleted)
             {
                 return Redirect("Account/Details/");
             }
             else
             {
+                if(user.SubscriptionId == null)
+                {
+                    ViewData["img"] = this.RandomPicture(ads);
+                    ViewData["URLAPI"] = Configuration["URLAPI"];
+                    ViewData["link"] = ads.Where(x => x.AdView.Equals(ViewData["img"] as string)).SingleOrDefault().Link;
+
+                }
+
                 return View();
             }
             
@@ -78,6 +91,20 @@ namespace mvc.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        /*
+         * Auteur : Sébastien Berger 
+         * Date 29.05.2020
+         * Description : Permet de récupérer une publicité de façon aléatoire.
+         */
+        private string RandomPicture(List<Ad> ads)
+        {
+            Ad[] tabAd = ads.ToArray();
+            Random rand = new Random();
+            int nb = rand.Next(1, ads.Count() + 1);
+
+            return tabAd[nb - 1].AdView;
         }
     }
 }

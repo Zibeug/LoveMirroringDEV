@@ -172,6 +172,38 @@ namespace Api.Controllers
                         }
                     }
 
+                    //Vérifier si la musique correspond
+                    string musicName = "";
+                    string musicMatch = potentialUserMatch.UserMusics.FirstOrDefault().Music.MusicName;
+                    foreach(Preference preferenceUser in user.Preferences)
+                    {
+                        foreach(PreferenceMusic preferenceMusic in preferenceUser.PreferenceMusics)
+                        {
+                            if (preferenceMusic.Music.MusicName == musicMatch)
+                            {
+                                musicName = musicMatch;
+                                potentielPourcentage += 0.125;
+                                break;
+                            }
+                        }
+                    }
+
+                    //Vérifier si l'artiste correspond
+                    string artistName = "";
+                    string artistMatch = potentialUserMatch.UserMusics.FirstOrDefault().Music.ArtistName;
+                    foreach(Preference preferenceUser in user.Preferences)
+                    {
+                        foreach(PreferenceMusic preferenceMusic in preferenceUser.PreferenceMusics)
+                        {
+                            if(preferenceMusic.Music.ArtistName == artistMatch)
+                            {
+                                artistName = artistMatch;
+                                potentielPourcentage += 0.125;
+                                break;
+                            }
+                        }
+                    }
+
                     // Ajout du match
                     usersChoices.Add(
                         new MatchingModel
@@ -187,6 +219,8 @@ namespace Api.Controllers
                             Style = style,
                             Religion = religion,
                             Sexuality = user.Sexuality.SexualityName,
+                            MusicName = musicName,
+                            ArtisteName = artistName,
                             PourcentageMatching = potentielPourcentage
                         }
                     );
@@ -306,6 +340,8 @@ namespace Api.Controllers
                                     .ThenInclude(u => u.Profil)
                                 .Include(u => u.UserStyles)
                                     .ThenInclude(u => u.Style)
+                                .Include(u => u.UserMusics)
+                                    .ThenInclude(u => u.Music)  
                                 .ToList();
         }
 

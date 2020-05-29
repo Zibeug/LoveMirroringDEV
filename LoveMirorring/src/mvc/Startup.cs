@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,7 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using mvc.Hubs;
+using mvc.Models;
 using mvc.Services.RolesAndClaims;
+
 
 namespace mvc
 {
@@ -22,6 +25,15 @@ namespace mvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            //Cross-origin policy to accept request from localhost:5002.
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    x => x.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
 
             JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
@@ -63,6 +75,11 @@ namespace mvc
             });
 
             services.AddSignalR();
+
+            // Pour le chat vocal
+            services.AddSingleton<List<User>>();
+            services.AddSingleton<List<UserCall>>();
+            services.AddSingleton<List<CallOffer>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,6 +105,8 @@ namespace mvc
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseFileServer();
+            app.UseCors("CorsPolicy");
 
             app.UseRouting();
 
@@ -100,6 +119,10 @@ namespace mvc
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapHub<ChatHub>("/chatHub");
+                endpoints.MapHub<ConnectionHub>("/ConnectionHub", options =>
+                {
+                    options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
+                });
             });
         }
     }

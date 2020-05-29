@@ -75,7 +75,7 @@ namespace IdentityServerAspNetIdentity
                 {
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseSerilog();
-                    webBuilder.UseUrls("http://0.0.0.0:5003");
+                    //webBuilder.UseUrls("http://0.0.0.0:5003");
                 });
     }
 }

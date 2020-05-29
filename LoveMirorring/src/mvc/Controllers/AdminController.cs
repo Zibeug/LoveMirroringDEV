@@ -444,6 +444,12 @@ namespace mvc.Controllers
             return View();
         }
 
+
+        /*
+         *      Auteur : Hans Morsch
+         *      29.05.2020
+         *      Permet d'envoyer un nouveau mot de passe à l'utilisateur
+         */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> GiveNewPassword(AspNetUser user)

@@ -7,7 +7,7 @@
 <div class="figure">
     @if (ViewData["match"].Equals("match"))
     {
-        <img src="~/img/match.png" width="126px"/>
+        <img src="~/img/match.png" width="126px" />
     }
 </div>
 <hr />
@@ -85,3 +85,10 @@ else
         <button class="btn btn-secondary" asp-action="Like">Like</button>
     </form>
 }
+
+</br>
+
+<form asp-route="Search" method="get">
+    <input type="hidden" name="username" value="@username" />
+    <button class="btn btn-secondary" asp-action="Report">Report</button>
+</form>

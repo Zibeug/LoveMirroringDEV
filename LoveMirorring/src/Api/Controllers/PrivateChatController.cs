@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ *      Auteur : Hans Morsch
+ *      29.05.2020
+ *      Contrôleur Api pour le chat privé
+ *      Permet de gérer les conversations privés
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;

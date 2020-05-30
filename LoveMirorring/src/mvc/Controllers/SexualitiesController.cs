@@ -5,6 +5,7 @@
  */
 
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,7 @@ using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
+    [Authorize]
     public class SexualitiesController : Controller
     {
         private readonly IConfiguration _configuration;

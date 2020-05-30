@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Auteur : Sébastien Berger 
+ * Date : 30.05.2020
+ * Description : Permet de gérer les publicités côté Administrateur.
+ */
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -64,6 +69,8 @@ namespace mvc.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["URLAPI"] = Configuration["URLAPI"];
 
             return View(ads);
         }
@@ -134,11 +141,19 @@ namespace mvc.Controllers
 
             var ad = await client.GetStringAsync(client.BaseAddress);
             Ad ads = JsonConvert.DeserializeObject<Ad>(ad);
+            
             if (ads == null)
             {
                 return NotFound();
             }
-            return View(ads);
+
+            AdInput adInput = new AdInput();
+            adInput.Id = ads.Id;
+            adInput.Titre = ads.Titre;
+            adInput.Description = ads.Description;
+            adInput.Link = ads.Link;
+
+            return View(adInput);
         }
 
         // POST: Ads/Edit/5
@@ -146,7 +161,7 @@ namespace mvc.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(short id, [Bind("Id,Titre,Description,AdView,Link")] Ad ad)
+        public async Task<IActionResult> Edit(short id, [Bind("Id,Titre,Description,file,Link")] AdInput ad)
         {
             if (id != ad.Id)
             {
@@ -161,10 +176,31 @@ namespace mvc.Controllers
 
                     HttpClient client = new HttpClient();
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-                    client.BaseAddress = new Uri(Configuration["URLAPI"] + "api/Ads");
-                    string json = await Task.Run(() => JsonConvert.SerializeObject(ad));
+                    client.BaseAddress = new Uri(Configuration["URLAPI"] + "api/Ads/" + ad.Id);
+
+                    var imageContent = new StreamContent(ad.file.OpenReadStream());
+                    StreamContent streamContent = new StreamContent(ad.file.OpenReadStream());
+                    var memoryStream = new MemoryStream();
+                    await streamContent.CopyToAsync(memoryStream);
+                    var bytes = memoryStream.ToArray();
+                    string base64 = Convert.ToBase64String(bytes);
+                    double d = base64.Length;
+
+                    AdPost adPost = new AdPost();
+                    adPost.Id = ad.Id;
+                    adPost.Titre = ad.Titre;
+                    adPost.Description = ad.Description;
+                    adPost.file = base64;
+                    adPost.fileName = ad.file.FileName;
+                    adPost.name = ad.file.Name;
+                    adPost.ContentDisposition = ad.file.ContentDisposition;
+                    adPost.ContentType = ad.file.ContentType;
+                    adPost.Link = ad.Link;
+
+                    string json = await Task.Run(() => JsonConvert.SerializeObject(adPost));
                     var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
                     await client.PutAsync(client.BaseAddress, httpContent);
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

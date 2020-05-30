@@ -65,15 +65,49 @@ namespace Api.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAd(short id, Ad ad)
+        public async Task<IActionResult> PutAd(short id, AdPost adPost)
         {
-            if (id != ad.Id)
+            if (id != adPost.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(ad).State = EntityState.Modified;
+            string folder = "Ads";
 
+            AdInput ad = new AdInput();
+            ad.Id = adPost.Id;
+            ad.Titre = adPost.Titre;
+            ad.Description = adPost.Description;
+            ad.Link = adPost.Link;
+
+            byte[] data = Convert.FromBase64String(adPost.file);
+            var stream = new MemoryStream(data);
+            IFormFile file = new FormFile(stream, 0, data.Length, adPost.name, adPost.fileName)
+            {
+                Headers = new HeaderDictionary(),
+                ContentType = adPost.ContentType,
+                ContentDisposition = adPost.ContentDisposition
+            };
+
+            ad.file = file;
+
+            if (ad.file.Length > 0)
+            {
+                if (!Directory.Exists(Path.Combine(_environnement.WebRootPath, folder)))
+                {
+                    Directory.CreateDirectory(Path.Combine(_environnement.WebRootPath, folder));
+                }
+
+                string filename = "_ad" + DateTime.Now.ToString("_yyyy-MM-dd_HH-mm-ss_") + ad.file.FileName;
+                using (FileStream fileStream = System.IO.File.Create(Path.Combine(_environnement.WebRootPath, folder, filename)))
+                {
+                    ad.file.CopyTo(fileStream);
+                    fileStream.Flush();
+                    _context.Entry(new Ad { Id = ad.Id, Titre = ad.Titre, Description = ad.Description, AdView = folder + "/" + filename, Link = ad.Link }).State = EntityState.Modified;
+                }
+
+            }
+            
             try
             {
                 await _context.SaveChangesAsync();
@@ -96,6 +130,7 @@ namespace Api.Controllers
         // POST: api/Ads
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // Description : Permet de décoder l'image et de l'enregistrer dans l'API
         [HttpPost]
         public async Task<ActionResult<Ad>> PostAd(AdPost adPost)
         {

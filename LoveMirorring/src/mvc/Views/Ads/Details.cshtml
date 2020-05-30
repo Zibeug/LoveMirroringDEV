@@ -35,7 +35,11 @@
                         @Html.DisplayNameFor(model => model.AdView)
                     </dt>
                     <dd class="col-sm-7">
-                        @Html.DisplayFor(model => model.AdView)
+                        @Html.DisplayFor(model => model.AdView) <br />
+                        @{
+                            string imgPath = (ViewData["URLAPI"] as string) + Model.AdView;
+                        }
+                        <a href="@Model.Link" target="_blank"><img class="img-fluid" src="@imgPath" alt="Alternate Text" /></a>
                     </dd>
                     <dt class="col-sm-5">
                         @Html.DisplayNameFor(model => model.Link)

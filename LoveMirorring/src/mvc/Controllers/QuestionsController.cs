@@ -5,6 +5,7 @@
  */
 
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using mvc.Models;
@@ -19,6 +20,7 @@ using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
+    [Authorize]
     public class QuestionsController : Controller
     {
         private readonly IConfiguration _configuration;

@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Auteur : Sébastien Berger
+ * Date : 30.05.2020
+ * Description : Permet d'afficher les pubs dans la page d'accueil
+ */
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,7 +33,7 @@ namespace Api.Controllers
 
         [Route("GetAds")]
         [HttpGet]
-        public async Task<IActionResult> GetAds()
+        public IActionResult GetAds()
         {
             List<Ad> ads = _context.Ads.ToList();
             return new JsonResult(ads);

@@ -43,7 +43,7 @@ namespace mvc.Controllers
 
             }
 
-            return View("");
+            return PartialView("PartAds");
         }
 
         private string RandomPicture(List<Ad> ads)

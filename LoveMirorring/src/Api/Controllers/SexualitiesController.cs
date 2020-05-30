@@ -5,6 +5,7 @@
  */
 
 using Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
+    [Authorize(Policy = "Administrateur")]
     [Route("api/[controller]")]
     [ApiController]
     public class SexualitiesController : ControllerBase

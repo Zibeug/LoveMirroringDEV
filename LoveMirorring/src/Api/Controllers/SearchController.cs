@@ -155,14 +155,18 @@ namespace Api.Controllers
             ul.Id = user.Id;
             ul.Id1 = userLiked.Id;
 
-            //cherche si il existe une conversation entre les deux personnes
-            Talk talk = _context.Talks.Where(t => t.Id == user.Id && t.IdUser2Talk == userLiked.Id).SingleOrDefault();
             try
             {
+                //cherche si il existe une conversation entre les deux personnes
+                Talk talk = _context.Talks.Where(t => t.Id == user.Id && t.IdUser2Talk == userLiked.Id).SingleOrDefault();
+                if (talk == null)
+                {
+                    talk = _context.Talks.Where(t => t.Id == userLiked.Id && t.IdUser2Talk == user.Id).SingleOrDefault();
+                }
                 //crée une conversation si la conversation n'existe pas
                 if (talk == null)
                 {
-                    Talk newtalk = new Talk { Id = user.Id, IdUser2Talk = userLiked.Id,TalkName = user.NormalizedUserName + userLiked.NormalizedUserName };
+                    Talk newtalk = new Talk { Id = user.Id, IdUser2Talk = userLiked.Id, TalkName = user.NormalizedUserName + userLiked.NormalizedUserName };
                     _context.Talks.Add(newtalk);
                     await _context.SaveChangesAsync();
                 }

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Models;
+using Api.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -209,6 +210,36 @@ namespace Api.Controllers
                             .Where(a => a.UserId == userId)
                             .Select(a => a.RoleId)
                             .ToListAsync();
+        }
+
+        /*
+ *      Auteur : Hans Morsch
+ *      29.05.2020
+ *      Permet d'envoyer un rapport à tous les admins par mail
+ */
+        [Route("SendReportAdmin")]
+        [HttpPost]
+        public async Task<IActionResult> GiveNewPassword(ReportViewModel report)
+        {
+            if (report != null)
+            {
+                List<string> adminsmails = (from u in await _context.AspNetUsers.ToListAsync()
+                                  join ur in await _context.AspNetUserRoles.ToListAsync() on u.Id equals ur.UserId
+                                  join r in await _context.AspNetRoles.ToListAsync() on ur.RoleId equals r.Id
+                                  where r.NormalizedName.Equals("ADMINISTRATEUR")
+                                  select u.Email).ToList();
+
+                foreach (string email in adminsmails)
+                {
+                    await _emailSender.SendEmailAsync(
+                        email,
+                        "An User was report.",
+                        $"The user {report.Username} has been reported </br>" + $"For the reason : {report.Reason} </br>" + $"More information : {report.Details}");
+                }
+
+                return Ok();
+            }
+            return null;
         }
     }
 }

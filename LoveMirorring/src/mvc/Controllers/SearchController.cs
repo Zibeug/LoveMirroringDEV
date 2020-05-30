@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -18,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using mvc.Models;
 using mvc.ViewModels;
 using Newtonsoft.Json;
+using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
@@ -245,6 +247,50 @@ namespace mvc.Controllers
             int nb = rand.Next(1, ads.Count() + 1);
 
             return tabAd[nb - 1].AdView;
+        }
+
+
+
+        // Permet de signaler un utilisateur
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Report(string username)
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            ReportViewModel report = new ReportViewModel();
+            report.Username = username;
+
+            return View(report);
+        }
+
+
+       /*
+       *      Auteur : Hans Morsch
+       *      11.05.2020
+       *      Permet d'envoyer un rapport à tous les admins
+       */
+       [HttpPost]
+       [Authorize]
+        public async Task<IActionResult> ConfirmedReport(ReportViewModel report)
+        {
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            if (ModelState.IsValid)
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                StringContent httpContent = new StringContent(report.ToJson(), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(Configuration["URLAPI"] + $"api/Account/SendReportAdmin", httpContent);
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    return BadRequest();
+                }
+            }
+
+            return RedirectToAction(nameof(Search));
         }
     }
 }

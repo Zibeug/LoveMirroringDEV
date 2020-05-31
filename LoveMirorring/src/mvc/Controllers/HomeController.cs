@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Auteur : Sébastien Berger
+ * Date : 31.05.2020
+ * Description : permet d'afficher la page d'accueil
+ */
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -51,7 +56,7 @@ namespace mvc.Controllers
             }
             else
             {
-                if(user.SubscriptionId == null)
+                if(user.UserSubscriptions.Count() == 0)
                 {
                     ViewData["img"] = this.RandomPicture(ads);
                     ViewData["URLAPI"] = Configuration["URLAPI"];

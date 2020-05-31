@@ -35,7 +35,7 @@ namespace mvc.Controllers
 
             List<Ad> ads = JsonConvert.DeserializeObject<List<Ad>>(content);
 
-            if (user.SubscriptionId == null)
+            if (user.UserSubscriptions.Count() == 0)
             {
                 ViewData["img"] = this.RandomPicture(ads);
                 ViewData["URLAPI"] = Configuration["URLAPI"];

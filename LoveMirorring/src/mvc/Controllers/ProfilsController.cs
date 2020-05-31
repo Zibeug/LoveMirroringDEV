@@ -24,7 +24,7 @@ using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "Administrateur")]
     public class ProfilsController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -37,41 +37,57 @@ namespace mvc.Controllers
         // GET: Profils
         public async Task<IActionResult> Index()
         {
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            try
+            {
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Profils");
-            List<Profil> profils = JsonConvert.DeserializeObject<List<Profil>>(content);
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Profils");
+                List<Profil> profils = JsonConvert.DeserializeObject<List<Profil>>(content);
 
-            return View(profils);
+                return View(profils);
+            }
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+            
         }
 
         // GET: Profils/Details/5
         public async Task<IActionResult> Details(short? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Profils/{id}");
+                Profil profil = JsonConvert.DeserializeObject<Profil>(content);
+
+                if (profil == null)
+                {
+                    return NotFound();
+                }
+
+                return View(profil);
             }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Profils/{id}");
-            Profil profil = JsonConvert.DeserializeObject<Profil>(content);
-
-            if (profil == null)
+            catch (HttpRequestException e)
             {
-                return NotFound();
+                return Unauthorized();
             }
-
-            return View(profil);
+            
         }
 
         // GET: Profils/Create
@@ -87,49 +103,65 @@ namespace mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProfilId,ProfilName,ProfilDescription")] Profil profil)
         {
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            if (ModelState.IsValid)
+            try
             {
-                StringContent httpContent = new StringContent(profil.ToJson(), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/Profils", httpContent);
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                if (ModelState.IsValid)
                 {
-                    return Unauthorized();
-                }
+                    StringContent httpContent = new StringContent(profil.ToJson(), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/Profils", httpContent);
 
-                return RedirectToAction(nameof(Index));
+                    if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        return Unauthorized();
+                    }
+
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(profil);
             }
-            return View(profil);
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+            
         }
 
         // GET: Profils/Edit/5
         public async Task<IActionResult> Edit(short? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Profils/{id}");
+
+                Profil profil = JsonConvert.DeserializeObject<Profil>(content);
+
+                if (profil == null)
+                {
+                    return NotFound();
+                }
+                return View(profil);
             }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Profils/{id}");
-
-            Profil profil = JsonConvert.DeserializeObject<Profil>(content); 
-
-            if (profil == null)
+            catch (HttpRequestException e)
             {
-                return NotFound();
+                return Unauthorized();
             }
-            return View(profil);
+            
         }
 
         // POST: Profils/Edit/5
@@ -139,53 +171,69 @@ namespace mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(short id, [Bind("ProfilId,ProfilName,ProfilDescription")] Profil profil)
         {
-            if (id != profil.ProfilId)
+            try
             {
-                return NotFound();
-            }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            if (ModelState.IsValid)
-            {
-                // Préparation de la requête update à l'API
-                StringContent httpContent = new StringContent(profil.ToJson(), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/Profils/{id}", httpContent);
-                if (response.StatusCode != HttpStatusCode.NoContent)
+                if (id != profil.ProfilId)
                 {
-                    return BadRequest();
+                    return NotFound();
                 }
-                return RedirectToAction(nameof(Index));
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                if (ModelState.IsValid)
+                {
+                    // Préparation de la requête update à l'API
+                    StringContent httpContent = new StringContent(profil.ToJson(), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/Profils/{id}", httpContent);
+                    if (response.StatusCode != HttpStatusCode.NoContent)
+                    {
+                        return BadRequest();
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(profil);
             }
-            return View(profil);
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+            
         }
 
         // GET: Profils/Delete/5
         public async Task<IActionResult> Delete(short? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Profils/{id}");
+                Profil profil = JsonConvert.DeserializeObject<Profil>(content);
+
+                if (profil == null)
+                {
+                    return NotFound();
+                }
+
+                return View(profil);
             }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Profils/{id}");
-            Profil profil = JsonConvert.DeserializeObject<Profil>(content);
-
-            if (profil == null)
+            catch (HttpRequestException e)
             {
-                return NotFound();
+                return Unauthorized();
             }
-
-            return View(profil);
+            
         }
 
         // POST: Profils/Delete/5
@@ -193,21 +241,29 @@ namespace mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(short id)
         {
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            if (ModelState.IsValid)
+            try
             {
-                HttpResponseMessage response = await client.DeleteAsync(_configuration["URLAPI"] + $"api/Profils/{id}");
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-                if (response.StatusCode != HttpStatusCode.OK)
+                if (ModelState.IsValid)
                 {
-                    return BadRequest();
+                    HttpResponseMessage response = await client.DeleteAsync(_configuration["URLAPI"] + $"api/Profils/{id}");
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        return BadRequest();
+                    }
                 }
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+            
         }
     }
 }

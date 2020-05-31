@@ -4,14 +4,16 @@
 }
 
 <h1>Search</h1>
-@if(ViewData["HasSubscription"] != null){
-    if (!(bool)ViewData["HasSubscription"])
-    {
-    <a class="btn btn-block btn-primary" asp-controller="UserSubscriptions" asp-action="Index">Envi de voir plus de profils ? Achète un abonnement en cliquant ici</a>
-    }
-}
 
-<partial name="PartAds">
+<partial name="PartAds" />
+
+    @if (ViewData["HasSubscription"] != null)
+    {
+        if (!(bool)ViewData["HasSubscription"])
+        {
+            <a class="btn btn-block btn-primary" asp-controller="UserSubscriptions" asp-action="Index">Envi de voir plus de profils ? Achète un abonnement en cliquant ici</a>
+        }
+    }
 
     @if (ViewData["Search"] == null)
     {

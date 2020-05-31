@@ -228,17 +228,31 @@ namespace Api.Controllers
             }
             else
             {
-                UserLike userLike = _context.UserLikes.Where(d => d.Id == currentUser.Id && d.Id1 == user.Id).Single();
-                Talk talk = _context.Talks.Where(t => t.Id == currentUser.Id && t.IdUser2Talk == user.Id).SingleOrDefault();
-                List<Message> messages = _context.Messages.Where(m => m.TalkId == talk.TalkId).ToList();
                 try
                 {
-                    _context.UserLikes.Remove(userLike);
-                    foreach (Message message in messages)
+                    UserLike userLike = _context.UserLikes.Where(d => d.Id == currentUser.Id && d.Id1 == user.Id).Single();
+                    Talk talk = _context.Talks.Where(t => t.Id == currentUser.Id && t.IdUser2Talk == user.Id).SingleOrDefault();
+                    List<Message> messages = null;
+                    if (talk == null)
                     {
-                        _context.Remove(message);
+                        talk = _context.Talks.Where(t => t.Id == user.Id && t.IdUser2Talk == currentUser.Id).SingleOrDefault();
+                    }                  
+                    if(talk!= null)
+                    {
+                        messages = _context.Messages.Where(m => m.TalkId == talk.TalkId).ToList();
+                    }              
+                    if (messages != null) 
+                    {
+                        foreach (Message message in messages)
+                        {
+                            _context.Remove(message);
+                        }
                     }
-                    _context.Talks.Remove(talk);
+                    if(talk != null)
+                    {
+                        _context.Talks.Remove(talk);
+                    }
+                    _context.UserLikes.Remove(userLike);
                     _context.SaveChanges();
                     return Ok();
                 }

@@ -1034,7 +1034,6 @@ C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\R
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Sexualities\Edit.cshtml.g.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Sexualities\Index.cshtml.g.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LayoutAdmin.cshtml.g.cs
-C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csprojAssemblyReference.cache
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Answers\Create.cshtml.g.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Answers\Delete.cshtml.g.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Answers\Details.cshtml.g.cs
@@ -1079,3 +1078,10 @@ C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\m
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.MvcApplicationPartsAssemblyInfo.cache
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\EFCorePluralizer.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\ChatVocal\Index.cshtml.g.cs
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Ads\Create.cshtml.g.cs
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Ads\Delete.cshtml.g.cs
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Ads\Details.cshtml.g.cs
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Ads\Edit.cshtml.g.cs
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Ads\Index.cshtml.g.cs
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Search\Report.cshtml.g.cs
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Shared\PartAds.cshtml.g.cs

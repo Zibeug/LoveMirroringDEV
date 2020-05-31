@@ -230,6 +230,10 @@ namespace Api.Controllers
             {
                 UserLike userLike = _context.UserLikes.Where(d => d.Id == currentUser.Id && d.Id1 == user.Id).Single();
                 Talk talk = _context.Talks.Where(t => t.Id == currentUser.Id && t.IdUser2Talk == user.Id).SingleOrDefault();
+                if (talk == null)
+                {
+                    talk = _context.Talks.Where(t => t.Id == user.Id && t.IdUser2Talk == currentUser.Id).SingleOrDefault();
+                }
                 List<Message> messages = _context.Messages.Where(m => m.TalkId == talk.TalkId).ToList();
                 try
                 {

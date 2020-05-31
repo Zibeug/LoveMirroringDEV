@@ -237,12 +237,12 @@ namespace Api.Controllers
                 List<Message> messages = _context.Messages.Where(m => m.TalkId == talk.TalkId).ToList();
                 try
                 {
-                    _context.UserLikes.Remove(userLike);
                     foreach (Message message in messages)
                     {
                         _context.Remove(message);
                     }
                     _context.Talks.Remove(talk);
+                    _context.UserLikes.Remove(userLike);
                     _context.SaveChanges();
                     return Ok();
                 }

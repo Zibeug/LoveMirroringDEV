@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "Administrateur")]
     [Route("api/[controller]")]
     [ApiController]
     public class PicturesAdminController : ControllerBase

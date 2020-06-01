@@ -7,6 +7,11 @@
 <div class="row">
     <div class="col-md-8">
         <form asp-controller="Account" asp-action="PostVerifyPhoneModel" method="post">
+            @if(Model.PhoneNumber == null)
+            {
+                <label> Votre numéro de téléphone</label>
+                <input name="number" type="tel" />
+            }
             <p>
                 We will verify your phone number by sending a code to @Model.PhoneNumber
             </p>

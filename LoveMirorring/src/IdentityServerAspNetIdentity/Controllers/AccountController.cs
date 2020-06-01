@@ -387,17 +387,24 @@ namespace IdentityServerAspNetIdentity.Controllers
 
         public async Task<IActionResult> VerifyPhoneAsync()
         {
-            await LoadPhoneNumber();
             SMSVerification model = new SMSVerification();
+
+            await LoadPhoneNumber();
             model.PhoneNumber = PhoneNumber;
+
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostVerifyPhoneModelAsync() 
+        public async Task<IActionResult> PostVerifyPhoneModelAsync(string number = null) 
         {
             await LoadPhoneNumber();
             SMSVerification model = new SMSVerification();
+            if(number != null)
+            {
+                this.PhoneNumber = number;
+            }
+
             try
             {
                 VerificationResource verification = await VerificationResource.CreateAsync(

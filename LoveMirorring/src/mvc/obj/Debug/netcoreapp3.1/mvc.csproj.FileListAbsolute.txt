@@ -1085,3 +1085,4 @@ C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\R
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Ads\Index.cshtml.g.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Search\Report.cshtml.g.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Shared\PartAds.cshtml.g.cs
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Account\AccessDenied.cshtml.g.cs

@@ -165,6 +165,7 @@ namespace IdentityServer4.Quickstart.UI
             var resultPhoneConfirmed = await _userManager.IsPhoneNumberConfirmedAsync(user);
             if (!resultPhoneConfirmed)
             {
+                TempData["id"] = user.Id;
                 return Redirect("~/Account/VerifyPhone");
             }
 

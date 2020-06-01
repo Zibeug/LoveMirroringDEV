@@ -162,6 +162,12 @@ namespace IdentityServer4.Quickstart.UI
             // retrieve return URL
             var returnUrl = result.Properties.Items["returnUrl"] ?? "~/";
 
+            var resultPhoneConfirmed = await _userManager.IsPhoneNumberConfirmedAsync(user);
+            if (!resultPhoneConfirmed)
+            {
+                return Redirect("~/Account/VerifyPhone");
+            }
+
             // check if external login is in the context of an OIDC request
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
             await _events.RaiseAsync(new UserLoginSuccessEvent(provider, providerUserId, user.Id, name, true, context?.ClientId));
@@ -175,6 +181,8 @@ namespace IdentityServer4.Quickstart.UI
                     return this.LoadingPage("Redirect", returnUrl);
                 }
             }
+
+            
 
             return Redirect(returnUrl);
         }

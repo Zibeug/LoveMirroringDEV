@@ -17,7 +17,7 @@ namespace mvc.Controllers
         private IConfiguration Configuration { get; set; }
         public PartAdsController(IConfiguration configuration)
         {
-
+            Configuration = configuration;
         }
 
         public async Task<IActionResult> Index()

@@ -11,7 +11,9 @@
             {
                 <label> Votre numéro de téléphone</label>
                 <input name="number" type="tel" />
+                <input name="id" type="hidden" value="@TempData["id"]" />
             }
+
             <p>
                 We will verify your phone number by sending a code to @Model.PhoneNumber
             </p>

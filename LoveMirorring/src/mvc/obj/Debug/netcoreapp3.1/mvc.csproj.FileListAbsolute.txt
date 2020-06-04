@@ -1086,3 +1086,13 @@ C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\R
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Search\Report.cshtml.g.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Shared\PartAds.cshtml.g.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Account\AccessDenied.cshtml.g.cs
+C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csprojAssemblyReference.cache
+C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csproj.CoreCompileInputs.cache
+C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.RazorAssemblyInfo.cache
+C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.RazorAssemblyInfo.cs
+C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\EFCorePluralizer.cs
+C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.AssemblyInfoInputs.cache
+C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.AssemblyInfo.cs
+C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.dll
+C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.pdb

@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using mvc.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -6,13 +10,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using mvc.Models;
-using Newtonsoft.Json;
 using Unosquare.Swan;
 
 namespace mvc.Controllers
@@ -20,6 +17,8 @@ namespace mvc.Controllers
     public class UserContactRequestsController : Controller
     {
         private readonly IConfiguration _configuration;
+
+        public object JsonConvert { get; private set; }
 
         public UserContactRequestsController(IConfiguration configuration)
         {
@@ -29,7 +28,6 @@ namespace mvc.Controllers
         // GET: UserContactRequests
         public async Task<IActionResult> Index()
         {
-
             // Préparation de l'appel à l'API
             string accessToken = await HttpContext.GetTokenAsync("access_token");
             HttpClient client = new HttpClient();
@@ -74,7 +72,7 @@ namespace mvc.Controllers
         }
 
         // POST: UserContactRequests/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -128,7 +126,7 @@ namespace mvc.Controllers
         //}
 
         //// POST: UserContactRequests/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
         //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         //[ValidateAntiForgeryToken]

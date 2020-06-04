@@ -26,7 +26,7 @@ using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
-    [Authorize(Policy = "Administrateur")]
+    [Authorize(Policy = "Administrateur,Moderateur")]
     public class AdminController : Controller
     {
         private IConfiguration _configuration { get; }
@@ -381,7 +381,7 @@ namespace mvc.Controllers
             return View("Search");
         }
 
-
+        [Authorize(Policy = "Administrateur")]
         public async Task<IActionResult> Roles()
         {
 
@@ -400,6 +400,7 @@ namespace mvc.Controllers
             return View(roles);
         }
 
+        [Authorize(Policy = "Administrateur")]
         public async Task<IActionResult> CreateRole(AspNetRole role)
         {
 
@@ -422,6 +423,7 @@ namespace mvc.Controllers
             return View();
         }
 
+        [Authorize(Policy = "Administrateur")]
         public async Task<IActionResult> AddUserToRole(UpdateUserRoleModel model)
         {
 
@@ -444,6 +446,12 @@ namespace mvc.Controllers
             return View();
         }
 
+
+        /*
+         *      Auteur : Hans Morsch
+         *      29.05.2020
+         *      Permet d'envoyer un nouveau mot de passe à l'utilisateur
+         */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> GiveNewPassword(AspNetUser user)

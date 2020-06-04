@@ -5,6 +5,7 @@
  */
 
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using mvc.Models;
@@ -19,6 +20,7 @@ using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
+    [Authorize(Policy = "Administrateur")]
     public class ReligionsController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -31,41 +33,57 @@ namespace mvc.Controllers
         // GET: Religions
         public async Task<IActionResult> Index()
         {
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            try
+            {
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Religions");
-            List<Religion> religions = JsonConvert.DeserializeObject<List<Religion>>(content);
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Religions");
+                List<Religion> religions = JsonConvert.DeserializeObject<List<Religion>>(content);
 
-            return View(religions);
+                return View(religions);
+            }
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+            
         }
 
         // GET: Religions/Details/5
         public async Task<IActionResult> Details(short? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Religions/{id}");
+                Religion religion = JsonConvert.DeserializeObject<Religion>(content);
+
+                if (religion == null)
+                {
+                    return NotFound();
+                }
+
+                return View(religion);
             }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Religions/{id}");
-            Religion religion = JsonConvert.DeserializeObject<Religion>(content);
-
-            if (religion == null)
+            catch (HttpRequestException e)
             {
-                return NotFound();
+                return Unauthorized();
             }
-
-            return View(religion);
+            
         }
 
         // GET: Religions/Create
@@ -81,50 +99,66 @@ namespace mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ReligionId,ReligionName")] Religion religion)
         {
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            if (ModelState.IsValid)
+            try
             {
-                StringContent httpContent = new StringContent(religion.ToJson(), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/Religions", httpContent);
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                if (ModelState.IsValid)
                 {
-                    return Unauthorized();
+                    StringContent httpContent = new StringContent(religion.ToJson(), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/Religions", httpContent);
+
+                    if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        return Unauthorized();
+                    }
+
+                    return RedirectToAction(nameof(Index));
                 }
 
-                return RedirectToAction(nameof(Index));
+                return View(religion);
             }
-
-            return View(religion);
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+            
         }
 
         // GET: Religions/Edit/5
         public async Task<IActionResult> Edit(short? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Religions/{id}");
+
+                Religion religion = JsonConvert.DeserializeObject<Religion>(content);
+
+                if (religion == null)
+                {
+                    return NotFound();
+                }
+                return View(religion);
             }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Religions/{id}");
-
-            Religion religion = JsonConvert.DeserializeObject<Religion>(content);
-
-            if (religion == null)
+            catch (HttpRequestException e)
             {
-                return NotFound();
+                return Unauthorized();
             }
-            return View(religion);
+            
         }
 
         // POST: Religions/Edit/5
@@ -134,53 +168,69 @@ namespace mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(short id, [Bind("ReligionId,ReligionName")] Religion religion)
         {
-            if (id != religion.ReligionId)
+            try
             {
-                return NotFound();
-            }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            if (ModelState.IsValid)
-            {
-                // Préparation de la requête update à l'API
-                StringContent httpContent = new StringContent(religion.ToJson(), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/Religions/{id}", httpContent);
-                if (response.StatusCode != HttpStatusCode.NoContent)
+                if (id != religion.ReligionId)
                 {
-                    return BadRequest();
+                    return NotFound();
                 }
-                return RedirectToAction(nameof(Index));
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                if (ModelState.IsValid)
+                {
+                    // Préparation de la requête update à l'API
+                    StringContent httpContent = new StringContent(religion.ToJson(), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/Religions/{id}", httpContent);
+                    if (response.StatusCode != HttpStatusCode.NoContent)
+                    {
+                        return BadRequest();
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(religion);
             }
-            return View(religion);
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+            
         }
 
         // GET: Religions/Delete/5
         public async Task<IActionResult> Delete(short? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Religions/{id}");
+                Religion religion = JsonConvert.DeserializeObject<Religion>(content);
+
+                if (religion == null)
+                {
+                    return NotFound();
+                }
+
+                return View(religion);
             }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Religions/{id}");
-            Religion religion = JsonConvert.DeserializeObject<Religion>(content);
-
-            if (religion == null)
+            catch (HttpRequestException e)
             {
-                return NotFound();
+                return Unauthorized();
             }
-
-            return View(religion);
+            
         }
 
         // POST: Religions/Delete/5
@@ -188,26 +238,34 @@ namespace mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(short? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            if (ModelState.IsValid)
-            {
-                HttpResponseMessage response = await client.DeleteAsync(_configuration["URLAPI"] + $"api/Religions/{id}");
-
-                if (response.StatusCode != HttpStatusCode.OK)
+                if (id == null)
                 {
-                    return BadRequest();
+                    return NotFound();
                 }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                if (ModelState.IsValid)
+                {
+                    HttpResponseMessage response = await client.DeleteAsync(_configuration["URLAPI"] + $"api/Religions/{id}");
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        return BadRequest();
+                    }
+                }
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+            
         }
     }
 }

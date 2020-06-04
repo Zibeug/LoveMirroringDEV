@@ -78,6 +78,89 @@ namespace Api.Controllers
             return new JsonResult(musics);
         }
 
+        //Permet de savoir s'il a déjà rempli cette préférence ou pas
+        // GET: api/Spotify/CheckSong
+        [Route("CheckSong")]
+        [HttpGet]
+        public async Task<IActionResult> CheckPref()
+        {
+            AspNetUser user = null;
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            // Récurération des données et convertion des données dans le bon type
+            string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
+            user = JsonConvert.DeserializeObject<AspNetUser>(content);
+            Preference p = _context.Preferences
+                .Include(x => x.PreferenceMusics)
+                .Where(x => x.Id == user.Id)
+                .SingleOrDefault();
+
+            return new JsonResult(p.PreferenceMusics.FirstOrDefault());
+        }
+
+        [Route("UpdateSong")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateSong([FromBody]string songname)
+        {
+            AspNetUser user = null;
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            // Récurération des données et convertion des données dans le bon type
+            string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
+            user = JsonConvert.DeserializeObject<AspNetUser>(content);
+            Preference p = _context.Preferences
+                .Include(x => x.PreferenceMusics)
+                .Where(x => x.Id == user.Id)
+                .SingleOrDefault();
+
+            PreferenceMusic pM = p.PreferenceMusics.FirstOrDefault();
+            UserMusic currentUserMusic = _context.UserMusics.Where(x => x.Id == user.Id).SingleOrDefault();
+
+            string[] song = songname.Split('-');
+            Music music = new Music();
+            music.MusicName = song[0];
+            music.ArtistName = song[1];
+
+            Music search = _context.Musics.Where(x => x.MusicName.Equals(music.MusicName)).SingleOrDefault();
+
+            if (search == null)
+            {
+                _context.Musics.Add(music);
+                _context.SaveChanges();
+            }
+            else
+            {
+                music = search;
+            }
+
+            try
+            {
+                _context.PreferenceMusics.Remove(pM);
+                _context.UserMusics.Remove(currentUserMusic);
+                _context.SaveChanges();
+                pM.MusicId = music.MusicId;
+
+                _context.PreferenceMusics.Add(pM);
+
+                UserMusic userMusic = new UserMusic();
+                userMusic.Id = user.Id;
+                userMusic.MusicId = music.MusicId;
+                _context.UserMusics.Add(userMusic);
+
+                _context.SaveChanges();
+
+                return Ok();
+            }
+            catch(Exception)
+            {
+                return BadRequest();
+            }
+        }
+
         // Permet d'enregistrer la préférence de l'utilisateur
         // POST: api/Spotify/SaveSong
         [Route("SaveSong")]
@@ -128,6 +211,11 @@ namespace Api.Controllers
                     pM.MusicId = music.MusicId;
                     pM.PreferenceId = p.PreferenceId;
                     p.PreferenceMusics.Add(pM);
+
+                    UserMusic userMusic = new UserMusic();
+                    userMusic.Id = user.Id;
+                    userMusic.MusicId = music.MusicId;
+                    _context.UserMusics.Add(userMusic);
 
                     _context.SaveChanges();
                     return NoContent();

@@ -368,5 +368,10 @@ namespace mvc.Controllers
 
             return View(aspNetUser);
         }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }

@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- App Area -->
+<div class="row-fluid">
+    <!-- Side Bar -->
+    <div class="span3">
+        <!-- In Call Actions -->
+        <div class="card card-body bg-light actions">
+            <div id="callstatus" class="status">Idle</div>
+            <button class="btn btn-danger hangup">Hang Up</button>
+        </div>
+        <!-- User List -->
+        <div class="card card-body bg-light user-list">
+            <ul id="usersdata" class="list-group">
+                <li class="list-group-item">Online Users <small id="usersLength"></small></li>
+                <!-- ko foreach: Users -->
+                <li class="list-group-item user" data-cid="" data-username="">
+                    <a href="#">
+                        <!-- only using an a here for bootstrap styling -->
+                        <div class="username"></div>
+                        <div class="helper" data-bind="css: $parent.getUserStatus($data)"></div>
+                    </a>
+                </li>
+                <!-- /ko -->
+            </ul>
+        </div>
+        <div class="card card-body bg-light conn-type">
+            <button type="button" class="btn btn-dark">Connection Type <span class="badge badge-secondary">Audio</span></button>
+        </div>
+    </div>
+    <!-- Videos -->
+    <div class="span9">
+        <div class="row-fluid">
+            @*<div class="span6">
+                    <h4>You</h4>
+                    <video class="video mine cool-background" autoplay="autoplay"></video>
+                </div>*@
+            <div class="span6">
+                <h4>Partner</h4>
+                <audio class="audio partner" autoplay="" controls=""></audio>
+                @*<video class="video partner cool-background" autoplay="autoplay"></video>*@
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+<hr>
+
+@section Scripts {
+
+    @* Chat vocal *@
+    <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/lib/alertifyjs/build/alertify.min.js"></script>
+    <script src="~/Content/js/utilsRTC.js"></script>
+    <script src="~/Content/js/constWebRTC.js"></script>
+    <script src="~/lib/adapter/adapter.min.js"></script>
+    <script src="~/Content/js/connectionHub.js"></script>
+    <script src="~/Content/js/Custom.js"></script>
+}
+

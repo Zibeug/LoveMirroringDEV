@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Unosquare.Swan;
 
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TestController : ControllerBase
+    public class NewMatchingController : ControllerBase
     {
+        private const double MATCHING = 0.1;
         private readonly LoveMirroringContext _context;
         private readonly IEmailSender _emailSender;
         private IConfiguration _configuration { get; }
 
-        public TestController(LoveMirroringContext context, IEmailSender emailSender, IConfiguration configuration)
+        public NewMatchingController(LoveMirroringContext context, IEmailSender emailSender, IConfiguration configuration)
         {
             _context = context;
             _emailSender = emailSender;
@@ -56,8 +55,8 @@ namespace Api.Controllers
                 // Ajouter et calculer le potentiel du match : 100% = couple parfait
                 foreach (AspNetUser potentialUserMatch in potentialUserMatchs)
                 {
-                    // Le potentiel commence à 0.25 car age et profil obligatoire (chacun vaut 0.125
-                    double potentielPourcentage = 0.25;
+                    // Le potentiel commence à 0.2 car age et profil obligatoire (chacun vaut 0.125
+                    double potentielPourcentage = MATCHING*2;
 
                     // Vérifier si le profil correspond
                     List<string> potentialUserMatchProfil = new List<string>();
@@ -78,7 +77,7 @@ namespace Api.Controllers
                         if (potentialUserProfil.Contains(userMatchProfil))
                         {
                             profil = userMatchProfil;
-                            potentielPourcentage += 0.125;
+                            potentielPourcentage += MATCHING;
                             break;
                         }
                     }
@@ -94,7 +93,7 @@ namespace Api.Controllers
                             if (preferenceCorpulenceUser.Corpulence.CorpulenceName == corpulenceUserMatch)
                             {
                                 corpulence = corpulenceUserMatch;
-                                potentielPourcentage += 0.125;
+                                potentielPourcentage += MATCHING;
                                 break;
                             }
                         }
@@ -110,7 +109,7 @@ namespace Api.Controllers
                             if (preferenceHairColorUser.HairColor.HairColorName == hairColorUserMatch)
                             {
                                 hairColor = hairColorUserMatch;
-                                potentielPourcentage += 0.125;
+                                potentielPourcentage += MATCHING;
                                 break;
                             }
                         }
@@ -126,7 +125,7 @@ namespace Api.Controllers
                             if (preferenceHairSizeUser.HairSize.HairSizeName == hairSizeUserMatch)
                             {
                                 hairSize = hairSizeUserMatch;
-                                potentielPourcentage += 0.125;
+                                potentielPourcentage += MATCHING;
                                 break;
                             }
                         }
@@ -151,7 +150,7 @@ namespace Api.Controllers
                         if (potentialUserStyle.Contains(userMatchStyle))
                         {
                             style = userMatchStyle;
-                            potentielPourcentage += 0.125;
+                            potentielPourcentage += MATCHING;
                             break;
                         }
                     }
@@ -166,11 +165,49 @@ namespace Api.Controllers
                             if (preferenceReligionUser.Religion.ReligionName == religionUserMatch)
                             {
                                 religion = religionUserMatch;
-                                potentielPourcentage += 0.125;
+                                potentielPourcentage += MATCHING;
                                 break;
                             }
                         }
                     }
+
+                    //Vérifier si la musique correspond
+                    string musicName = "";
+                    if (potentialUserMatch.UserMusics.Count() > 0)
+                    {
+                        string musicMatch = potentialUserMatch.UserMusics.FirstOrDefault().Music.MusicName;
+                        foreach (Preference preferenceUser in user.Preferences)
+                        {
+                            foreach (PreferenceMusic preferenceMusic in preferenceUser.PreferenceMusics)
+                            {
+                                if (preferenceMusic.Music.MusicName == musicMatch)
+                                {
+                                    musicName = musicMatch;
+                                    potentielPourcentage += MATCHING;
+                                    break;
+                                }
+                            }
+                        }
+                    }             
+
+                    //Vérifier si l'artiste correspond
+                    string artistName = "";
+                    if (potentialUserMatch.UserMusics.Count() > 0)
+                    {
+                        string artistMatch = potentialUserMatch.UserMusics.FirstOrDefault().Music.ArtistName;
+                        foreach (Preference preferenceUser in user.Preferences)
+                        {
+                            foreach (PreferenceMusic preferenceMusic in preferenceUser.PreferenceMusics)
+                            {
+                                if (preferenceMusic.Music.ArtistName == artistMatch)
+                                {
+                                    artistName = artistMatch;
+                                    potentielPourcentage += MATCHING;
+                                    break;
+                                }
+                            }
+                        }
+                    }                 
 
                     // Ajout du match
                     usersChoices.Add(
@@ -187,6 +224,8 @@ namespace Api.Controllers
                             Style = style,
                             Religion = religion,
                             Sexuality = user.Sexuality.SexualityName,
+                            MusicName = musicName,
+                            ArtisteName = artistName,
                             PourcentageMatching = potentielPourcentage
                         }
                     );
@@ -283,6 +322,7 @@ namespace Api.Controllers
         {
             return _context.AspNetUsers
                                 .Include(u => u.UserSubscriptions)
+                                    .ThenInclude(u => u.Subscriptions)
                                 .Include(u => u.Sexe)
                                 .Include(u => u.Religion)
                                 .Include(u => u.HairSize)
@@ -306,6 +346,8 @@ namespace Api.Controllers
                                     .ThenInclude(u => u.Profil)
                                 .Include(u => u.UserStyles)
                                     .ThenInclude(u => u.Style)
+                                .Include(u => u.UserMusics)
+                                    .ThenInclude(u => u.Music)  
                                 .ToList();
         }
 

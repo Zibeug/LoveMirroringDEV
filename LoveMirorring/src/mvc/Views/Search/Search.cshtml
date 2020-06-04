@@ -4,80 +4,84 @@
 }
 
 <h1>Search</h1>
-@if(ViewData["HasSubscription"] != null){
-    if (!(bool)ViewData["HasSubscription"])
+
+<partial name="PartAds" />
+
+    @if (ViewData["HasSubscription"] != null)
     {
-    <a class="btn btn-block btn-primary" asp-controller="UserSubscriptions" asp-action="Index">Envi de voir plus de profils ? Achète un abonnement en cliquant ici</a>
+        if (!(bool)ViewData["HasSubscription"])
+        {
+            <a class="btn btn-block btn-primary" asp-controller="UserSubscriptions" asp-action="Index">Envi de voir plus de profils ? Achète un abonnement en cliquant ici</a>
+        }
     }
-}
 
-@if (ViewData["Search"] == null)
-{
-<p>Rien à afficher pour le moment</p>
-}
-else
-{
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Utilisateur
-            </th>
-            <th>
-                Type de profil
-            </th>
-            <th>
-                Age
-            </th>
-            <th>
-                Sexe
-            </th>
-            <th>
-                Details
-            </th>
-            <th>
-                Choix
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (MatchingModel user in ViewData["Search"] as IEnumerable<MatchingModel>)
-            {
-        <tr>
-            <td>
-                @user.Firstname
-            </td>
-            <td>
-                @user.Profil
-            </td>
-            <td>
-                @user.Age
-            </td>
-            <td>
-                @user.Sexe
-            </td>
-            <td>
-                <form asp-route="Search" method="post">
-                    <input type="hidden" name="username" value="@user.UserName" />
-                    <button class="btn btn-secondary" asp-action="Details">Voir le compte</button>
-                </form>
-            </td>
-            <td>
-                <form asp-route="Search" method="post">
-                    <input type="hidden" name="username" value="@user.UserName" />
-                    <button class="btn btn-secondary" asp-action="Like">Like</button>
-                </form>
-                @*<button class="btn btn-secondary" asp-page-handler="UnLike" asp-route-id="@item.UserName">Unlike</button>*@
-            </td>
-        </tr>
-            }
-    </tbody>
-</table>
-}
+    @if (ViewData["Search"] == null)
+    {
+        <p>Rien à afficher pour le moment</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Utilisateur
+                    </th>
+                    <th>
+                        Type de profil
+                    </th>
+                    <th>
+                        Age
+                    </th>
+                    <th>
+                        Sexe
+                    </th>
+                    <th>
+                        Details
+                    </th>
+                    <th>
+                        Choix
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (MatchingModel user in ViewData["Search"] as IEnumerable<MatchingModel>)
+                {
+                    <tr>
+                        <td>
+                            @user.Firstname
+                        </td>
+                        <td>
+                            @user.Profil
+                        </td>
+                        <td>
+                            @user.Age
+                        </td>
+                        <td>
+                            @user.Sexe
+                        </td>
+                        <td>
+                            <form asp-route="Search" method="post">
+                                <input type="hidden" name="username" value="@user.UserName" />
+                                <button class="btn btn-secondary" asp-action="Details">Voir le compte</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form asp-route="Search" method="post">
+                                <input type="hidden" name="username" value="@user.UserName" />
+                                <button class="btn btn-secondary" asp-action="Like">Like</button>
+                            </form>
+                            @*<button class="btn btn-secondary" asp-page-handler="UnLike" asp-route-id="@item.UserName">Unlike</button>*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 
 
-<form method="post" asp-route="Search">
-    <div class="form-group">
-        <button class="btn-primary btn-lg" asp-action="Search">Trouver votre âme soeur</button>
-    </div>
-</form>
+    <form method="post" asp-route="Search">
+        <div class="form-group">
+            <button class="btn-primary btn-lg" asp-action="Search">Trouver votre âme soeur</button>
+        </div>
+    </form>

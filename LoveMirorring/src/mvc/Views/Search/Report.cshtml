@@ -1,0 +1,41 @@
+﻿@using mvc.ViewModels
+@model ReportViewModel
+@{
+    ViewData["Title"] = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Report</h1>
+<partial name="PartAds" />
+<div class="container">
+    <form asp-controller="Search" asp-action="ConfirmedReport" method="post">
+        <div class="row">
+
+            <div class="col">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input type="hidden" asp-for="Username" value="@Model.Username" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Reason</label>
+                    <div class="col-sm-10">
+                        <input type="radio" asp-for="Reason" value="Inappropriate contexte" /> Inappropriate contexte<br />
+                        <input type="radio" asp-for="Reason" value="Fake account" />Fake account<br />
+                        <input type="radio" asp-for="Reason" value="Identity theft" />Identity theft<br />
+                        <input type="radio" asp-for="Reason" value="Other" />Other<br />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="message" class="col-sm-2 col-form-label">Details</label>
+                    <div class="col-sm-10">
+                        <textarea asp-for="Details"></textarea>
+                    </div>
+                    <input type="submit" name="Envoyer" value="Envoyer">
+                </div>
+
+            </div>
+        </div>
+        </form>
+    </div>

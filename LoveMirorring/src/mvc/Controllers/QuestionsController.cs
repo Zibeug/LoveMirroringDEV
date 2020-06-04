@@ -5,6 +5,7 @@
  */
 
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using mvc.Models;
@@ -19,6 +20,7 @@ using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
+    [Authorize(Policy = "Administrateur")]
     public class QuestionsController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -31,41 +33,58 @@ namespace mvc.Controllers
         // GET: Questions
         public async Task<IActionResult> Index()
         {
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            try
+            {
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Questions");
-            List<Question> questions = JsonConvert.DeserializeObject<List<Question>>(content);
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Questions");
+                List<Question> questions = JsonConvert.DeserializeObject<List<Question>>(content);
 
-            return View(questions);
+                return View(questions);
+            }
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+            
         }
 
         // GET: Questions/Details/5
         public async Task<IActionResult> Details(short? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Questions/{id}");
+                Question question = JsonConvert.DeserializeObject<Question>(content);
+
+                if (question == null)
+                {
+                    return NotFound();
+                }
+
+                return View(question);
+            }
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
             }
 
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Questions/{id}");
-            Question question = JsonConvert.DeserializeObject<Question>(content);
-
-            if (question == null)
-            {
-                return NotFound();
-            }
-
-            return View(question);
+            
         }
 
         // GET: Questions/Create
@@ -81,49 +100,65 @@ namespace mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("QuestionId,QuestionText")] Question question)
         {
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            if (ModelState.IsValid)
+            try
             {
-                StringContent httpContent = new StringContent(question.ToJson(), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/Questions", httpContent);
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                if (ModelState.IsValid)
                 {
-                    return Unauthorized();
-                }
+                    StringContent httpContent = new StringContent(question.ToJson(), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/Questions", httpContent);
 
-                return RedirectToAction(nameof(Index));
+                    if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        return Unauthorized();
+                    }
+
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(question);
             }
-            return View(question);
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+            
         }
 
         // GET: Questions/Edit/5
         public async Task<IActionResult> Edit(short? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Questions/{id}");
+
+                Question question = JsonConvert.DeserializeObject<Question>(content);
+
+                if (question == null)
+                {
+                    return NotFound();
+                }
+                return View(question);
             }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Questions/{id}");
-
-            Question question = JsonConvert.DeserializeObject<Question>(content);
-
-            if (question == null)
+            catch (HttpRequestException e)
             {
-                return NotFound();
+                return Unauthorized();
             }
-            return View(question);
+            
         }
 
         // POST: Questions/Edit/5
@@ -133,53 +168,69 @@ namespace mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(short id, [Bind("QuestionId,QuestionText")] Question question)
         {
-            if (id != question.QuestionId)
+            try
             {
-                return NotFound();
-            }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            if (ModelState.IsValid)
-            {
-                // Préparation de la requête update à l'API
-                StringContent httpContent = new StringContent(question.ToJson(), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/Questions/{id}", httpContent);
-                if (response.StatusCode != HttpStatusCode.NoContent)
+                if (id != question.QuestionId)
                 {
-                    return BadRequest();
+                    return NotFound();
                 }
-                return RedirectToAction(nameof(Index));
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                if (ModelState.IsValid)
+                {
+                    // Préparation de la requête update à l'API
+                    StringContent httpContent = new StringContent(question.ToJson(), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/Questions/{id}", httpContent);
+                    if (response.StatusCode != HttpStatusCode.NoContent)
+                    {
+                        return BadRequest();
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(question);
             }
-            return View(question);
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+            
         }
 
         // GET: Questions/Delete/5
         public async Task<IActionResult> Delete(short? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Questions/{id}");
+                Question question = JsonConvert.DeserializeObject<Question>(content);
+
+                if (question == null)
+                {
+                    return NotFound();
+                }
+
+                return View(question);
             }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Questions/{id}");
-            Question question = JsonConvert.DeserializeObject<Question>(content);
-
-            if (question == null)
+            catch (HttpRequestException e)
             {
-                return NotFound();
+                return Unauthorized();
             }
-
-            return View(question);
+            
         }
 
         // POST: Questions/Delete/5
@@ -187,26 +238,34 @@ namespace mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(short? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            if (ModelState.IsValid)
-            {
-                HttpResponseMessage response = await client.DeleteAsync(_configuration["URLAPI"] + $"api/Questions/{id}");
-
-                if (response.StatusCode != HttpStatusCode.OK)
+                if (id == null)
                 {
-                    return BadRequest();
+                    return NotFound();
                 }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                if (ModelState.IsValid)
+                {
+                    HttpResponseMessage response = await client.DeleteAsync(_configuration["URLAPI"] + $"api/Questions/{id}");
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        return BadRequest();
+                    }
+                }
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+            
         }
     }
 }

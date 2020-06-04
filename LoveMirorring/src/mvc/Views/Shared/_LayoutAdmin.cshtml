@@ -31,7 +31,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" asp-action="Index">
+                <a class="nav-link" asp-controller="Admin" asp-action="Index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
@@ -47,7 +47,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" asp-action="GetAllUsers">
+                <a class="nav-link" asp-controller="Admin" asp-action="GetAllUsers">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Utilisateurs</span>
                 </a>
@@ -55,7 +55,7 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" asp-action="Roles">
+                <a class="nav-link collapsed" asp-controller="Admin" asp-action="Roles">
                     <i class="fas fa-fw fa-lock"></i>
                     <span>Rôle</span>
                 </a>
@@ -70,65 +70,107 @@
             </div>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" asp-action="Search">
+                <a class="nav-link collapsed" asp-controller="Admin" asp-action="Search">
                     <i class="fas fa-fw fa-search"></i>
                     <span>Chercher un utilisateur</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" asp-action="GetAllBan">
+                <a class="nav-link" asp-controller="Admin" asp-action="GetAllBan">
                     <i class="fas fa-fw fa-ban"></i>
                     <span>Utilisateurs bannis</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" asp-action="ContactRequests">
-                    <i class="fas fa-fw fa-ban"></i>
-                    <span>Demandes de contact</span>
+                <a class="nav-link" asp-controller="PicturesAdmin" asp-action="Index">
+                    <i class="fas fa-fw fa-trash-restore"></i>
+                    <span>Confirmer les photos des utilisateurs</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" asp-action="ViewQuiz">
+                <a class="nav-link" asp-controller="Admin" asp-action="ViewQuiz">
                     <i class="fas fa-fw fa-trash-restore"></i>
                     <span>Reset Quizz</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" asp-action="ViewCorpulences">
+                <a class="nav-link" asp-controller="Corpulences" asp-action="Index">
                     <i class="fas fa-fw fa-trash-restore"></i>
                     <span>Corpulences</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" asp-action="ViewReligions">
+                <a class="nav-link" asp-controller="Religions" asp-action="Index">
                     <i class="fas fa-fw fa-trash-restore"></i>
                     <span>Religions</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" asp-action="ViewSexualities">
+                <a class="nav-link" asp-controller="Sexualities" asp-action="Index">
                     <i class="fas fa-fw fa-trash-restore"></i>
                     <span>Sexualités</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" asp-action="ViewSexes">
+                <a class="nav-link" asp-controller="Sexes" asp-action="Index">
                     <i class="fas fa-fw fa-trash-restore"></i>
                     <span>Sexes</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" asp-action="ViewStyles">
+                <a class="nav-link" asp-controller="Styles" asp-action="Index">
                     <i class="fas fa-fw fa-trash-restore"></i>
                     <span>Styles</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="HairColors" asp-action="Index">
+                    <i class="fas fa-fw fa-trash-restore"></i>
+                    <span>HairColors</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="HairSizes" asp-action="Index">
+                    <i class="fas fa-fw fa-trash-restore"></i>
+                    <span>HairSizes</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Profils" asp-action="Index">
+                    <i class="fas fa-fw fa-trash-restore"></i>
+                    <span>Profils</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Answers" asp-action="Index">
+                    <i class="fas fa-fw fa-trash-restore"></i>
+                    <span>Answers</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Questions" asp-action="Index">
+                    <i class="fas fa-fw fa-trash-restore"></i>
+                    <span>Questions</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Ads" asp-action="Index">
+                    <i class="fas fa-fw fa-trash-restore"></i>
+                    <span>Publicités</span>
                 </a>
             </li>
 

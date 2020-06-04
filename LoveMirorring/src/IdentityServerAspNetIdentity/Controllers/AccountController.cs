@@ -387,19 +387,33 @@ namespace IdentityServerAspNetIdentity.Controllers
 
         public async Task<IActionResult> VerifyPhoneAsync()
         {
-            await LoadPhoneNumber();
             SMSVerification model = new SMSVerification();
+
+            await LoadPhoneNumber();
             model.PhoneNumber = PhoneNumber;
+
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostVerifyPhoneModelAsync() 
+        public async Task<IActionResult> PostVerifyPhoneModelAsync(string number = null, string id = null) 
         {
             await LoadPhoneNumber();
             SMSVerification model = new SMSVerification();
+            if(number != null)
+            {
+                this.PhoneNumber = number;
+            }
+
             try
             {
+                if(id != null)
+                {
+                    ApplicationUser user = await _userManager.FindByIdAsync(id);
+                    user.PhoneNumber = this.PhoneNumber;
+                    _userManager.UpdateAsync(user);
+                }
+                
                 VerificationResource verification = await VerificationResource.CreateAsync(
                     to: PhoneNumber,
                     channel: "sms",
@@ -424,6 +438,7 @@ namespace IdentityServerAspNetIdentity.Controllers
         [HttpPost]
         public async Task<IActionResult> PostVerifyPhoneCodeAsync(SMSVerification input) {
             await LoadPhoneNumber();
+            
             if (!ModelState.IsValid) 
             { 
                 return View("ConfirmPhone", input); 

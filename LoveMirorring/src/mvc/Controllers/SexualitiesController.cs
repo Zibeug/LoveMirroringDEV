@@ -5,6 +5,7 @@
  */
 
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,7 @@ using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
+    [Authorize(Policy = "Administrateur")]
     public class SexualitiesController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -33,41 +35,57 @@ namespace mvc.Controllers
         // GET: Sexualities
         public async Task<IActionResult> Index()
         {
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            try
+            {
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Sexualities");
-            List<Sexuality> sexualities = JsonConvert.DeserializeObject<List<Sexuality>>(content);
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Sexualities");
+                List<Sexuality> sexualities = JsonConvert.DeserializeObject<List<Sexuality>>(content);
 
-            return View(sexualities);
+                return View(sexualities);
+            }
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+            
         }
 
         // GET: Sexualities/Details/5
         public async Task<IActionResult> Details(short? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Sexualities/{id}");
+                Sexuality sexuality = JsonConvert.DeserializeObject<Sexuality>(content);
+
+                if (sexuality == null)
+                {
+                    return NotFound();
+                }
+
+                return View(sexuality);
             }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Sexualities/{id}");
-            Sexuality sexuality = JsonConvert.DeserializeObject<Sexuality>(content);
-
-            if (sexuality == null)
+            catch (HttpRequestException e)
             {
-                return NotFound();
+                return Unauthorized();
             }
-
-            return View(sexuality);
+            
         }
 
         // GET: Sexualities/Create
@@ -83,49 +101,65 @@ namespace mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SexualityId,SexualityName")] Sexuality sexuality)
         {
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            if (ModelState.IsValid)
+            try
             {
-                StringContent httpContent = new StringContent(sexuality.ToJson(), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/Sexualities", httpContent);
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                if (ModelState.IsValid)
                 {
-                    return Unauthorized();
-                }
+                    StringContent httpContent = new StringContent(sexuality.ToJson(), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/Sexualities", httpContent);
 
-                return RedirectToAction(nameof(Index));
+                    if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        return Unauthorized();
+                    }
+
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(sexuality);
             }
-            return View(sexuality);
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+            
         }
 
         // GET: Sexualities/Edit/5
         public async Task<IActionResult> Edit(short? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Sexualities/{id}");
+
+                Sexuality sexuality = JsonConvert.DeserializeObject<Sexuality>(content);
+
+                if (sexuality == null)
+                {
+                    return NotFound();
+                }
+                return View(sexuality);
             }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Sexualities/{id}");
-
-            Sexuality sexuality = JsonConvert.DeserializeObject<Sexuality>(content);
-
-            if (sexuality == null)
+            catch (HttpRequestException e)
             {
-                return NotFound();
+                return Unauthorized();
             }
-            return View(sexuality);
+            
         }
 
         // POST: Sexualities/Edit/5
@@ -135,53 +169,69 @@ namespace mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(short id, [Bind("SexualityId,SexualityName")] Sexuality sexuality)
         {
-            if (id != sexuality.SexualityId)
+            try
             {
-                return NotFound();
-            }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            if (ModelState.IsValid)
-            {
-                // Préparation de la requête update à l'API
-                StringContent httpContent = new StringContent(sexuality.ToJson(), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/Sexualities/{id}", httpContent);
-                if (response.StatusCode != HttpStatusCode.NoContent)
+                if (id != sexuality.SexualityId)
                 {
-                    return BadRequest();
+                    return NotFound();
                 }
-                return RedirectToAction(nameof(Index));
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                if (ModelState.IsValid)
+                {
+                    // Préparation de la requête update à l'API
+                    StringContent httpContent = new StringContent(sexuality.ToJson(), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/Sexualities/{id}", httpContent);
+                    if (response.StatusCode != HttpStatusCode.NoContent)
+                    {
+                        return BadRequest();
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(sexuality);
             }
-            return View(sexuality);
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+            
         }
 
         // GET: Sexualities/Delete/5
         public async Task<IActionResult> Delete(short? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Sexualities/{id}");
+                Sexuality sexuality = JsonConvert.DeserializeObject<Sexuality>(content);
+
+                if (sexuality == null)
+                {
+                    return NotFound();
+                }
+
+                return View(sexuality);
             }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            // Récurération des données et convertion des données dans le bon type
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Sexualities/{id}");
-            Sexuality sexuality = JsonConvert.DeserializeObject<Sexuality>(content);
-
-            if (sexuality == null)
+            catch (HttpRequestException e)
             {
-                return NotFound();
+                return Unauthorized();
             }
-
-            return View(sexuality);
+            
         }
 
         // POST: Sexualities/Delete/5
@@ -189,26 +239,34 @@ namespace mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(short? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
-
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            if (ModelState.IsValid)
-            {
-                HttpResponseMessage response = await client.DeleteAsync(_configuration["URLAPI"] + $"api/Sexualities/{id}");
-
-                if (response.StatusCode != HttpStatusCode.OK)
+                if (id == null)
                 {
-                    return BadRequest();
+                    return NotFound();
                 }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                if (ModelState.IsValid)
+                {
+                    HttpResponseMessage response = await client.DeleteAsync(_configuration["URLAPI"] + $"api/Sexualities/{id}");
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        return BadRequest();
+                    }
+                }
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+            
         }
     }
 }

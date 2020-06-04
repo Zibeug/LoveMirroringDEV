@@ -26,7 +26,7 @@ using Newtonsoft.Json;
 
 namespace Api.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "Administrateur,Moderateur")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase

@@ -40,6 +40,9 @@ namespace mvc.Controllers
             // Récurération des données et convertion des données dans le bon type
             string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Answers");
             List<Answer> answers = JsonConvert.DeserializeObject<List<Answer>>(content);
+
+
+
             return View(answers);
         }
 

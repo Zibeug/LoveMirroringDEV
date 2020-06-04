@@ -32,8 +32,9 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Question)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Question.QuestionText)
+            <select asp-for="ProfilId" class="form-control" asp-items="ViewBag.ProfilId"></select>
         </dd>
     </dl>
 </div>

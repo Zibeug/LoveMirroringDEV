@@ -15,7 +15,9 @@ namespace mvc.Models
         {
         }
 
+        public virtual DbSet<Ad> Ads { get; set; }
         public virtual DbSet<Answer> Answers { get; set; }
+        public virtual DbSet<AnswerRequest> AnswerRequests { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
@@ -23,6 +25,7 @@ namespace mvc.Models
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
+        public virtual DbSet<ContactRequest> ContactRequests { get; set; }
         public virtual DbSet<Corpulence> Corpulences { get; set; }
         public virtual DbSet<ExternalService> ExternalServices { get; set; }
         public virtual DbSet<HairColor> HairColors { get; set; }
@@ -81,6 +84,23 @@ namespace mvc.Models
                     .WithMany(p => p.Answers)
                     .HasForeignKey(d => d.QuestionId)
                     .HasConstraintName("FK_ANSWERS_QUESTIONS");
+            });
+
+            modelBuilder.Entity<AnswerRequest>(entity =>
+            {
+                entity.HasKey(e => e.AnswerId)
+                    .HasName("PK_ANSWERREQUESTS");
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithMany(p => p.AnswerRequests)
+                    .HasForeignKey(d => d.Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ANSWERREQUESTS_ASPNETUSERS");
+
+                entity.HasOne(d => d.Request)
+                    .WithMany(p => p.AnswerRequests)
+                    .HasForeignKey(d => d.RequestId)
+                    .HasConstraintName("FK_ANSWERREQUESTS_CONTACTREQUESTS");
             });
 
             modelBuilder.Entity<AspNetRole>(entity =>
@@ -177,6 +197,17 @@ namespace mvc.Models
                     .WithMany(p => p.AspNetUserTokens)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK_ASPNETUSERTOKENS_ASPNETUSERS");
+            });
+
+            modelBuilder.Entity<ContactRequest>(entity =>
+            {
+                entity.HasKey(e => e.RequestId)
+                    .HasName("PK_CONTACTREQUESTS");
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithMany(p => p.ContactRequests)
+                    .HasForeignKey(d => d.Id)
+                    .HasConstraintName("FK_CONTACTREQUESTS_ASPNETUSERS");
             });
 
             modelBuilder.Entity<Corpulence>(entity =>

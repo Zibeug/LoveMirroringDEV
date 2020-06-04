@@ -7,13 +7,15 @@ namespace mvc.Models
 {
     public partial class Ad
     {
-        public short? Id { get; set; }
-        [Column("title")]
-        public string Title { get; set; }
-        [Column("description")]
+        [Key]
+        public short Id { get; set; }
+        [Required]
+        public string Titre { get; set; }
+        [Required]
         public string Description { get; set; }
-        [Column("picture")]
+        [Required]
         [StringLength(450)]
-        public string Picture { get; set; }
+        public string AdView { get; set; }
+        public string Link { get; set; }
     }
 }

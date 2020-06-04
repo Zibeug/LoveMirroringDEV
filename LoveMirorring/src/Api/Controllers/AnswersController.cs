@@ -30,7 +30,10 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Answer>>> GetAnswers()
         {
-            return await _context.Answers.ToListAsync();
+            return await _context.Answers
+                .Include(x => x.Profil)
+                //.Include(x => x.Question)
+                .ToListAsync();
         }
 
         // GET: api/Answers/5

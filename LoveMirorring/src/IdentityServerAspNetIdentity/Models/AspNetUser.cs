@@ -9,10 +9,12 @@ namespace IdentityServerAspNetIdentity.Models
     {
         public AspNetUser()
         {
+            AnswerRequests = new HashSet<AnswerRequest>();
             AspNetUserClaims = new HashSet<AspNetUserClaim>();
             AspNetUserLogins = new HashSet<AspNetUserLogin>();
             AspNetUserRoles = new HashSet<AspNetUserRole>();
             AspNetUserTokens = new HashSet<AspNetUserToken>();
+            ContactRequests = new HashSet<ContactRequest>();
             Messages = new HashSet<Message>();
             Pictures = new HashSet<Picture>();
             Preferences = new HashSet<Preference>();
@@ -83,6 +85,8 @@ namespace IdentityServerAspNetIdentity.Models
         [ForeignKey(nameof(SubscriptionId))]
         [InverseProperty("AspNetUsers")]
         public virtual Subscription Subscription { get; set; }
+        [InverseProperty(nameof(AnswerRequest.IdNavigation))]
+        public virtual ICollection<AnswerRequest> AnswerRequests { get; set; }
         [InverseProperty(nameof(AspNetUserClaim.User))]
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         [InverseProperty(nameof(AspNetUserLogin.User))]
@@ -91,6 +95,8 @@ namespace IdentityServerAspNetIdentity.Models
         public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; }
         [InverseProperty(nameof(AspNetUserToken.User))]
         public virtual ICollection<AspNetUserToken> AspNetUserTokens { get; set; }
+        [InverseProperty(nameof(ContactRequest.IdNavigation))]
+        public virtual ICollection<ContactRequest> ContactRequests { get; set; }
         [InverseProperty(nameof(Message.IdNavigation))]
         public virtual ICollection<Message> Messages { get; set; }
         [InverseProperty(nameof(Picture.IdNavigation))]

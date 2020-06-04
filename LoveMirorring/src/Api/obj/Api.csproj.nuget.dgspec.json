@@ -219,6 +219,10 @@
               "target": "Package",
               "version": "[12.0.3, )"
             },
+            "Profanity.Detector": {
+              "target": "Package",
+              "version": "[0.1.4, )"
+            },
             "SpotifyAPI.Web": {
               "target": "Package",
               "version": "[5.1.0, )"

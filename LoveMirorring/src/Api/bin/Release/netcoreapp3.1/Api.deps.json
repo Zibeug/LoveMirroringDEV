@@ -1512,6 +1512,17 @@
           "lib/netstandard1.6/NuGet.Frameworks.dll": {}
         }
       },
+      "Profanity.Detector/0.1.4": {
+        "runtime": {
+          "lib/netstandard2.0/ProfanityFilter.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/ProfanityFilter.dll": {}
+        }
+      },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
@@ -2754,6 +2765,7 @@
           "Microsoft.EntityFrameworkCore.Sqlite": "3.1.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.3",
           "Newtonsoft.Json": "12.0.3",
+          "Profanity.Detector": "0.1.4",
           "SpotifyAPI.Web": "5.1.0",
           "SpotifyAPI.Web.Auth": "5.1.0",
           "Stripe.net": "36.8.0",
@@ -4919,6 +4931,13 @@
       "sha512": "sha512-qbXaB76XYUVLocLBs8Z9TS/ERGK2wm797feO+0JEPFvT7o7MRadOR77mqaSD4J1k8G+DlZQyq+MlkCuxrkr3ag==",
       "path": "nuget.frameworks/4.7.0",
       "hashPath": "nuget.frameworks.4.7.0.nupkg.sha512"
+    },
+    "Profanity.Detector/0.1.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cYTzmWrsWIBsG21hyvBKbwsJPK8WYNGOvUs3tyGpe0npYv4itp5wFV9UFdGTapEk98+8nkSqqerPOZqQQJsxGg==",
+      "path": "profanity.detector/0.1.4",
+      "hashPath": "profanity.detector.0.1.4.nupkg.sha512"
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",

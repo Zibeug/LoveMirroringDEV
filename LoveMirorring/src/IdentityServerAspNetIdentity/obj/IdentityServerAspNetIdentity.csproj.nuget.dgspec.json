@@ -1,23 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj": {}
+    "C:\\Projet\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj": {}
   },
   "projects": {
-    "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj": {
+    "C:\\Projet\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj",
+        "projectUniqueName": "C:\\Projet\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj",
         "projectName": "IdentityServerAspNetIdentity",
-        "projectPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj",
-        "packagesPath": "C:\\Users\\zibeu\\.nuget\\packages\\",
-        "outputPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\obj\\",
+        "projectPath": "C:\\Projet\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\IdentityServerAspNetIdentity.csproj",
+        "packagesPath": "C:\\Users\\sebberger\\.nuget\\packages\\",
+        "outputPath": "C:\\Projet\\LoveMirroringDEV\\LoveMirorring\\src\\IdentityServerAspNetIdentity\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\zibeu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\sebberger\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -121,12 +122,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[3.1.2, 3.1.2]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -135,7 +130,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

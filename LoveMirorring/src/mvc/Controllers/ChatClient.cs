@@ -5,33 +5,41 @@ using System.Net;
 using System.Threading.Tasks;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.Bot.Connector.DirectLine;
-using Microsoft.Bot.Streaming.Transport.WebSockets;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Bot.Connector;
-using Microsoft.Bot.Schema;
-using Microsoft.Bot.Builder.Integration;
 using System.Net.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using SpotifyAPI.Web.Models;
-using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Streaming;
+using Microsoft.Bot.Connector.DirectLine;
+using Microsoft.Extensions.Logging;
 
 namespace mvc.Controllers
 {
     public class ChatClient : Controller
     {
-
-        public ChatClient()
+        private ILogger<ChatClient> _logger;
+        public ChatClient(ILogger<ChatClient> logger)
         {
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
         {
             try
-            {           
+            {
+                var tokenClient = new DirectLineClient(new Uri("https://directline.botframework.com/"), new DirectLineClientCredentials("H-mIGKOIXJ8.M0P2_afqawnF1Yzbur8kVYgkrbaGtcoSnjP1nv11NZU"));
+
+                tokenClient.Tokens.GenerateTokenForNewConversation();
+                Conversation _conversation = await tokenClient.Conversations.StartConversationAsync().ConfigureAwait(false);
+
+                var user = new ChannelAccount() { Id = "123", Name = "Fred" };
+                var response = await tokenClient.Conversations.PostActivityAsync(_conversation.ConversationId,
+                    new Activity()
+                    {
+                        Type = "message",
+                        Text = "Hello",
+                        From = user
+                    }).ConfigureAwait(false);
+                ActivitySet activites = await tokenClient.Conversations.GetActivitiesAsync(_conversation.ConversationId);
+                this.ReceiveActivities(activites);
                 return View();
             }
             catch(Exception ex)
@@ -40,6 +48,20 @@ namespace mvc.Controllers
             }
 
             
+        }
+
+        public void ReceiveActivities(ActivitySet activitySet)
+        {
+            if (activitySet != null)
+            {
+                foreach (var a in activitySet.Activities)
+                {
+                    if (a.Type == Microsoft.Bot.Connector.DirectLine.ActivityTypes.Message && a.From.Id.Contains("bot"))
+                    {
+                        _logger.LogInformation($"<Bot>: {a.Text}");
+                    }
+                }
+            }
         }
     }
 }

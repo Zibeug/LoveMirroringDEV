@@ -9,7 +9,9 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Unosquare.Swan;
 
 namespace mvc.Controllers
@@ -18,7 +20,6 @@ namespace mvc.Controllers
     {
         private readonly IConfiguration _configuration;
 
-        public object JsonConvert { get; private set; }
 
         public UserContactRequestsController(IConfiguration configuration)
         {

@@ -154,6 +154,7 @@ namespace Api.Controllers
 
             ul.Id = user.Id;
             ul.Id1 = userLiked.Id;
+            ul.Ignored = false;
 
             try
             {

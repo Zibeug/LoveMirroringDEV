@@ -1,24 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj": {}
+    "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj": {}
   },
   "projects": {
-    "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj": {
+    "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj",
+        "projectUniqueName": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj",
         "projectName": "mvc",
-        "projectPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj",
-        "packagesPath": "C:\\Users\\Thermit\\.nuget\\packages\\",
-        "outputPath": "C:\\repositories\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\obj\\",
+        "projectPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj",
+        "packagesPath": "C:\\Users\\zibeu\\.nuget\\packages\\",
+        "outputPath": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Thermit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\zibeu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -57,9 +56,21 @@
               "target": "Package",
               "version": "[3.1.2, )"
             },
+            "Microsoft.AspNetCore.SignalR.Client": {
+              "target": "Package",
+              "version": "[3.1.4, )"
+            },
             "Microsoft.Azure.SignalR": {
               "target": "Package",
               "version": "[1.1.1, )"
+            },
+            "Microsoft.Bot.Builder.Integration.AspNet.Core": {
+              "target": "Package",
+              "version": "[4.9.3, )"
+            },
+            "Microsoft.Bot.Connector.DirectLine": {
+              "target": "Package",
+              "version": "[3.0.2, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",

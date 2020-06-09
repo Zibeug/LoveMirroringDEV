@@ -3,19 +3,22 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using mvc.Hubs;
 using mvc.Models;
 using mvc.Services.RolesAndClaims;
-
+using mvc.ViewModels;
 
 namespace mvc
 {
     public class Startup
     {
         public static IConfiguration Configuration { get; set; }
+        public object GlobalHost { get; private set; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -81,6 +84,10 @@ namespace mvc
             services.AddSingleton<List<User>>();
             services.AddSingleton<List<UserCall>>();
             services.AddSingleton<List<CallOffer>>();
+
+            // Pour le chat privé
+            services.AddSingleton<List<ConnectionPC>>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -120,11 +127,14 @@ namespace mvc
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapHub<ChatHub>("/chatHub");
+                endpoints.MapHub<LetsChatHub>("/letschathub");
                 endpoints.MapHub<ConnectionHub>("/ConnectionHub", options =>
                 {
                     options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
                 });
             });
         }
+
+
     }
 }

@@ -32,7 +32,6 @@ namespace mvc.Hubs
 
     public class ChatHub : Hub
     {
-        private HubConnection connection;
         private IConfiguration _configuration { get; set; }
         private DirectLineClient tokenClient;
         private Conversation _conversation;
@@ -76,19 +75,39 @@ namespace mvc.Hubs
 
             ProfanityFilter.ProfanityFilter filter = new ProfanityFilter.ProfanityFilter();
             filter.AddProfanity(words);
-            //string censored = filter.CensorString(message);
-            string censored = ReceiveActivities(activites, user1.UserName);
+            //string censored = 
+            string censored = filter.CensorString(ReceiveActivities(activites, user1.UserName));
 
             await Clients.All.SendAsync("ReceiveMessage", user, censored);
         }
 
-        public override Task OnConnectedAsync()
+        public override async Task OnConnectedAsync()
         {
             UserHandler.ConnectedIds.Add(Context.ConnectionId);
-            return base.OnConnectedAsync();
+            ActivitySet activitesBot = await tokenClient.Conversations.GetActivitiesAsync(_conversation.ConversationId);
+            string bot = ReceiveBotActivities(activitesBot, "lovemirroring-bot");
+            await Clients.All.SendAsync("ReceiveMessage", "bot", bot);
+            await base.OnConnectedAsync();
         }
 
         private string ReceiveActivities(ActivitySet activitySet, string username)
+        {
+            string text = "";
+            if (activitySet != null)
+            {
+                foreach (var a in activitySet.Activities)
+                {
+                    if (a.Type == Microsoft.Bot.Connector.DirectLine.ActivityTypes.Message && a.From.Name.Contains(username))
+                    {
+                        text = a.Text;
+                        break;
+                    }
+                }
+            }
+            return text;
+        }
+
+        private string ReceiveBotActivities(ActivitySet activitySet, string username)
         {
             string text = "";
             if (activitySet != null)

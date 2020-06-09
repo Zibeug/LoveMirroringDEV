@@ -1343,7 +1343,6 @@ C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\runtime
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csprojAssemblyReference.cache
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\staticwebassets\mvc.StaticWebAssets.Manifest.cache
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\staticwebassets\mvc.StaticWebAssets.xml
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.MvcApplicationPartsAssemblyInfo.cs
@@ -1469,3 +1468,9 @@ C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.Vie
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csproj.CopyComplete
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.dll
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.pdb
+C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csprojAssemblyReference.cache
+C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\BotCommands\Create.cshtml.g.cs
+C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\BotCommands\Delete.cshtml.g.cs
+C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\BotCommands\Details.cshtml.g.cs
+C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\BotCommands\Edit.cshtml.g.cs
+C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\BotCommands\Index.cshtml.g.cs

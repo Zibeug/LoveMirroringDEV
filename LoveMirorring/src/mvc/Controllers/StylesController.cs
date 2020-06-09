@@ -40,7 +40,7 @@ namespace mvc.Controllers
 
                 return View(styles);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -73,7 +73,7 @@ namespace mvc.Controllers
 
                 return View(style);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -114,7 +114,7 @@ namespace mvc.Controllers
                 }
                 return View(style);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -147,7 +147,7 @@ namespace mvc.Controllers
                 }
                 return View(style);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -186,7 +186,7 @@ namespace mvc.Controllers
                 }
                 return View(style);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -219,7 +219,7 @@ namespace mvc.Controllers
 
                 return View(style);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -254,7 +254,7 @@ namespace mvc.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }

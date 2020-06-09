@@ -46,7 +46,7 @@ namespace mvc.Controllers
 
                 return View(religions);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -79,7 +79,7 @@ namespace mvc.Controllers
 
                 return View(religion);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -121,7 +121,7 @@ namespace mvc.Controllers
 
                 return View(religion);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -154,7 +154,7 @@ namespace mvc.Controllers
                 }
                 return View(religion);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -193,7 +193,7 @@ namespace mvc.Controllers
                 }
                 return View(religion);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -226,7 +226,7 @@ namespace mvc.Controllers
 
                 return View(religion);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -261,7 +261,7 @@ namespace mvc.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }

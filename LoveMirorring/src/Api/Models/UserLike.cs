@@ -12,6 +12,7 @@ namespace Api.Models
         [Key]
         [Column("ID_1")]
         public string Id1 { get; set; }
+        public bool? Ignored { get; set; }
 
         [ForeignKey(nameof(Id1))]
         [InverseProperty(nameof(AspNetUser.UserLikeId1Navigation))]

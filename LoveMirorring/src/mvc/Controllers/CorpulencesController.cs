@@ -48,7 +48,7 @@ namespace mvc.Controllers
 
                 return View(corpulences);
             }
-            catch(HttpRequestException e)
+            catch(HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -81,7 +81,7 @@ namespace mvc.Controllers
 
                 return View(corpulence);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -123,7 +123,7 @@ namespace mvc.Controllers
 
                 return View(corpulence);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -156,7 +156,7 @@ namespace mvc.Controllers
                 }
                 return View(corpulence);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -196,7 +196,7 @@ namespace mvc.Controllers
 
                 return View(corpulence);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -230,7 +230,7 @@ namespace mvc.Controllers
 
                 return View(corpulence);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -259,7 +259,7 @@ namespace mvc.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }

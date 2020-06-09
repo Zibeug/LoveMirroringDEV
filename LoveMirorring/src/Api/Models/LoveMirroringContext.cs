@@ -25,6 +25,7 @@ namespace Api.Models
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
+        public virtual DbSet<BotCommand> BotCommands { get; set; }
         public virtual DbSet<ContactRequest> ContactRequests { get; set; }
         public virtual DbSet<Corpulence> Corpulences { get; set; }
         public virtual DbSet<ExternalService> ExternalServices { get; set; }
@@ -65,7 +66,6 @@ namespace Api.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=LoveMirroring;Trusted_Connection=True;");
             }
         }

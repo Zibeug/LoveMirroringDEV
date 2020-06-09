@@ -42,7 +42,7 @@ namespace mvc.Controllers
                 this.ReceiveActivities(activites);
                 return View();
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return NotFound();
             }

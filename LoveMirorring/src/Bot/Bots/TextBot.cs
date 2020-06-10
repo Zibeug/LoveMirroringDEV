@@ -75,6 +75,11 @@ namespace Microsoft.BotBuilderSamples.Bots
                     }
                     break;
                 }
+
+                if (command.Contains("/ban"))
+                {
+                    
+                }
             }
 
             return text;

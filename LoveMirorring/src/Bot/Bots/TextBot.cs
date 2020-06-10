@@ -18,10 +18,12 @@ namespace Microsoft.BotBuilderSamples.Bots
     public class TextBot : ActivityHandler
     {
         private IConfiguration Configuration { get; set; }
+        private IHttpContextAccessor _httpContextAccessor;
 
-        public TextBot(IConfiguration configuration)
+        public TextBot(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             Configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
@@ -53,8 +55,11 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         private async Task<string> BotCommandAsync(string command)
         {
+            string accessToken = _httpContextAccessor.HttpContext.Request.Headers["Authorization"];
+
             string text = null;
             HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             // Récurération des données et convertion des données dans le bon type
             string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/BotCommands");
             List<BotCommand> botCommands = JsonConvert.DeserializeObject<List<BotCommand>>(content);
@@ -74,6 +79,32 @@ namespace Microsoft.BotBuilderSamples.Bots
                         text += c.Slug + " ";
                     }
                     break;
+                }
+
+                if (command.Contains("/ban"))
+                {
+                    if (command.Contains("@"))
+                    {
+                        string[] line = command.Split("@");
+                        string nametoBan = line[1];
+
+                        var response = await client.PutAsync(Configuration["URLAPI"] + $"api/Admin/BanUser/{nametoBan}", new StringContent(nametoBan));
+                        if(response.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            text = $"Utilisateur {nametoBan} banni";
+                        }
+                        else
+                        {
+                            text = $"Erreur de traitement";
+                        }
+                        
+                        break;
+
+                    }
+                    else
+                    {
+                        text = "Impossible d'exécuter la commande";
+                    }
                 }
             }
 

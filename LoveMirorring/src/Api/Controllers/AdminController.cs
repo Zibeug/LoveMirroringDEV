@@ -587,5 +587,23 @@ namespace Api.Controllers
             return null;
         }
 
+        [Route("BanUser/{id}")]
+        [HttpPut]
+        public async Task<IActionResult> BanUser(string id)
+        {
+            if(id != null)
+            {
+                AspNetUser user = await _context.AspNetUsers.Where(u => u.UserName == id).FirstOrDefaultAsync();
+                user.LockoutEnd = new DateTimeOffset(new DateTime(2400, 05, 03));
+                _context.Entry(user).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+
+                return StatusCode(200);
+            }
+            else
+            {
+                return StatusCode(404);
+            }
+        }
     }
 }

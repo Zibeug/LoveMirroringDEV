@@ -27,6 +27,7 @@ namespace mvc.Hubs
     public static class UserHandler
     {
         public static HashSet<string> ConnectedIds = new HashSet<string>();
+        public static HashSet<string> UserNames = new HashSet<string>();
     }
 
 
@@ -67,8 +68,9 @@ namespace mvc.Hubs
                 }).ConfigureAwait(false);
 
             ActivitySet activites = await tokenClient.Conversations.GetActivitiesAsync(_conversation.ConversationId);
+            string bot = ReceiveBotActivities(activites, "lovemirroring-bot");
+            await Clients.All.SendAsync("ReceiveMessage", "bot", bot);
 
-            
             List<Insult> insults = JsonConvert.DeserializeObject<List<Insult>>(content);
 
             List<string> words = insults.Select(i => i.InsultName).ToList();
@@ -83,11 +85,40 @@ namespace mvc.Hubs
 
         public override async Task OnConnectedAsync()
         {
+            string accessToken = await Context.GetHttpContext().GetTokenAsync("access_token");
+            // Préparation de l'appel à l'API
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            // Récurération des données et convertion des données dans le bon type
+            string content1 = await client.GetStringAsync(_configuration["URLAPI"] + "api/account/getUserInfo");
+
+            AspNetUser user1 = JsonConvert.DeserializeObject<AspNetUser>(content1);
+
             UserHandler.ConnectedIds.Add(Context.ConnectionId);
-            ActivitySet activitesBot = await tokenClient.Conversations.GetActivitiesAsync(_conversation.ConversationId);
-            string bot = ReceiveBotActivities(activitesBot, "lovemirroring-bot");
-            await Clients.All.SendAsync("ReceiveMessage", "bot", bot);
+            UserHandler.UserNames.Add(user1.UserName);
+
             await base.OnConnectedAsync();
+
+            ActivitySet activites = await tokenClient.Conversations.GetActivitiesAsync(_conversation.ConversationId);
+            string bot = ReceiveBotActivities(activites, "lovemirroring-bot");
+            await Clients.All.SendAsync("ReceiveMessage", "bot", bot);
+        }
+
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            string accessToken = await Context.GetHttpContext().GetTokenAsync("access_token");
+            // Préparation de l'appel à l'API
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            // Récurération des données et convertion des données dans le bon type
+            string content1 = await client.GetStringAsync(_configuration["URLAPI"] + "api/account/getUserInfo");
+
+            AspNetUser user1 = JsonConvert.DeserializeObject<AspNetUser>(content1);
+
+            UserHandler.ConnectedIds.Remove(Context.ConnectionId);
+            UserHandler.UserNames.Remove(user1.UserName);
+            await base.OnDisconnectedAsync(exception);
+
         }
 
         private string ReceiveActivities(ActivitySet activitySet, string username)
@@ -105,6 +136,13 @@ namespace mvc.Hubs
                 }
             }
             return text;
+        }
+
+        //return list of all active connections
+        public async Task GetAllActiveConnectionsAsync()
+        {
+            await Clients.All.SendAsync("ReceiveUser", UserHandler.UserNames.ToList());
+            
         }
 
         private string ReceiveBotActivities(ActivitySet activitySet, string username)

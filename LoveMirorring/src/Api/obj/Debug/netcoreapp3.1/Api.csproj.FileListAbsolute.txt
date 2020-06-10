@@ -1089,3 +1089,10 @@ C:\Projet\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.Raz
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.csproj.CopyComplete
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.dll
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.pdb
+C:\Projet\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\System.Web.Mvc.dll
+C:\Projet\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\System.Web.Razor.dll
+C:\Projet\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\System.Web.Helpers.dll
+C:\Projet\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\System.Web.WebPages.Deployment.dll
+C:\Projet\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\System.Web.WebPages.Razor.dll
+C:\Projet\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\System.Web.WebPages.dll
+C:\Projet\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.Web.Infrastructure.dll

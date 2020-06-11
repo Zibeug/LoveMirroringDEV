@@ -2,24 +2,24 @@
     ViewData["Title"] = "Index";
 }
 
-    <partial name="PartAds" />
-    <div class="container">
-        <div class="row">&nbsp;</div>
-        <input type="hidden" id="userInput" value="@ViewData["Username"]" />
-        <button id="show-all-connections">Show Connections</button>
-        <ul id="user-list">
-        </ul>
-        <div class="row">
-            <div class="col-2">Message</div>
-            <div class="col-4"><input type="text" id="messageInput" /></div>
-        </div>
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-6">
-                <input type="button" id="sendButton" value="Send Message" />
-            </div>
+<partial name="PartAds" />
+<div class="container">
+    <div class="row">&nbsp;</div>
+    <input type="hidden" id="userInput" value="@ViewData["Username"]" />
+    <button id="show-all-connections">Show Connections</button>
+    <ul id="user-list">
+    </ul>
+    <div class="row">
+        <div class="col-2">Message</div>
+        <div class="col-4"><textarea class="form-control" id="messageInput" rows="3"></textarea></div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-6">
+            <input type="button" id="sendButton" value="Send Message" />
         </div>
     </div>
+</div>
 <div class="row">
     <div class="col-12">
         <hr />
@@ -33,3 +33,20 @@
 
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
+@*@section Scripts {
+    <script>
+        $(function () {
+            $("#messageInput").emojioneArea({
+                pickerPosition: "right",
+    	        tonesStyle: "bullet",
+		        events: {
+         	        keyup: function (editor, event) {
+           		        console.log(editor.html());
+           		        console.log(this.getText());
+        	        }
+    	        }
+            });
+
+        });
+    </script>
+}*@

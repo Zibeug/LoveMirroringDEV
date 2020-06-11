@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Bot.Builder.EchoBot;
 using Microsoft.BotBuilderSamples.Bots;
+using Microsoft.AspNetCore.Http;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -41,6 +42,8 @@ namespace Microsoft.BotBuilderSamples
 
                 options.Audience = "bot1";
             });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

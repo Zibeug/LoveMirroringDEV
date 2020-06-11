@@ -88,7 +88,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                         string[] line = command.Split("@");
                         string nametoBan = line[1];
 
-                        
+                        await client.PutAsync(Configuration["URLAPI"] + $"api/Admin/BanUser/{nametoBan}", new StringContent(nametoBan));
                     }
                     else
                     {

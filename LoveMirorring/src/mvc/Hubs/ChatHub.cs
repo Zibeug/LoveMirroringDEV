@@ -98,6 +98,10 @@ namespace mvc.Hubs
             UserHandler.UserNames.Add(user1.UserName);
 
             await base.OnConnectedAsync();
+
+            ActivitySet activites = await tokenClient.Conversations.GetActivitiesAsync(_conversation.ConversationId);
+            string bot = ReceiveBotActivities(activites, "lovemirroring-bot");
+            await Clients.All.SendAsync("ReceiveMessage", "bot", bot);
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)

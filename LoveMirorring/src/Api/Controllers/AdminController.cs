@@ -598,11 +598,11 @@ namespace Api.Controllers
                 _context.Entry(user).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                return Ok();
+                return StatusCode(200);
             }
             else
             {
-                return NotFound();
+                return StatusCode(404);
             }
         }
     }

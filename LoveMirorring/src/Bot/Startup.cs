@@ -34,14 +34,12 @@ namespace Microsoft.BotBuilderSamples
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, TextBot>();
 
-            services.AddAuthentication("Bearer")
-            .AddJwtBearer("Bearer", options =>
+            services.AddAuthentication(options =>
             {
-                options.Authority = Configuration["URLIdentityServer4"];
-                options.RequireHttpsMetadata = false;
-
-                options.Audience = "bot1";
-            });
+                options.DefaultScheme = "Cookies";
+                options.DefaultChallengeScheme = "oidc";
+            })
+                .AddCookie("Cookies");
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }

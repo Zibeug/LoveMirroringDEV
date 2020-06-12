@@ -84,6 +84,12 @@ namespace mvc.Controllers
             return View("Search");
         }
 
+        public class MyMatchingList
+        {
+            public List<MatchingModel> ListMatchinModel { get; set; }
+            public string UserName { get; set; }
+        }
+
         // Retourne la vue avec les profils qui correspondent
         [Authorize]
         public async Task<IActionResult> Search()
@@ -95,7 +101,7 @@ namespace mvc.Controllers
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 string search = await client.GetStringAsync(Configuration["URLAPI"] + "api/NewMatching");
-                IEnumerable<MatchingModel> searchResult = JsonConvert.DeserializeObject<IEnumerable<MatchingModel>>(search);
+                List<MyMatchingList> searchResult = JsonConvert.DeserializeObject<List<MyMatchingList>>(search);
                 ViewData["Search"] = searchResult;
 
                 /*
@@ -154,7 +160,7 @@ namespace mvc.Controllers
 
                 return View("Search");
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return View("Error");
             }

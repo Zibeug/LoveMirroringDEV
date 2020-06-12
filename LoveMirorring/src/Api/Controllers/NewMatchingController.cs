@@ -40,10 +40,12 @@ namespace Api.Controllers
 
             List<AspNetUser> users = GetUsers();
 
+            List<MatchingModel> usersChoices = new List<MatchingModel>();
+
             foreach (AspNetUser user in users)
             {
                 // Déterminer s'il y a des matchs
-                List<MatchingModel> usersChoices = new List<MatchingModel>();
+                
 
                 // Premier tri obligatoire : 
                 // Sortir de la liste les utilisateurs déjà "aimé", 
@@ -377,7 +379,8 @@ namespace Api.Controllers
             {
                 potentialUserMatchs = potentialUserMatchs.Where(u => u.SexeId != user.SexeId).ToList();
             }
-            else if (user.Sexuality.SexualityName == "Homosexuel")
+            
+            if (user.Sexuality.SexualityName == "Homosexuel")
             {
                 potentialUserMatchs = potentialUserMatchs.Where(u => u.SexeId == user.SexeId).ToList();
             }

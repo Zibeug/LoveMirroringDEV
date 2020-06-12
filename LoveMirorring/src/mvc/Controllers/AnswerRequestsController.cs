@@ -13,6 +13,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,6 +25,7 @@ using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
+    [Authorize]
     public class AnswerRequestsController : Controller
     {
         private readonly IConfiguration _configuration;

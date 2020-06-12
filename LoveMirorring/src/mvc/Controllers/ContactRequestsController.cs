@@ -22,6 +22,7 @@ using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
+    [Authorize(Policy = "Administrateur")]
     public class ContactRequestsController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -81,39 +82,6 @@ namespace mvc.Controllers
             }
             return Redirect("/AnswerRequests/Create/" + id);
         }
-
-        //// GET: ContactRequests/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //// POST: ContactRequests/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("RequestId,RequestDate,RequestText,UserId")] ContactRequest contactRequest)
-        //{
-        //    // Préparation de l'appel à l'API
-        //    string accessToken = await HttpContext.GetTokenAsync("access_token");
-        //    HttpClient client = new HttpClient();
-        //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        StringContent httpContent = new StringContent(contactRequest.ToJson(), Encoding.UTF8, "application/json");
-        //        HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/ContactRequests", httpContent);
-
-        //        if (response.StatusCode == HttpStatusCode.Unauthorized)
-        //        {
-        //            return Unauthorized();
-        //        }
-
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(contactRequest);
-        //}
 
         // GET: ContactRequests/Edit/5
         public async Task<IActionResult> Edit(short? id)
@@ -185,39 +153,70 @@ namespace mvc.Controllers
             }
         }
 
-        //// GET: ContactRequests/Delete/5
-        //public async Task<IActionResult> Delete(short? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: ContactRequests/Delete/5
+        public async Task<IActionResult> Delete(short? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-        //    var contactRequest = await _context.ContactRequests
-        //        .Include(c => c.User)
-        //        .FirstOrDefaultAsync(m => m.RequestId == id);
-        //    if (contactRequest == null)
-        //    {
-        //        return NotFound();
-        //    }
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-        //    return View(contactRequest);
-        //}
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/ContactRequests/{id}");
+                ContactRequest contactRequest = JsonConvert.DeserializeObject<ContactRequest>(content);
 
-        //// POST: ContactRequests/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(short id)
-        //{
-        //    var contactRequest = await _context.ContactRequests.FindAsync(id);
-        //    _context.ContactRequests.Remove(contactRequest);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+                if (contactRequest == null)
+                {
+                    return NotFound();
+                }
 
-        //private bool ContactRequestExists(short id)
-        //{
-        //    return _context.ContactRequests.Any(e => e.RequestId == id);
-        //}
+                return View(contactRequest);
+            }
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+        }
+
+        // POST: ContactRequests/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(short id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                if (ModelState.IsValid)
+                {
+                    HttpResponseMessage response = await client.DeleteAsync(_configuration["URLAPI"] + $"api/ContactRequests/{id}");
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        return BadRequest();
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+        }
     }
 }

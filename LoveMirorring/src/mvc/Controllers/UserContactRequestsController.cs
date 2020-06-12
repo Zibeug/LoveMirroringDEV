@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,7 @@ using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
+    [Authorize]
     public class UserContactRequestsController : Controller
     {
         private readonly IConfiguration _configuration;

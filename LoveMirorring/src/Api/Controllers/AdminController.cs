@@ -107,6 +107,7 @@ namespace Api.Controllers
 
                 string id = (from u in await _context.AspNetUsers.ToListAsync()
                              where u.NormalizedUserName.Contains(UserName)
+                             where u.IsFacebookAccount == false
                              select u.Id).FirstOrDefault();
 
                 if (id == null) 

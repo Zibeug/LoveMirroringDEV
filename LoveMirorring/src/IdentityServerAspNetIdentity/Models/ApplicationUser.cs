@@ -36,6 +36,7 @@ namespace IdentityServerAspNetIdentity.Models
         public bool QuizCompleted { get; set; }
         public short? ReligionId { get; set; }
         public bool AccountCompleted { get; set; }
+        public bool IsFacebookAccount { get; set; }
 
 
 

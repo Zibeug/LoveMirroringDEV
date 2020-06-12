@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Paul\\Documents\\GitHub\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj": {}
+    "C:\\Users\\paugillet\\Documents\\GitHub\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Paul\\Documents\\GitHub\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj": {
+    "C:\\Users\\paugillet\\Documents\\GitHub\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Paul\\Documents\\GitHub\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj",
+        "projectUniqueName": "C:\\Users\\paugillet\\Documents\\GitHub\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj",
         "projectName": "mvc",
-        "projectPath": "C:\\Users\\Paul\\Documents\\GitHub\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj",
-        "packagesPath": "C:\\Users\\Paul\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Paul\\Documents\\GitHub\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\obj\\",
+        "projectPath": "C:\\Users\\paugillet\\Documents\\GitHub\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\mvc.csproj",
+        "packagesPath": "C:\\Users\\paugillet\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\paugillet\\Documents\\GitHub\\LoveMirroringDEV\\LoveMirorring\\src\\mvc\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Paul\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\paugillet\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -113,7 +116,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

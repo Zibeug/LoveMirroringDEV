@@ -19,7 +19,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.RequestText)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestAnswered)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -32,8 +34,14 @@
                 @Html.DisplayFor(modelItem => item.RequestText)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.RequestId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RequestId">Details</a> |
+                @Html.DisplayFor(modelItem => item.RequestAnswered)
+            </td>
+            <td>
+                @if (item.RequestAnswered == false)
+                {
+                    <a asp-action="Edit" asp-route-id="@item.RequestId">Edit | </a>
+                }
+                <a asp-action="Details" asp-route-id="@item.RequestId">Details | </a>
                 <a asp-action="Delete" asp-route-id="@item.RequestId">Delete</a>
             </td>
         </tr>

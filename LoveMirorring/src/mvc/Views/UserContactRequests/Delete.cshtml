@@ -24,14 +24,14 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.RequestText)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdNavigation.Id)
-        </dd class>
+
     </dl>
-    
+    <div>
+        @foreach (AnswerRequest answer in Model.AnswerRequests)
+        {
+            <p>@answer.AnswerId @answer.AnswerText  @answer.AnswerDate</p>
+        }
+    </div>
     <form asp-action="Delete">
         <input type="hidden" asp-for="RequestId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

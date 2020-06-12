@@ -11,22 +11,28 @@
     <h4>ContactRequest</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.RequestDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RequestDate)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.RequestText)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RequestText)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RequestAnswered)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RequestAnswered)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Id)
         </dd>
     </dl>
@@ -34,11 +40,14 @@
 <div>
     @foreach (AnswerRequest answer in Model.AnswerRequests)
     {
-        <p>@answer.AnswerId @answer.AnswerText  @answer.AnswerDate</p>
+        <p>Date: @answer.AnswerDate | Utilisateur: @answer.Id | Text: @answer.AnswerText </p>
     }
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.RequestId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.RequestId">Edit| </a>
+    <a asp-action="Index">Back to List</a> 
+    @if (Model.RequestAnswered == false)
+    {
+        <a asp-action="RedirectToAnswerCreate" asp-route-id="@Model.RequestId">| Answer to request</a>
+    }
 </div>
-

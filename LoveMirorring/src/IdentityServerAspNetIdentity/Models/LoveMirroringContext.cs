@@ -30,6 +30,7 @@ namespace IdentityServerAspNetIdentity.Models
         public virtual DbSet<ExternalService> ExternalServices { get; set; }
         public virtual DbSet<HairColor> HairColors { get; set; }
         public virtual DbSet<HairSize> HairSizes { get; set; }
+        public virtual DbSet<Insult> Insults { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Music> Musics { get; set; }
         public virtual DbSet<Newsletter> Newsletters { get; set; }

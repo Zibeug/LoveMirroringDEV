@@ -5,6 +5,7 @@
  */
 
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
@@ -71,6 +72,16 @@ namespace mvc.Controllers
             return View(contactRequest);
         }
 
+        // GET: RedirectToAnswerCreate/5
+        public IActionResult RedirectToAnswerCreate(short id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            return Redirect("/AnswerRequests/Create/" + id);
+        }
+
         //// GET: ContactRequests/Create
         //public IActionResult Create()
         //{
@@ -104,58 +115,75 @@ namespace mvc.Controllers
         //    return View(contactRequest);
         //}
 
-        //// GET: ContactRequests/Edit/5
-        //public async Task<IActionResult> Edit(short? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: ContactRequests/Edit/5
+        public async Task<IActionResult> Edit(short? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-        //    var contactRequest = await _context.ContactRequests.FindAsync(id);
-        //    if (contactRequest == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", contactRequest.UserId);
-        //    return View(contactRequest);
-        //}
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-        //// POST: ContactRequests/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(short id, [Bind("RequestId,RequestDate,RequestText,UserId")] ContactRequest contactRequest)
-        //{
-        //    if (id != contactRequest.RequestId)
-        //    {
-        //        return NotFound();
-        //    }
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/ContactRequests/{id}");
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(contactRequest);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!ContactRequestExists(contactRequest.RequestId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["UserId"] = new SelectList(_context.AspNetUsers, "Id", "Id", contactRequest.UserId);
-        //    return View(contactRequest);
-        //}
+                ContactRequest contactRequest = JsonConvert.DeserializeObject<ContactRequest>(content);
+
+                if (contactRequest == null)
+                {
+                    return NotFound();
+                }
+                return View(contactRequest);
+            }
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+        }
+
+        // POST: ContactRequests/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(short id, [Bind("RequestId,RequestDate,RequestText,UserId")] ContactRequest contactRequest)
+        {
+            try
+            {
+                if (id != contactRequest.RequestId)
+                {
+                    return NotFound();
+                }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                if (ModelState.IsValid)
+                {
+                    // Préparation de la requête update à l'API
+                    StringContent httpContent = new StringContent(contactRequest.ToJson(), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/ContactRequests/{id}", httpContent);
+                    if (response.StatusCode != HttpStatusCode.NoContent)
+                    {
+                        return BadRequest();
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(contactRequest);
+            }
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+        }
 
         //// GET: ContactRequests/Delete/5
         //public async Task<IActionResult> Delete(short? id)

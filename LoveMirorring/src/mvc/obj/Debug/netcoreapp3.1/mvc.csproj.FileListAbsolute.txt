@@ -1000,7 +1000,6 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\View
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Quiz.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Validation.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\Admin\GiveNewPassword.cshtml.g.cs
-C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csprojAssemblyReference.cache
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\libman.json
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\IdentityModel.dll
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\MessagePack.dll
@@ -1481,3 +1480,16 @@ C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csp
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.MvcApplicationPartsAssemblyInfo.cs
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.MvcApplicationPartsAssemblyInfo.cache
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\EFCorePluralizer.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\System.Web.Mvc.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\System.Web.Razor.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\System.Web.Helpers.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\System.Web.WebPages.Deployment.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\System.Web.WebPages.Razor.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\System.Web.WebPages.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\Microsoft.Web.Infrastructure.dll
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\BotCommands\Create.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\BotCommands\Delete.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\BotCommands\Details.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\BotCommands\Edit.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\BotCommands\Index.cshtml.g.cs
+C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csprojAssemblyReference.cache

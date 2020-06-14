@@ -60,7 +60,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         private async Task<string> BotCommandAsync(string command)
         {
-            string accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+            string accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("Bearer");
 
             string text = null;
             HttpClient client = new HttpClient();

@@ -1,0 +1,18 @@
+{
+    "name": "LM DEV",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "appId": "7c8f4137-3fff-4e7b-af5a-cdf25dcc72fc",
+            "appPassword": "R3Phglyd5fHO>z7ZZG&2fV-c$o0",
+            "endpoint": "http://localhost:3978/api/messages",
+            "id": "ba679f60-ae3e-11ea-91c9-177b3921bc05",
+            "name": "http://localhost:3978/api/messages"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "overrides": null,
+    "path": "C:\\DEV\\LoveMirroringDEV\\LoveMirorring\\src\\Bot\\.bot"
+}

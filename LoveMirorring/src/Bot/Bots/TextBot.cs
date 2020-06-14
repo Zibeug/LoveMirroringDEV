@@ -12,6 +12,9 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
@@ -19,11 +22,13 @@ namespace Microsoft.BotBuilderSamples.Bots
     {
         private IConfiguration Configuration { get; set; }
         private IHttpContextAccessor _httpContextAccessor;
+        private BotState _userState;
 
-        public TextBot(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        public TextBot(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, UserState userState)
         {
             Configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
+            _userState = userState;
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
@@ -55,7 +60,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         private async Task<string> BotCommandAsync(string command)
         {
-            string accessToken = _httpContextAccessor.HttpContext.Request.Headers["Authorization"];
+            string accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
 
             string text = null;
             HttpClient client = new HttpClient();

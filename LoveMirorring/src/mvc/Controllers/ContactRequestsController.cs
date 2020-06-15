@@ -64,7 +64,7 @@ namespace mvc.Controllers
             string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/ContactRequests");
             List<ContactRequest> contactRequests = JsonConvert.DeserializeObject<List<ContactRequest>>(content);
             ViewData["ContactId"] = new SelectList(contactRequests, "QuestionId", "QuestionText");
-            ContactRequest contactRequest = contactRequests.Where(x => x.RequestId == id).SingleOrDefault(); 
+            ContactRequest contactRequest = contactRequests.Where(x => x.RequestId == id).SingleOrDefault();
 
             if (contactRequests == null)
             {

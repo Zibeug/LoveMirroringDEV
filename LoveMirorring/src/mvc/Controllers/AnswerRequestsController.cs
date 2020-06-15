@@ -4,23 +4,20 @@
  * Description : permet de traiter la liste des réponses aux demandes de contact
  */
 
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using mvc.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using mvc.Models;
-using Newtonsoft.Json;
 using Unosquare.Swan;
 
 namespace mvc.Controllers
@@ -111,7 +108,7 @@ namespace mvc.Controllers
                 if (user == null)
                 {
                     return NotFound();
-                }    
+                }
 
                 content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/account/GetRole/{user.Id}");
                 List<string> roles = JsonConvert.DeserializeObject<List<string>>(content);
@@ -141,7 +138,7 @@ namespace mvc.Controllers
         }
 
         // POST: AnswerRequests/Create/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("{id}")]
         [ValidateAntiForgeryToken]
@@ -199,7 +196,7 @@ namespace mvc.Controllers
                         {
                             return RedirectToAction("Index", "UserContactRequests");
                         }
-                    }          
+                    }
                 }
                 return View(answerRequest);
             }
@@ -228,7 +225,7 @@ namespace mvc.Controllers
         //}
 
         //// POST: AnswerRequests/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
         //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         //[ValidateAntiForgeryToken]

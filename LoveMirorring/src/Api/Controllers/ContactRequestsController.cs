@@ -3,15 +3,14 @@
  * Date : 27.05.2020
  * Description : permet de récupérer la liste des demandes de contact et les afficher dans l'interface administrateur
  */
+
 using Api.Models;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {

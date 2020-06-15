@@ -63,7 +63,9 @@ namespace mvc.Models
         public string LastName { get; set; }
         public bool QuizCompleted { get; set; }
         public bool AccountCompleted { get; set; }
-        public bool IsFacebookAccount { get; set; }
+        public bool? IsFacebookAccount { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime? LastConnection { get; set; }
 
         [ForeignKey(nameof(CorpulenceId))]
         [InverseProperty("AspNetUsers")]
@@ -126,6 +128,5 @@ namespace mvc.Models
         public virtual ICollection<UserSubscription> UserSubscriptions { get; set; }
         [InverseProperty(nameof(UserTrace.IdNavigation))]
         public virtual ICollection<UserTrace> UserTraces { get; set; }
-
     }
 }

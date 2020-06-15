@@ -25,6 +25,7 @@ namespace mvc.Models
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
+        public virtual DbSet<BotCommand> BotCommands { get; set; }
         public virtual DbSet<ContactRequest> ContactRequests { get; set; }
         public virtual DbSet<Corpulence> Corpulences { get; set; }
         public virtual DbSet<ExternalService> ExternalServices { get; set; }
@@ -204,6 +205,8 @@ namespace mvc.Models
             {
                 entity.HasKey(e => e.RequestId)
                     .HasName("PK_CONTACTREQUESTS");
+
+                entity.Property(e => e.RequestAnswered).HasDefaultValueSql("((0))");
 
                 entity.HasOne(d => d.IdNavigation)
                     .WithMany(p => p.ContactRequests)

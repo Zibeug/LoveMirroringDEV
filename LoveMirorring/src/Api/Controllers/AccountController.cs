@@ -74,6 +74,29 @@ namespace Api.Controllers
                             .Include(a => a.UserTraces)
                             .Include(a => a.Religion)
                             .Include(a => a.Pictures)
+                            .Include(a => a.UserProfils)
+                                .ThenInclude(a => a.Profil)
+                            .Include(u => u.UserSubscriptions)
+                                    .ThenInclude(u => u.Subscriptions)
+                                // Ses préférences
+                                .Include(u => u.Preferences)
+                                    .ThenInclude(u => u.PreferenceCorpulences)
+                                .Include(u => u.Preferences)
+                                    .ThenInclude(u => u.PreferenceHairColors)
+                                .Include(u => u.Preferences)
+                                    .ThenInclude(u => u.PreferenceHairSizes)
+                                .Include(u => u.Preferences)
+                                    .ThenInclude(u => u.PreferenceMusics)
+                                .Include(u => u.Preferences)
+                                    .ThenInclude(u => u.PreferenceReligions)
+                                .Include(u => u.Preferences)
+                                    .ThenInclude(u => u.PreferenceStyles)
+                                .Include(u => u.UserProfils)
+                                    .ThenInclude(u => u.Profil)
+                                .Include(u => u.UserStyles)
+                                    .ThenInclude(u => u.Style)
+                                .Include(u => u.UserMusics)
+                                    .ThenInclude(u => u.Music)
                             .SingleOrDefaultAsync(a => a.Id == id);
 
             if (user == null)
@@ -95,7 +118,7 @@ namespace Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAspNetUser(AspNetUser aspNetUser)
         {
-            
+
             _context.Entry(aspNetUser).State = EntityState.Modified;
 
             try
@@ -224,10 +247,10 @@ namespace Api.Controllers
             if (report != null)
             {
                 List<string> adminsmails = (from u in await _context.AspNetUsers.ToListAsync()
-                                  join ur in await _context.AspNetUserRoles.ToListAsync() on u.Id equals ur.UserId
-                                  join r in await _context.AspNetRoles.ToListAsync() on ur.RoleId equals r.Id
-                                  where r.NormalizedName.Equals("ADMINISTRATEUR")
-                                  select u.Email).ToList();
+                                            join ur in await _context.AspNetUserRoles.ToListAsync() on u.Id equals ur.UserId
+                                            join r in await _context.AspNetRoles.ToListAsync() on ur.RoleId equals r.Id
+                                            where r.NormalizedName.Equals("ADMINISTRATEUR")
+                                            select u.Email).ToList();
 
                 foreach (string email in adminsmails)
                 {

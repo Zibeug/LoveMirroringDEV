@@ -42,7 +42,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (MatchingModel user in ViewData["Search"] as IEnumerable<MatchingModel>)
+                @foreach (MatchingModel user in ViewData["Search"] as List<MatchingModel>)
                 {
                     <tr>
                         <td>

@@ -31,12 +31,12 @@ else
                     <td>
                         <form asp-route="Chat" method="post">
                             <input type="hidden" name="id" value="@user.Id" />
-                            <button class="btn btn-secondary" asp-action="Chat">Messages</button>
+                            <button class="btn btn-secondary btn-block" asp-action="Chat">Messages</button>
                         </form>
-                        <form asp-controller="ChatPrive" asp-route="Chat" method="post">
+                        <form asp-controller="ChatPrive" asp-action="LetsChat" method="post">
                             <input type="hidden" name="friendName" value="@user.UserName" />
                             <input type="hidden" name="friendId" value="@user.Id" />
-                            <button class="btn btn-secondary" asp-action="Chat">Messages (Signal R)</button>
+                            <button class="btn btn-secondary btn-block">Messages (Signal R)</button>
                         </form>
                     </td>
 

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using mvc.Models;
+using mvc.ViewModels.Chat;
 using Newtonsoft.Json;
 
 namespace mvc.Controllers
@@ -36,13 +37,17 @@ namespace mvc.Controllers
             string searchTalk = await client.GetStringAsync(_configuration["URLAPI"] + $"api/PrivateChat/GetTalk/{friendId}");
             Talk talk = JsonConvert.DeserializeObject<Talk>(searchTalk);
 
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/account/getUserInfo");
+            string searchMessages = await client.GetStringAsync(_configuration["URLAPI"] + $"api/PrivateChat/GetMessages/{talk.TalkId}");
+            IEnumerable<GetMessagesViewModel> messages = JsonConvert.DeserializeObject<IEnumerable<GetMessagesViewModel>>(searchMessages);
 
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/account/getUserInfo");
             AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(content);
 
             ViewData["username"] = user.UserName;
             ViewData["friendname"] = friendName;
             ViewData["talkId"] = talk.TalkId;
+            ViewData["userId"] = user.Id;
+            ViewData["messages"] = messages.OrderByDescending(m => m.Date).Take(10);
             return View();
         }
     }

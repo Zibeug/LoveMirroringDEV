@@ -4,7 +4,11 @@
     <input type="hidden" id="userInput" value="@ViewData["Username"]" />
     <div class="row">
         <div class="col-2">Message</div>
-        <div class="col-4"><input type="text" id="messageInput" /></div>
+        <div class="col-10">
+            <div class="form-group">
+                <textarea class="form-control" id="messageInput" rows="3"></textarea>
+            </div>
+        </div>
     </div>
     <div class="row">&nbsp;</div>
     <div class="row">
@@ -20,7 +24,15 @@
 </div>
 <div class="row">
     <div class="col-6">
-        <ul id="messagesList"></ul>
+        <ul id="messagesList">
+            <hr />
+            @foreach (mvc.ViewModels.Chat.GetMessagesViewModel message in (IEnumerable<mvc.ViewModels.Chat.GetMessagesViewModel>)ViewData["messages"])
+            {
+                <li>
+                    (@message.Date.ToString("yyyy-MM-dd hh:mm")) @message.Username dit : @message.Message
+                </li>
+            }
+        </ul>
     </div>
 </div>
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
@@ -34,7 +46,7 @@
 
     connection.on("ReceiveMessage", function (user, message) {
         var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        var encodedMsg = user + " dit " + msg;
+        var encodedMsg = user + " dit : " + msg;
         var li = document.createElement("li");
         li.textContent = encodedMsg;
         var eElement = document.getElementById("messagesList");
@@ -58,10 +70,12 @@
         var userConnection = connection.connectionId;
         var friendName = "@ViewData["friendname"]";
         var userName = "@ViewData["username"]";
+        var talkId = "@ViewData["talkId"]";
+        var userId = "@ViewData["userId"]";
         var message = document.getElementById("messageInput").value;
-        connection.invoke("SendMessage", userName, friendName, message, userConnection).catch(function (err) {
+        connection.invoke("SendMessage", userName, userId, friendName, message, userConnection, talkId).catch(function (err) {
             return console.error(err.toString());
-            location.reload(); 
+            location.reload();
         });
         event.preventDefault();
     });

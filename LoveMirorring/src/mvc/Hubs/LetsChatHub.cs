@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using mvc.Models;
+using mvc.Services;
 using mvc.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,19 +14,19 @@ namespace mvc.Hubs
 {
     public class LetsChatHub : Hub
     {
-        private List<ConnectionPC> _ConnectionPCs;
+        private List<ConnectionPC> _connectionPCs;
 
-        public LetsChatHub(List<ConnectionPC> connectionPCs)
+        public LetsChatHub()
         {
-            _ConnectionPCs = connectionPCs;
+            _connectionPCs = ConnectionsSingleton.GetConnectionList();
         }
 
         public async Task SendMessage(string username, string friendname, string message, string connId)
         {
 
-            if (!_ConnectionPCs.Any(c => c.connectionId == connId))
+            if (!_connectionPCs.Any(c => c.connectionId == connId))
             {
-                _ConnectionPCs.Add(
+                _connectionPCs.Add(
                     new ConnectionPC
                     {
                         connectionId = Context.ConnectionId,
@@ -36,7 +37,7 @@ namespace mvc.Hubs
                 );
             }
 
-            string connectionFriendId = _ConnectionPCs
+            string connectionFriendId = _connectionPCs
                                             .Where(c => c.username == friendname)
                                             .OrderByDescending(c => c.dateConnection)
                                             .Select(c => c.connectionId)
@@ -47,7 +48,7 @@ namespace mvc.Hubs
                 await Clients.Client(connectionFriendId).SendAsync("ReceiveMessage", username, message);
             }
 
-            string connectionUserId = _ConnectionPCs
+            string connectionUserId = _connectionPCs
                                             .Where(c => c.username == username)
                                             .OrderByDescending(c => c.dateConnection)
                                             .Select(c => c.connectionId)

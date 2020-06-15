@@ -86,9 +86,6 @@ namespace mvc
             services.AddSingleton<List<UserCall>>();
             services.AddSingleton<List<CallOffer>>();
 
-            // Pour le chat privé
-            services.AddSingleton<List<ConnectionPC>>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -126,6 +126,5 @@ namespace mvc.Models
         public virtual ICollection<UserSubscription> UserSubscriptions { get; set; }
         [InverseProperty(nameof(UserTrace.IdNavigation))]
         public virtual ICollection<UserTrace> UserTraces { get; set; }
-
     }
 }

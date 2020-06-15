@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder.EchoBot;
 using Microsoft.BotBuilderSamples.Bots;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -31,19 +32,15 @@ namespace Microsoft.BotBuilderSamples
 
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
-
+            services.AddControllers();
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, TextBot>();
 
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", options =>
-                {
-                    options.Authority = Configuration["URLIdentityServer4"];
+            JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+            Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
 
-                    options.RequireHttpsMetadata = false;
-
-                    options.Audience = "bot1";
-                });
+            // Besoin de l'utilisation des cookies pour gérer les authentification avec le protocole OpenIdConnect
+            services.AddAuthentication();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -73,10 +70,16 @@ namespace Microsoft.BotBuilderSamples
 
             app.UseNamedPipes(System.Environment.GetEnvironmentVariable("https://lovemirroring-bot.azurewebsites.net/") + ".directline");
             app.UseDefaultFiles();
-            app.UseStaticFiles();
-            app.UseWebSockets();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseStaticFiles();
+            app.UseWebSockets();
+            app.UseRouting();
+            
+            app.UseEndpoints(endpoints =>
+             {
+                 endpoints.MapControllers();
+             });
         }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.Configuration;
@@ -87,6 +88,7 @@ namespace mvc
             services.AddSingleton<List<User>>();
             services.AddSingleton<List<UserCall>>();
             services.AddSingleton<List<CallOffer>>();
+
 
             // Pour le chat priv�
             services.AddSingleton<List<ConnectionPC>>();

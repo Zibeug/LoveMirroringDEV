@@ -69,6 +69,7 @@
     </header>
     <div class="container">
         <main role="main" class="mb-5">
+            <div id="partAds" data-url="@Url.Action("Index", "PartAds")"></div>
             @RenderBody()
         </main>
     </div>
@@ -89,5 +90,13 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.2.6/emojionearea.css" type="text/javascript"></script>
     @RenderSection("Scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            (function () {
+                var url = $("#partAds").data("url");
+                $("#partAds").load(url);
+            })();
+        });
+    </script>
 </body>
     </html>

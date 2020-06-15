@@ -1476,7 +1476,6 @@ C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\System.
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\System.Web.WebPages.Razor.dll
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\System.Web.WebPages.dll
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\bin\Debug\netcoreapp3.1\Microsoft.Web.Infrastructure.dll
-C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csprojAssemblyReference.cache
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.MvcApplicationPartsAssemblyInfo.cs
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.MvcApplicationPartsAssemblyInfo.cache
 C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\EFCorePluralizer.cs
@@ -1493,3 +1492,4 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\View
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\BotCommands\Edit.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\Razor\Views\BotCommands\Index.cshtml.g.cs
 C:\DEV\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csprojAssemblyReference.cache
+C:\Projet\LoveMirroringDEV\LoveMirorring\src\mvc\obj\Debug\netcoreapp3.1\mvc.csprojAssemblyReference.cache

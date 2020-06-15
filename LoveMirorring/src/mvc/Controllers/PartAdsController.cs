@@ -20,9 +20,8 @@ namespace mvc.Controllers
             Configuration = configuration;
         }
 
-        [System.Web.Mvc.ChildActionOnly]
         [HttpGet]
-        public async Task<PartialViewResult> Index()
+        public async Task<IActionResult> Index()
         {
             // Préparation de l'appel à l'API
             string accessToken = await HttpContext.GetTokenAsync("access_token");

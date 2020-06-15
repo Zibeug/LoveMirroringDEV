@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.Configuration;
@@ -11,13 +14,15 @@ using Microsoft.Extensions.Hosting;
 using mvc.Hubs;
 using mvc.Models;
 using mvc.Services.RolesAndClaims;
-
+using mvc.ViewModels;
 
 namespace mvc
 {
     public class Startup
     {
         public static IConfiguration Configuration { get; set; }
+        public object GlobalHost { get; private set; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -40,7 +45,7 @@ namespace mvc
             JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
 
-            // Besoin de l'utilisation des cookies pour gérer les authentification avec le protocole OpenIdConnect
+            // Besoin de l'utilisation des cookies pour gï¿½rer les authentification avec le protocole OpenIdConnect
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = "Cookies";
@@ -66,7 +71,7 @@ namespace mvc
              *      Auteur : Hans Morsch
              *      11.05.2020
              *      Rajoute les claims identity server 4 au claims d'identity
-             *      Permet d'utiliser des policy pour gérer les accés des controlleurs
+             *      Permet d'utiliser des policy pour gï¿½rer les accï¿½s des controlleurs
              */
             services.AddSingleton<Microsoft.AspNetCore.Authentication.IClaimsTransformation, KarekeClaimsTransformer>();
             services.AddAuthorization(options =>
@@ -83,6 +88,11 @@ namespace mvc
             services.AddSingleton<List<User>>();
             services.AddSingleton<List<UserCall>>();
             services.AddSingleton<List<CallOffer>>();
+
+
+            // Pour le chat privï¿½
+            services.AddSingleton<List<ConnectionPC>>();
+
 
             //// Create the Bot Framework Adapter.
             //services.AddSingleton<IBotFrameworkHttpAdapter, BotFrameworkHttpAdapter>();
@@ -129,11 +139,23 @@ namespace mvc
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapHub<ChatHub>("/chatHub");
+                endpoints.MapHub<LetsChatHub>("/letschathub");
                 endpoints.MapHub<ConnectionHub>("/ConnectionHub", options =>
                 {
                     options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
                 });
             });
+
+            app.UseStatusCodePages(async context =>
+            {
+                var response = context.HttpContext.Response;
+
+                if (response.StatusCode == (int)HttpStatusCode.Unauthorized ||
+                    response.StatusCode == (int)HttpStatusCode.Forbidden)
+                    response.Redirect("/Account/AccessDenied");
+            });
         }
+
+
     }
 }

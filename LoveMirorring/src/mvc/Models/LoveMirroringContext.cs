@@ -66,6 +66,7 @@ namespace mvc.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=LoveMirroring;Trusted_Connection=True;");
             }
         }
@@ -204,6 +205,8 @@ namespace mvc.Models
             {
                 entity.HasKey(e => e.RequestId)
                     .HasName("PK_CONTACTREQUESTS");
+
+                entity.Property(e => e.RequestAnswered).HasDefaultValueSql("((0))");
 
                 entity.HasOne(d => d.IdNavigation)
                     .WithMany(p => p.ContactRequests)

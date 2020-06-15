@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,7 +19,7 @@ namespace Api.Models
         [Required]
         [Column(TypeName = "text")]
         public string RequestText { get; set; }
-        public bool RequestAnswered { get; set; }
+        public bool? RequestAnswered { get; set; }
         [Required]
         [StringLength(450)]
         public string Id { get; set; }

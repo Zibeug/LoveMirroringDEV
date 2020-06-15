@@ -126,5 +126,15 @@ namespace Api.Controllers
                                                     .ToList();
             return new JsonResult(responses);
         }
+
+        //Permet de récupérer la listes des commandes pour le Bot
+        // GET : api/Data/BotCommands
+        [Route("BotCommands")]
+        [HttpGet]
+        public IActionResult BotCommands()
+        {
+            List<BotCommand> commands = _context.BotCommands.ToList();
+            return new JsonResult(commands);
+        }
     }
 }

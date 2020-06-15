@@ -327,6 +327,7 @@ namespace IdentityServer4.Quickstart.UI
                 LastName = claims.FirstOrDefault(x => x.Type.Contains("surname")).Value,
                 Firstname = claims.FirstOrDefault(x => x.Type.Contains("givenname")).Value,
                 AccountCompleted = false,
+                IsFacebookAccount = true
             };
 
             int cptUser = _context.AspNetUsers.Where(x => x.UserName.Contains(user.UserName)).Count();

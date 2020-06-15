@@ -3,6 +3,8 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -76,11 +78,17 @@ namespace mvc
             });
 
             services.AddSignalR();
-
+            services.AddSingleton<IBotFrameworkHttpAdapter>(new BotFrameworkHttpAdapter());
             // Pour le chat vocal
             services.AddSingleton<List<User>>();
             services.AddSingleton<List<UserCall>>();
             services.AddSingleton<List<CallOffer>>();
+
+            //// Create the Bot Framework Adapter.
+            //services.AddSingleton<IBotFrameworkHttpAdapter, BotFrameworkHttpAdapter>();
+
+            //// Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
+            //services.AddTransient<IBot, EchoBot>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,12 +116,13 @@ namespace mvc
             app.UseStaticFiles();
             app.UseFileServer();
             app.UseCors("CorsPolicy");
-
             app.UseRouting();
+
+            //app.UseBotFramework();
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseWebSockets();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

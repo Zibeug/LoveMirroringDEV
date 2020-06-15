@@ -95,7 +95,7 @@ namespace mvc.Controllers
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 string search = await client.GetStringAsync(Configuration["URLAPI"] + "api/Search/search");
-                IEnumerable<MatchingModel> searchResult = JsonConvert.DeserializeObject<IEnumerable<MatchingModel>>(search);
+                List<MatchingModel> searchResult = JsonConvert.DeserializeObject<List<MatchingModel>>(search);
                 ViewData["Search"] = searchResult;
 
                 /*

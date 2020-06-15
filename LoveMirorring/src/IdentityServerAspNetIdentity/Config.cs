@@ -23,11 +23,12 @@ namespace IdentityServerAspNetIdentity
         public static IEnumerable<ApiResource> Apis =>
             new ApiResource[]
             {
-                new ApiResource("api1", "My API #1")
+                new ApiResource("api1", "My API #1"),
+                new ApiResource("bot1", "My Bot #1")
             };
+            
 
-
-        public static IEnumerable<Client> Clients =>
+    public static IEnumerable<Client> Clients =>
             new Client[]
             {
                 // client credentials flow client
@@ -111,5 +112,6 @@ namespace IdentityServerAspNetIdentity
                     AllowedScopes = { "openid", "profile", "api1" }
                 }
             };
+
     }
 }

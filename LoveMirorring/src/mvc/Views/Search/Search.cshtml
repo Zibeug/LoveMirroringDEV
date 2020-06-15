@@ -4,9 +4,6 @@
 }
 
 <h1>Search</h1>
-
-<partial name="PartAds" />
-
     @if (ViewData["HasSubscription"] != null)
     {
         if (!(bool)ViewData["HasSubscription"])
@@ -45,7 +42,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (MatchingModel user in ViewData["Search"] as IEnumerable<MatchingModel>)
+                @foreach (MatchingModel user in ViewData["Search"] as List<MatchingModel>)
                 {
                     <tr>
                         <td>

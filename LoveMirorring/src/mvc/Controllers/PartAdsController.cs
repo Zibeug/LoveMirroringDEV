@@ -20,6 +20,7 @@ namespace mvc.Controllers
             Configuration = configuration;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             // Préparation de l'appel à l'API

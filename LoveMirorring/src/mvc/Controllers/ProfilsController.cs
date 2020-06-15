@@ -50,7 +50,7 @@ namespace mvc.Controllers
 
                 return View(profils);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -83,7 +83,7 @@ namespace mvc.Controllers
 
                 return View(profil);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -124,7 +124,7 @@ namespace mvc.Controllers
                 }
                 return View(profil);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -157,7 +157,7 @@ namespace mvc.Controllers
                 }
                 return View(profil);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -196,7 +196,7 @@ namespace mvc.Controllers
                 }
                 return View(profil);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -229,7 +229,7 @@ namespace mvc.Controllers
 
                 return View(profil);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -259,7 +259,7 @@ namespace mvc.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }

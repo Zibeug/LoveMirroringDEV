@@ -109,8 +109,14 @@ namespace Api
                 app.UseHsts();
             }
 
-            app.UseRouting();
+            var webSocketOptions = new WebSocketOptions()
+            {
+                KeepAliveInterval = TimeSpan.FromSeconds(120),
+                ReceiveBufferSize = 4 * 1024
+            };
 
+            app.UseRouting();
+            app.UseWebSockets(webSocketOptions);
             app.UseAuthentication();
             app.UseAuthorization();
 

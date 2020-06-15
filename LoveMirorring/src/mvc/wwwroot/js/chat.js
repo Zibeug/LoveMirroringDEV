@@ -27,3 +27,15 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     });
     event.preventDefault();
 });
+
+document.getElementById("show-all-connections").onclick = function () {
+    connection.invoke("GetAllActiveConnectionsAsync")
+    connection.on("ReceiveUser", function (userList) {
+        while (document.getElementById("user-list").firstChild) {
+            document.getElementById("user-list").removeChild(document.getElementById("user-list").firstChild);
+        }
+        var li = document.createElement("li");
+        li.textContent = userList;
+        document.getElementById("user-list").appendChild(li);
+    });
+};

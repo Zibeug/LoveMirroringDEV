@@ -33,6 +33,11 @@ else
                             <input type="hidden" name="id" value="@user.Id" />
                             <button class="btn btn-secondary" asp-action="Chat">Messages</button>
                         </form>
+                        <form asp-controller="ChatPrive" asp-route="Chat" method="post">
+                            <input type="hidden" name="friendName" value="@user.UserName" />
+                            <input type="hidden" name="friendId" value="@user.Id" />
+                            <button class="btn btn-secondary" asp-action="Chat">Messages (Signal R)</button>
+                        </form>
                     </td>
 
                 </tr>

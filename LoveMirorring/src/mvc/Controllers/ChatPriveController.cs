@@ -26,12 +26,15 @@ namespace mvc.Controllers
             return View();
         }
 
-        public async Task<IActionResult> LetsChatAsync(string friendName)
+        public async Task<IActionResult> LetsChatAsync(string friendName, string friendId)
         {
             // Préparation de l'appel à l'API
             string accessToken = await HttpContext.GetTokenAsync("access_token");
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            string searchTalk = await client.GetStringAsync(_configuration["URLAPI"] + $"api/PrivateChat/GetTalk/{friendId}");
+            Talk talk = JsonConvert.DeserializeObject<Talk>(searchTalk);
 
             string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/account/getUserInfo");
 
@@ -39,6 +42,7 @@ namespace mvc.Controllers
 
             ViewData["username"] = user.UserName;
             ViewData["friendname"] = friendName;
+            ViewData["talkId"] = talk.TalkId;
             return View();
         }
     }

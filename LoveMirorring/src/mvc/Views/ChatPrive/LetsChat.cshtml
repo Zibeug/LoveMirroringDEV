@@ -37,11 +37,19 @@
         var encodedMsg = user + " dit " + msg;
         var li = document.createElement("li");
         li.textContent = encodedMsg;
-        document.getElementById("messagesList").appendChild(li);
+        var eElement = document.getElementById("messagesList");
+        eElement.insertBefore(li, eElement.firstChild);
     });
 
     connection.start().then(function () {
         document.getElementById("sendButton").disabled = false;
+        // Enregistrer la connection dans le singleton
+        var userConnection = connection.connectionId;
+        var friendName = "@ViewData["friendname"]";
+        var userName = "@ViewData["username"]";
+        connection.invoke("AddConnection", userName, friendName, userConnection).catch(function (err) {
+            return console.error(err.toString());
+        });
     }).catch(function (err) {
         return console.error(err.toString());
     });
@@ -53,6 +61,7 @@
         var message = document.getElementById("messageInput").value;
         connection.invoke("SendMessage", userName, friendName, message, userConnection).catch(function (err) {
             return console.error(err.toString());
+            location.reload(); 
         });
         event.preventDefault();
     });

@@ -25,6 +25,7 @@ namespace Api.Controllers
     public class SearchController : ControllerBase
     {
         private LoveMirroringContext _context;
+        private const double MATCHING = 0.1;
         private IConfiguration Configuration { get; set; }
 
         public SearchController(LoveMirroringContext context, IConfiguration configuration)
@@ -40,6 +41,8 @@ namespace Api.Controllers
         [Authorize]
         public async Task<IActionResult> OnPostSearchAsync()
         {
+            List<AspNetUser> users = GetUsers();
+
             AspNetUser user = null;
             string id = "";
             string accessToken = await HttpContext.GetTokenAsync("access_token");
@@ -54,85 +57,242 @@ namespace Api.Controllers
                 return BadRequest();
             }
 
-            try
+            // Récurération des données et convertion des données dans le bon type
+            string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
+            user = JsonConvert.DeserializeObject<AspNetUser>(content);
+
+
+            // Déterminer s'il y a des matchs
+            List<MatchingModel> usersChoices = new List<MatchingModel>();
+
+            // Premier tri obligatoire : 
+            // Sortir de la liste les utilisateurs déjà "aimé", 
+            // dont l'age ne correspond par à la préférence
+            // dont le sexe ne correspond pas à la préférence
+            // dont l'orientation sexuelle n'est pas la même
+            List<AspNetUser> potentialUserMatchs = GetPotentialUsers(user, users);
+
+            // Ajouter et calculer le potentiel du match : 100% = couple parfait
+            foreach (AspNetUser potentialUserMatch in potentialUserMatchs)
             {
-                // Il faut utiliser le Claim pour retrouver l'identifiant de l'utilisateur
-                id = User.Claims.Where(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").SingleOrDefault().Value;
-                user = _context.AspNetUsers.Where(b => b.Id == id).SingleOrDefault();
+                // Le potentiel commence à 0.2 car age et profil obligatoire (chacun vaut 0.125
+                double potentielPourcentage = MATCHING * 2;
 
-                if (user != null)
+                // Vérifier si le profil correspond
+                List<string> potentialUserMatchProfil = new List<string>();
+                foreach (UserProfil userProfil in potentialUserMatch.UserProfils)
                 {
-                    List<Sex> Sexes = _context.Sexes.ToList();
-                    List<Profil> Profils = _context.Profils.ToList();
-
+                    potentialUserMatchProfil.Add(userProfil.Profil.ProfilName);
                 }
-                Preference pref = _context.Preferences.Where(b => b.Id == user.Id).Single();
-                PreferenceCorpulence prefCorp = _context.PreferenceCorpulences.Where(b => b.PreferenceId == pref.PreferenceId).Single();
-                PreferenceReligion prefRel = _context.PreferenceReligions.Where(b => b.PreferenceId == pref.PreferenceId).Single();
-                PreferenceHairColor prefHC = _context.PreferenceHairColors.Where(b => b.PreferenceId == pref.PreferenceId).Single();
-                PreferenceHairSize prefHS = _context.PreferenceHairSizes.Where(b => b.PreferenceId == pref.PreferenceId).Single();
-                PreferenceStyle prefStyle = _context.PreferenceStyles.Where(b => b.PreferenceId == pref.PreferenceId).Include(a => a.Style).Single();
-                UserProfil userProf = _context.UserProfils.Where(b => b.Id == user.Id).Single();
 
-                string SexeName = "";
-                if (pref.SexualityId == 1) //Hetero
+                string profil = "";
+                List<string> potentialUserProfil = new List<string>();
+                foreach (UserProfil userProfil in user.UserProfils)
                 {
-                    if (user.Sexe.SexeName.Equals("Homme")) // Si c'est un homme il cherche
+                    potentialUserProfil.Add(userProfil.Profil.ProfilName);
+                }
+
+                foreach (string userMatchProfil in potentialUserMatchProfil)
+                {
+                    if (potentialUserProfil.Contains(userMatchProfil))
                     {
-                        SexeName = "Femme";
-                    }
-                    else // Si c'est une femme il cherche
-                    {
-                        SexeName = "Homme";
+                        profil = userMatchProfil;
+                        potentielPourcentage += MATCHING;
+                        break;
                     }
                 }
-                else // Homo
+
+
+                // Vérifier si la corpulence correspond
+                string corpulence = "";
+                string corpulenceUserMatch = potentialUserMatch.Corpulence.CorpulenceName;
+                foreach (Preference preferenceUser in user.Preferences)
                 {
-                    SexeName = user.Sexe.SexeName;
+                    foreach (PreferenceCorpulence preferenceCorpulenceUser in preferenceUser.PreferenceCorpulences)
+                    {
+                        if (preferenceCorpulenceUser.Corpulence.CorpulenceName == corpulenceUserMatch)
+                        {
+                            corpulence = corpulenceUserMatch;
+                            potentielPourcentage += MATCHING;
+                            break;
+                        }
+                    }
                 }
 
-                var allUsersId = from u in await _context.AspNetUsers.ToListAsync() where u.Id != user.Id select u.Id;
-                var allUsersLikeId = from us in await _context.UserLikes.Where(x => x.Id == user.Id).ToListAsync() select us.Id1;
-                var allUsersNotLike = allUsersId.Except(allUsersLikeId);
+                // Vérifier si la couleur de cheveux correspond
+                string hairColor = "";
+                string hairColorUserMatch = potentialUserMatch.HairColor.HairColorName;
+                foreach (Preference preferenceUser in user.Preferences)
+                {
+                    foreach (PreferenceHairColor preferenceHairColorUser in preferenceUser.PreferenceHairColors)
+                    {
+                        if (preferenceHairColorUser.HairColor.HairColorName == hairColorUserMatch)
+                        {
+                            hairColor = hairColorUserMatch;
+                            potentielPourcentage += MATCHING;
+                            break;
+                        }
+                    }
+                }
 
-                var userProfils = _context.UserProfils.Where(d => d.ProfilId == userProf.ProfilId).Select(d => d.Id).ToList();
-                var userStyles = _context.UserStyles.Where(d => d.StyleId == prefStyle.StyleId).Select(d => d.Id).ToList();
+                // Vérifier si la taille de cheveux correspond
+                string hairSize = "";
+                string hairSizeUserMatch = potentialUserMatch.HairSize.HairSizeName;
+                foreach (Preference preferenceUser in user.Preferences)
+                {
+                    foreach (PreferenceHairSize preferenceHairSizeUser in preferenceUser.PreferenceHairSizes)
+                    {
+                        if (preferenceHairSizeUser.HairSize.HairSizeName == hairSizeUserMatch)
+                        {
+                            hairSize = hairSizeUserMatch;
+                            potentielPourcentage += MATCHING;
+                            break;
+                        }
+                    }
+                }
 
-                IEnumerable<MatchingModel> usersChoices = _context.AspNetUsers
-                                .Include(a => a.Sexe)
-                                .Include(a => a.Religion)
-                                .Where(p => userProfils.Contains(p.Id))
-                                .Where(s => s.Sexe.SexeName.Equals(SexeName))
-                                .Where(d => DateTime.Now.Year - d.Birthday.Year <= pref.AgeMax)
-                                .Where(d => allUsersNotLike.Contains(d.Id))
-                                .Where(d => d.CorpulenceId == prefCorp.CorpulenceId)
-                                .Where(d => d.HairSizeId == prefHS.HairSizeId)
-                                .Where(d => d.HairColorId == prefHC.HairColorId)
-                                .Where(p => userStyles.Contains(p.Id))
-                                .Where(d => d.Id != user.Id)
-                                .Select(u => new MatchingModel()
-                                {
-                                    Id = u.Id,
-                                    UserName = u.UserName,
-                                    Age = DateTime.Now.Year - u.Birthday.Year,
-                                    Sexe = u.Sexe.SexeName,
-                                    Profil = userProf.Profil.ProfilName,
-                                    Corpulence = u.Corpulence.CorpulenceName,
-                                    HairColor = u.HairColor.HairColorName,
-                                    HairSize = u.HairSize.HairSizeName,
-                                    Style = prefStyle.Style.StyleName,
-                                    Religion = u.Religion.ReligionName,
-                                    Firstname = u.Firstname
-                                });
+                // Vérifier si le style correspond
+                List<string> potentialUserMatchStyle = new List<string>();
+                foreach (UserStyle userStyle in potentialUserMatch.UserStyles)
+                {
+                    potentialUserMatchStyle.Add(userStyle.Style.StyleName);
+                }
 
-                return new JsonResult(usersChoices);
+                List<string> potentialUserStyle = new List<string>();
+                foreach (UserStyle userStyle in user.UserStyles)
+                {
+                    potentialUserStyle.Add(userStyle.Style.StyleName);
+                }
+
+                string style = "";
+                foreach (string userMatchStyle in potentialUserMatchStyle)
+                {
+                    if (potentialUserStyle.Contains(userMatchStyle))
+                    {
+                        style = userMatchStyle;
+                        potentielPourcentage += MATCHING;
+                        break;
+                    }
+                }
+
+                // Vérifier si la religion correspond
+                string religion = "";
+                string religionUserMatch = potentialUserMatch.Religion.ReligionName;
+                foreach (Preference preferenceUser in user.Preferences)
+                {
+                    foreach (PreferenceReligion preferenceReligionUser in preferenceUser.PreferenceReligions)
+                    {
+                        if (preferenceReligionUser.Religion.ReligionName == religionUserMatch)
+                        {
+                            religion = religionUserMatch;
+                            potentielPourcentage += MATCHING;
+                            break;
+                        }
+                    }
+                }
+
+                //Vérifier si la musique correspond
+                string musicName = "";
+                if (potentialUserMatch.UserMusics.Count() > 0)
+                {
+                    string musicMatch = potentialUserMatch.UserMusics.FirstOrDefault().Music.MusicName;
+                    foreach (Preference preferenceUser in user.Preferences)
+                    {
+                        foreach (PreferenceMusic preferenceMusic in preferenceUser.PreferenceMusics)
+                        {
+                            if (preferenceMusic.Music.MusicName == musicMatch)
+                            {
+                                musicName = musicMatch;
+                                potentielPourcentage += MATCHING;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                //Vérifier si l'artiste correspond
+                string artistName = "";
+                if (potentialUserMatch.UserMusics.Count() > 0)
+                {
+                    string artistMatch = potentialUserMatch.UserMusics.FirstOrDefault().Music.ArtistName;
+                    foreach (Preference preferenceUser in user.Preferences)
+                    {
+                        foreach (PreferenceMusic preferenceMusic in preferenceUser.PreferenceMusics)
+                        {
+                            if (preferenceMusic.Music.ArtistName == artistMatch)
+                            {
+                                artistName = artistMatch;
+                                potentielPourcentage += MATCHING;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // Ajout du match
+                usersChoices.Add(
+                    new MatchingModel
+                    {
+                        Id = potentialUserMatch.Id,
+                        UserName = potentialUserMatch.UserName,
+                        Firstname = potentialUserMatch.Firstname,
+                        Age = DateTime.Now.Year - potentialUserMatch.Birthday.Year,
+                        Sexe = potentialUserMatch.Sexe.SexeName,
+                        Profil = profil,
+                        Corpulence = corpulence,
+                        HairColor = hairColor,
+                        HairSize = hairSize,
+                        Style = style,
+                        Religion = religion,
+                        Sexuality = user.Sexuality.SexualityName,
+                        MusicName = musicName,
+                        ArtisteName = artistName,
+                        PourcentageMatching = potentielPourcentage
+                    }
+                );
+
             }
-            catch (Exception)
+
+            // Vérifier si le user possède au moins un abonnement
+            bool hasSubscription = false;
+            if (user.UserSubscriptions.Count() > 0)
             {
-                return BadRequest();
+                DateTime lastSubscriptionDate = user.UserSubscriptions.Last().UserSubscriptionsDate;
+
+                // Vérifier quel type d'abonnement le user a
+                if (user.UserSubscriptions.Last().Subscriptions.SubscriptionName == "1 Mois")
+                {
+                    lastSubscriptionDate = lastSubscriptionDate.AddMonths(1);
+                }
+                else if (user.UserSubscriptions.Last().Subscriptions.SubscriptionName == "1 Année")
+                {
+                    lastSubscriptionDate = lastSubscriptionDate.AddYears(1);
+                }
+
+                // Vérifier si son abonnement est toujours valable
+                if (lastSubscriptionDate < DateTime.Now)
+                {
+                    hasSubscription = false;
+                }
+                else
+                {
+                    hasSubscription = true;
+                }
             }
 
-            
+            // Ne garder que les profils qui correspondent à 75% et plus
+            usersChoices = usersChoices.Where(u => u.PourcentageMatching >= 0.75).ToList();
+            if (usersChoices.Count() > 0)
+            {
+                if (!hasSubscription)
+                {
+                    MatchingModel one = usersChoices[0];
+                    usersChoices = new List<MatchingModel>();
+                    usersChoices.Add(one);
+                }
+            }
+
+            return new JsonResult(usersChoices);
         }
 
 
@@ -321,6 +481,76 @@ namespace Api.Controllers
             {
                 return new JsonResult("nMatch");
             }
+        }
+
+        private List<AspNetUser> GetUsers()
+        {
+            return _context.AspNetUsers
+                                .Include(u => u.UserSubscriptions)
+                                    .ThenInclude(u => u.Subscriptions)
+                                .Include(u => u.Sexe)
+                                .Include(u => u.Religion)
+                                .Include(u => u.HairSize)
+                                .Include(u => u.HairColor)
+                                .Include(u => u.Corpulence)
+                                .Include(u => u.Sexuality)
+                                // Ses préférences
+                                .Include(u => u.Preferences)
+                                    .ThenInclude(u => u.PreferenceCorpulences)
+                                .Include(u => u.Preferences)
+                                    .ThenInclude(u => u.PreferenceHairColors)
+                                .Include(u => u.Preferences)
+                                    .ThenInclude(u => u.PreferenceHairSizes)
+                                .Include(u => u.Preferences)
+                                    .ThenInclude(u => u.PreferenceMusics)
+                                .Include(u => u.Preferences)
+                                    .ThenInclude(u => u.PreferenceReligions)
+                                .Include(u => u.Preferences)
+                                    .ThenInclude(u => u.PreferenceStyles)
+                                .Include(u => u.UserProfils)
+                                    .ThenInclude(u => u.Profil)
+                                .Include(u => u.UserStyles)
+                                    .ThenInclude(u => u.Style)
+                                .Include(u => u.UserMusics)
+                                    .ThenInclude(u => u.Music)
+                                .ToList();
+        }
+
+        // Premier tri obligatoire : 
+        // Sortir de la liste les utilisateurs déjà "aimé", 
+        // dont l'age ne correspond par à la préférence
+        // dont le sexe ne correspond pas à la préférence
+        // dont l'orientation sexuelle n'est pas la même
+        private List<AspNetUser> GetPotentialUsers(AspNetUser user, List<AspNetUser> users)
+        {
+            // Sortir de la liste les utilisateurs déjà "aimé"
+            List<string> usersAlreadyLiked = _context.UserLikes.Where(u => u.Id == user.Id).Select(u => u.Id1).ToList();
+            List<AspNetUser> potentialUserMatchs = users.Where(u => !usersAlreadyLiked.Contains(u.Id)).ToList();
+            // Sortir l'utilisateur courant de la liste
+            potentialUserMatchs = potentialUserMatchs.Where(u => u.Id != user.Id).ToList();
+            // Sortir de la liste les utilisateurs dont l'age ne correspond par à la préférence
+            if (user.Preferences.Count() > 0)
+            {
+                potentialUserMatchs = potentialUserMatchs
+                                        .Where(u => DateTime.Now.Year - u.Birthday.Year > user.Preferences.Min(p => p.AgeMin) &&
+                                                    DateTime.Now.Year - u.Birthday.Year < user.Preferences.Max(p => p.AgeMax))
+                                        .ToList();
+            }
+
+            // Sortir de la liste les utilisateurs dont le sexe ne correspond pas à la préférence
+            if (user.Sexuality.SexualityName == "Hétérosexuel")
+            {
+                potentialUserMatchs = potentialUserMatchs.Where(u => u.SexeId != user.SexeId).ToList();
+            }
+            else if (user.Sexuality.SexualityName == "Homosexuel")
+            {
+                potentialUserMatchs = potentialUserMatchs.Where(u => u.SexeId == user.SexeId).ToList();
+            }
+
+            // Sortir de la liste les utilisateurs dont l'orientation sexuelle n'est pas la même
+            potentialUserMatchs = potentialUserMatchs.Where(u => u.SexualityId == user.SexualityId).ToList();
+
+            return potentialUserMatchs;
         }
     }
 }

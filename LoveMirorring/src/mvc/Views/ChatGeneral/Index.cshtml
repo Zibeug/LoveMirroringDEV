@@ -2,13 +2,16 @@
     ViewData["Title"] = "Index";
 }
 
-    <partial name="PartAds" />
+<partial name="PartAds" />
 <div class="container">
     <div class="row">&nbsp;</div>
     <input type="hidden" id="userInput" value="@ViewData["Username"]" />
+    <button id="show-all-connections">Show Connections</button>
+    <ul id="user-list">
+    </ul>
     <div class="row">
         <div class="col-2">Message</div>
-        <div class="col-4"><input type="text" id="messageInput" /></div>
+        <div class="col-4"><textarea class="form-control" id="messageInput" rows="3"></textarea></div>
     </div>
     <div class="row">&nbsp;</div>
     <div class="row">
@@ -27,5 +30,20 @@
         <ul id="messagesList"></ul>
     </div>
 </div>
+
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
+@section Scripts {
+    <script>
+        $(function () {
+            $("#messageInput").emojioneArea({
+                emojiPlaceholder: ":smile_cat:",
+                searchPlaceholder: "Search",
+                buttonTitle: "Use your TAB key to insert emoji faster",
+                searchPosition: "bottom",
+                pickerPosition: "bottom"
+            });
+
+        });
+    </script>
+}

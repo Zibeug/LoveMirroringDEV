@@ -46,7 +46,7 @@ namespace mvc.Controllers
                 List<Answer> answers = JsonConvert.DeserializeObject<List<Answer>>(content);
                 return View(answers);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -79,7 +79,7 @@ namespace mvc.Controllers
 
                 return View(answer);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -107,7 +107,7 @@ namespace mvc.Controllers
 
                 return View();
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -142,7 +142,7 @@ namespace mvc.Controllers
                 }
                 return View(answer);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -184,7 +184,7 @@ namespace mvc.Controllers
                 }
                 return View(answer);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -223,7 +223,7 @@ namespace mvc.Controllers
                 }
                 return View(answer);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -256,7 +256,7 @@ namespace mvc.Controllers
 
                 return View(answer);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -286,7 +286,7 @@ namespace mvc.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }

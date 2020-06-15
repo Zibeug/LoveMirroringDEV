@@ -46,7 +46,7 @@ namespace mvc.Controllers
 
                 return View(hairColors);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -79,7 +79,7 @@ namespace mvc.Controllers
 
                 return View(hairColor);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -120,7 +120,7 @@ namespace mvc.Controllers
                 }
                 return View(hairColor);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -153,7 +153,7 @@ namespace mvc.Controllers
                 }
                 return View(hairColor);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -193,7 +193,7 @@ namespace mvc.Controllers
 
                 return View(hairColor);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -226,7 +226,7 @@ namespace mvc.Controllers
 
                 return View(hairColor);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }
@@ -256,7 +256,7 @@ namespace mvc.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException)
             {
                 return Unauthorized();
             }

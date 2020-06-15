@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Api.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Api.Models;
-using SpotifyAPI.Web.Models;
 
 namespace Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserContactRequestsController : ControllerBase
@@ -19,7 +19,7 @@ namespace Api.Controllers
         public UserContactRequestsController(LoveMirroringContext context)
         {
             _context = context;
-        }  
+        }
 
         // GET: api/UserContactRequests
         [HttpGet]
@@ -42,7 +42,7 @@ namespace Api.Controllers
             }
 
             return await _context.ContactRequests
-                .Include(x=> x.AnswerRequests)
+                .Include(x => x.AnswerRequests)
                 .Where(x => x.Id == id)
                 .ToListAsync();
         }

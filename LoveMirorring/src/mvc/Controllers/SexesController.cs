@@ -50,7 +50,6 @@ namespace mvc.Controllers
             {
                 return Unauthorized();
             }
-            
         }
 
         // GET: Sexes/Details/5
@@ -83,7 +82,6 @@ namespace mvc.Controllers
             {
                 return Unauthorized();
             }
-            
         }
 
         // GET: Sexes/Create
@@ -124,7 +122,6 @@ namespace mvc.Controllers
             {
                 return Unauthorized();
             }
-            
         }
 
         // GET: Sexes/Edit/5
@@ -157,7 +154,6 @@ namespace mvc.Controllers
             {
                 return Unauthorized();
             }
-            
         }
 
         // POST: Sexes/Edit/5
@@ -196,7 +192,6 @@ namespace mvc.Controllers
             {
                 return Unauthorized();
             }
-            
         }
 
         // GET: Sexes/Delete/5
@@ -229,7 +224,6 @@ namespace mvc.Controllers
             {
                 return Unauthorized();
             }
-            
         }
 
         // POST: Sexes/Delete/5
@@ -264,7 +258,6 @@ namespace mvc.Controllers
             {
                 return Unauthorized();
             }
-            
         }
     }
 }

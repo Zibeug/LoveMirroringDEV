@@ -413,6 +413,26 @@ namespace Api.Controllers
                     return new JsonResult(null);
                 }
 
+                string userRole = await _context.AspNetUserRoles
+                    .Where(r => r.UserId.Equals(id))
+                    .Select(r => r.RoleId)
+                    .FirstOrDefaultAsync();
+                
+                if (userRole == "Administrateur")
+                {
+                    List<AspNetUserRole> roles = await _context.AspNetUserRoles
+                        .Where(rs => rs.RoleId.Equals("Administrateur"))
+                        .ToListAsync();
+                    if (roles == null)
+                    {
+                        return NotFound();
+                    }
+                    if (roles.Count() <= 2)
+                    {
+                        return Unauthorized();
+                    }
+                }
+
                 List<UserLike> userlikes = await _context.UserLikes.Where(ul => ul.Id == user.Id || ul.Id1 == user.Id).ToListAsync();
                 foreach (UserLike like in userlikes)
                 {
@@ -448,7 +468,6 @@ namespace Api.Controllers
             {
                 return StatusCode(500, ex);
             }
-
         }
 
         [Route("Roles")]

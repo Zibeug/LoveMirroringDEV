@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using mvc.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +14,14 @@ using System.Net.Http.Headers;
 using System.Text;
 
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Unosquare.Swan;
 
 namespace mvc.Controllers
 {
+    [Authorize]
     public class UserContactRequestsController : Controller
     {
         private readonly IConfiguration _configuration;
-
 
         public UserContactRequestsController(IConfiguration configuration)
         {
@@ -66,6 +68,16 @@ namespace mvc.Controllers
             return View(userContactRequest);
         }
 
+        // GET: RedirectToAnswerCreate/5
+        public IActionResult RedirectToAnswerCreate(short id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            return Redirect("/AnswerRequests/Create/" + id);
+        }
+
         // GET: UserContactRequests/Create
         public IActionResult CreateAsync()
         {
@@ -79,24 +91,24 @@ namespace mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RequestId,RequestDate,RequestText,Id")] ContactRequest contactRequest)
         {
-            // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
-            HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-            string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/account/getUserInfo");
-            AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(content);
-
-            if (user == null)
+            try
             {
-                return NotFound();
-            }
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            contactRequest.RequestDate = DateTime.Now;
-            contactRequest.Id = user.Id.ToString();
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/account/getUserInfo");
+                AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(content);
 
-            if (ModelState.IsValid)
-            {
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                contactRequest.RequestDate = DateTime.Now;
+                contactRequest.Id = user.Id.ToString();
+
                 StringContent httpContent = new StringContent(contactRequest.ToJson(), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/UserContactRequests", httpContent);
 
@@ -106,95 +118,158 @@ namespace mvc.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(contactRequest);
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
         }
 
-        //// GET: UserContactRequests/Edit/5
-        //public async Task<IActionResult> Edit(short? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: UserContactRequests/Edit/5
+        public async Task<IActionResult> Edit(short? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-        //    var contactRequest = await _context.ContactRequests.FindAsync(id);
-        //    if (contactRequest == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["Id"] = new SelectList(_context.AspNetUsers, "Id", "Id", contactRequest.Id);
-        //    return View(contactRequest);
-        //}
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-        //// POST: UserContactRequests/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(short id, [Bind("RequestId,RequestDate,RequestText,Id")] ContactRequest contactRequest)
-        //{
-        //    if (id != contactRequest.RequestId)
-        //    {
-        //        return NotFound();
-        //    }
+                // Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/UserContactRequests/{id}");
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(contactRequest);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!ContactRequestExists(contactRequest.RequestId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["Id"] = new SelectList(_context.AspNetUsers, "Id", "Id", contactRequest.Id);
-        //    return View(contactRequest);
-        //}
+                ContactRequest userContactRequest = JsonConvert.DeserializeObject<ContactRequest>(content);
 
-        //// GET: UserContactRequests/Delete/5
-        //public async Task<IActionResult> Delete(short? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+                if (userContactRequest == null)
+                {
+                    return NotFound();
+                }
 
-        //    var contactRequest = await _context.ContactRequests
-        //        .Include(c => c.IdNavigation)
-        //        .FirstOrDefaultAsync(m => m.RequestId == id);
-        //    if (contactRequest == null)
-        //    {
-        //        return NotFound();
-        //    }
+                if (userContactRequest.AnswerRequests.Count > 0)
+                {
+                    return Unauthorized();
+                }
 
-        //    return View(contactRequest);
-        //}
+                return View(userContactRequest);
+            }
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+        }
 
-        //// POST: UserContactRequests/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(short id)
-        //{
-        //    var contactRequest = await _context.ContactRequests.FindAsync(id);
-        //    _context.ContactRequests.Remove(contactRequest);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        // POST: UserContactRequests/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(short id, [Bind("RequestId,RequestDate,RequestText,Id")] ContactRequest contactRequest)
+        {
+            try
+            {
+                if (id != contactRequest.RequestId)
+                {
+                    return NotFound();
+                }
 
-        //private bool ContactRequestExists(short id)
-        //{
-        //    return _context.ContactRequests.Any(e => e.RequestId == id);
-        //}
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                if (ModelState.IsValid)
+                {
+                    // Préparation de la requête update à l'API
+                    StringContent httpContent = new StringContent(contactRequest.ToJson(), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/UserContactRequests/{id}", httpContent);
+                    if (response.StatusCode != HttpStatusCode.NoContent)
+                    {
+                        return BadRequest();
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(contactRequest);
+            }
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+        }
+
+        // GET: UserContactRequests/Delete/5
+        public async Task<IActionResult> Delete(short? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                //// Récurération des données et convertion des données dans le bon type
+                //string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/UserContactRequests/{id}");
+                //ContactRequest contactRequest = JsonConvert.DeserializeObject<ContactRequest>(content);
+
+                //// Récurération des données et convertion des données dans le bon type
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/UserContactRequests");
+                List<ContactRequest> contactRequests = JsonConvert.DeserializeObject<List<ContactRequest>>(content);
+                ViewData["ContactId"] = new SelectList(contactRequests, "QuestionId", "QuestionText");
+                ContactRequest contactRequest = contactRequests.Where(x => x.RequestId == id).SingleOrDefault();
+
+                if (contactRequest == null)
+                {
+                    return NotFound();
+                }
+
+                return View(contactRequest);
+            }
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+        }
+
+        // POST: UserContactRequests/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(short? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                // Préparation de l'appel à l'API
+                string accessToken = await HttpContext.GetTokenAsync("access_token");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                if (ModelState.IsValid)
+                {
+                    HttpResponseMessage response = await client.DeleteAsync(_configuration["URLAPI"] + $"api/UserContactRequests/{id}");
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        return BadRequest();
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            catch (HttpRequestException e)
+            {
+                return Unauthorized();
+            }
+        }
     }
 }

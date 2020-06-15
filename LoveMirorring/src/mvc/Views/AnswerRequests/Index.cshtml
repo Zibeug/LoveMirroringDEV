@@ -1,0 +1,54 @@
+﻿@model IEnumerable<mvc.Models.AnswerRequest>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AnswerDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnswerText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Request)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnswerDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnswerText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdNavigation.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Request.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.AnswerId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.AnswerId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AnswerId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

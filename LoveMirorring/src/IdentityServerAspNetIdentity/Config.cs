@@ -42,17 +42,35 @@ namespace IdentityServerAspNetIdentity
                     AllowedScopes = { "api1" }
                 },
 
-                // interactive ASP.NET Core MVC client
+                //// interactive ASP.NET Core MVC client
+                //new Client
+                //{
+                //    ClientId = "bot",
+                //    ClientName = "Bot Framework",
+                //    ClientUri = "http://localhost:3978",
+
+                //    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                //    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                //    AllowedScopes = { "api1" }
+                //},
+
                 new Client
                 {
                     ClientId = "bot",
-                    ClientName = "Client Credentials Client BOT",
-                    ClientUri = "http://localhost:3978",
+                    ClientName = "Bot Framewok",
+                    ClientUri = Startup.Configuration["BOT"],
 
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                    RequirePkce = true,
+                    ClientSecrets = {new Secret("secret".Sha256())},
+                    RedirectUris = { Startup.Configuration["BOT"] },
+                    FrontChannelLogoutUri = Startup.Configuration["BOT"] + "signout-oidc",
+                    PostLogoutRedirectUris = { Startup.Configuration["BOT"] + "signout-callback-oidc" },
 
-                    AllowedScopes = { "api1" }
+                    AllowOfflineAccess = true,
+                    AllowedScopes = { "openid", "profil", "api1"}
+
                 },
 
                 // MVC client using code flow + pkce

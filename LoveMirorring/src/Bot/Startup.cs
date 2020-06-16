@@ -40,7 +40,27 @@ namespace Microsoft.BotBuilderSamples
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
 
             // Besoin de l'utilisation des cookies pour gérer les authentification avec le protocole OpenIdConnect
-            services.AddAuthentication();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "Cookies";
+                options.DefaultChallengeScheme = "oidc";
+            })
+                .AddCookie("Cookies")
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    options.Authority = Configuration["URLIdentityServer4"];
+                    options.RequireHttpsMetadata = false;
+
+                    options.ClientId = "bot";
+                    options.ClientSecret = "secret";
+                    options.ResponseType = "code";
+
+                    options.SaveTokens = true;
+
+                    options.Scope.Add("api1");
+                    options.Scope.Add("offline_access");
+                });
+            services.AddHttpClient();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -70,12 +90,12 @@ namespace Microsoft.BotBuilderSamples
 
             app.UseNamedPipes(System.Environment.GetEnvironmentVariable("https://lovemirroring-bot.azurewebsites.net/") + ".directline");
             app.UseDefaultFiles();
-            app.UseAuthentication();
-            app.UseAuthorization();
+            
             app.UseStaticFiles();
             app.UseWebSockets();
             app.UseRouting();
-            
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
              {
                  endpoints.MapControllers();

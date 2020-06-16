@@ -11,5 +11,7 @@ namespace mvc.ViewModels
         public string username { get; set; }
         public string friendname { get; set; }
         public DateTime dateConnection { get; set; }
+        //public int cptSpam { get; set; }
+        //public DateTime dateLastMessageReceived { get; set; }
     }
 }

@@ -47,7 +47,6 @@ namespace mvc.Hubs
 
             ProfanityFilter.ProfanityFilter filter = new ProfanityFilter.ProfanityFilter();
             filter.AddProfanity(words);
-            //string censored = 
             string censored = filter.CensorString(message);
 
             Message messageDB = new Message
@@ -70,22 +69,22 @@ namespace mvc.Hubs
                 await Clients.Client(connectionFriendId).SendAsync("ReceiveMessage", username, censored);
             }
 
-            string connectionUserId = _connectionPCs
+            ConnectionPC connectionUser = _connectionPCs
                                             .Where(c => c.username == username)
                                             .OrderByDescending(c => c.dateConnection)
-                                            .Select(c => c.connectionId)
                                             .FirstOrDefault();
 
-            if (connectionUserId != null && connectionUserId != "")
+            if (connectionUser.connectionId != null && connectionUser.connectionId != "")
             {
-                await Clients.Client(connectionUserId).SendAsync("ReceiveMessage", username, censored);
+                await Clients.Client(connectionUser.connectionId).SendAsync("ReceiveMessage", username, censored);
             }
 
-           
 
-           
+
+
             StringContent httpContent = new StringContent(messageDB.ToJson(), Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync(_configuration["URLAPI"] + "api/PrivateChat/CreateMessage", httpContent);
+
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
@@ -103,11 +102,12 @@ namespace mvc.Hubs
                         connectionId = Context.ConnectionId,
                         username = username,
                         friendname = friendname,
-                        dateConnection = DateTime.Now
+                        dateConnection = DateTime.Now                      
                     }
                 );
             }
 
         }
+
     }
 }

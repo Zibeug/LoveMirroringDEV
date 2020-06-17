@@ -12,9 +12,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
+using IdentityModel.Client;
+using GiphySharp;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
@@ -23,12 +22,14 @@ namespace Microsoft.BotBuilderSamples.Bots
         private IConfiguration Configuration { get; set; }
         private IHttpContextAccessor _httpContextAccessor;
         private BotState _userState;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public TextBot(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, UserState userState)
+        public TextBot(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, UserState userState, IHttpClientFactory httpClientFactory)
         {
             Configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
             _userState = userState;
+            _httpClientFactory = httpClientFactory;
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
@@ -60,16 +61,32 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         private async Task<string> BotCommandAsync(string command)
         {
-            string accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+            var serverClient = _httpClientFactory.CreateClient();
+            var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync(Configuration["URLIdentityServer4"]);
 
+            var tokenResponse = await serverClient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = discoveryDocument.TokenEndpoint,
+                
+                ClientId = "bot",
+                ClientSecret = "secret",
+
+                Scope = "api1"
+            });
+
+            
             string text = null;
             HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse.AccessToken);
             // Récurération des données et convertion des données dans le bon type
             string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Data/BotCommands");
             List<BotCommand> botCommands = JsonConvert.DeserializeObject<List<BotCommand>>(content);
 
-            foreach(BotCommand botCommand in botCommands)
+            var apiClient = _httpClientFactory.CreateClient();
+            apiClient.SetBearerToken(tokenResponse.AccessToken);
+            
+
+            foreach (BotCommand botCommand in botCommands)
             {
                 if (botCommand.Slug.Equals(command) && !command.Equals("/help"))
                 {
@@ -93,8 +110,9 @@ namespace Microsoft.BotBuilderSamples.Bots
                         string[] line = command.Split("@");
                         string nametoBan = line[1];
 
-                        var response = await client.PutAsync(Configuration["URLAPI"] + $"api/Admin/BanUser/{nametoBan}", new StringContent(nametoBan));
-                        if(response.StatusCode == System.Net.HttpStatusCode.OK)
+                        //string content1 = await client.GetStringAsync(Configuration["URLAPI"] + "identity");
+                        var response = await client.PutAsync(Configuration["URLAPI"] + $"api/BotActions/BanUser/{nametoBan}", new StringContent(nametoBan));
+                        if (response.StatusCode == System.Net.HttpStatusCode.OK)
                         {
                             text = $"Utilisateur {nametoBan} banni";
                         }
@@ -102,7 +120,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                         {
                             text = $"Erreur de traitement";
                         }
-                        
+
                         break;
 
                     }
@@ -111,6 +129,12 @@ namespace Microsoft.BotBuilderSamples.Bots
                         text = "Impossible d'exécuter la commande";
                     }
                 }
+
+                //if (command.Contains("/giphy"))
+                //{
+                //    GiphyClient giphyClient = new GiphyClient();
+                //    await giphyClient.Gifs.SearchAsync("")
+                //}
             }
 
             return text;

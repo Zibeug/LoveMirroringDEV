@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -22,20 +23,18 @@ namespace Microsoft.BotBuilderSamples.Controllers
         private readonly IBotFrameworkHttpAdapter Adapter;
         private readonly IBot Bot;
         private ILogger<BotController> _logger;
-
+        
         public BotController(IBotFrameworkHttpAdapter adapter, IBot bot, ILogger<BotController> logger)
         {
             Adapter = adapter;
             Bot = bot;
             _logger = logger;
+            
         }
 
         [HttpPost, HttpGet]
         public async Task PostAsync()
         {
-            string token = await HttpContext.GetTokenAsync("access_token");
-            Request.Headers.Add("Bearer", token);
-            _logger.Log(LogLevel.Information, token);
             // Delegate the processing of the HTTP POST to the adapter.
             // The adapter will invoke the bot.
             await Adapter.ProcessAsync(Request, Response, Bot);

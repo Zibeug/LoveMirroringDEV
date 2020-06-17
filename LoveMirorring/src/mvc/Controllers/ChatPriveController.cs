@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Auteur : Allemann Tim
+ * Date : 16.06.2020
+ * Description : Contrôleur permettant d'afficher un chat privé
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;

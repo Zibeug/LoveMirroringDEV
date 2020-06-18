@@ -1,12 +1,14 @@
-﻿@model mvc.Models.AspNetUser
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model mvc.Models.AspNetUser
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = Localizer["TitlePage"];
 }
 
-<h1>Edit</h1>
+    <h1>@ViewData["Title"]</h1>
 
-<h4>AspNetUser</h4>
+<h4>@Localizer["Title1"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -65,13 +67,13 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value=@Localizer["Save"] class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Details">Back to your profil</a>
+    <a asp-action="Details">@Localizer["Back"]</a>
 </div>
 

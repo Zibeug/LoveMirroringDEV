@@ -1,8 +1,10 @@
-﻿
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Ban";
+    ViewData["Title"] = Localizer["TitlePage"];
 }
 
-<h1>Ban</h1>
+<h1>@ViewData["Title"]</h1>
 
-<p>Vous êtes banni de Love Mirroring</p>
+<p>@Localizer["Message"]</p>

@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
@@ -99,6 +101,17 @@ namespace mvc
 
             //// Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             //services.AddTransient<IBot, EchoBot>();
+
+
+            /*
+             *      Auteur : Hans Morsch
+             *      22.06.2020
+             *      Rajoute la ressource locolization qui permet de rajouter les langues
+             */
+            services.AddLocalization(options => options.ResourcesPath = "Resources")
+            .AddMvc()
+            .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+            .AddDataAnnotationsLocalization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -154,6 +167,27 @@ namespace mvc
                     response.StatusCode == (int)HttpStatusCode.Forbidden)
                     response.Redirect("/Account/AccessDenied");
             });
+
+            /*
+             *      Auteur : Hans Morsch
+             *      22.06.2020
+             *      Rajoute les langues disponibles et celle par défaut
+             */
+            var supportedCultures = new List<CultureInfo>
+            {
+                new CultureInfo("fr"),
+                new CultureInfo("fr-CH"),
+                new CultureInfo("en"),
+                new CultureInfo("en-GB")
+            };
+
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-GB"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            };
+            app.UseRequestLocalization(localizationOptions);
         }
 
 

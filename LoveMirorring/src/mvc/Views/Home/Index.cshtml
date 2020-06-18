@@ -1,10 +1,13 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["TitlePage"];
 }
 
 @using Microsoft.AspNetCore.Authentication
 
-<h2>Claims</h2>
+    <h2>@Localizer["Title1"]</h2>
 
 <dl>
     @foreach (var claim in User.Claims)
@@ -14,7 +17,7 @@
     }
 </dl>
 
-<h2>Properties</h2>
+<h2>@Localizer["Title2"]</h2>
 
 <dl>
     @foreach (var prop in (await Context.AuthenticateAsync()).Properties.Items)

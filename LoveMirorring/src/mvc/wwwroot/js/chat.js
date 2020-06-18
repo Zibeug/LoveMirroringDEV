@@ -10,6 +10,17 @@ connection.on("ReceiveMessage", function (user, message) {
     var encodedMsg = user + " dit " + msg;
     var li = document.createElement("li");
     li.textContent = encodedMsg;
+    console.log(li.textContent);
+    document.getElementById("messagesList").appendChild(li);
+});
+
+connection.on("ImageReceive", function (user, message) {
+    var li = document.createElement("li");
+    var img = document.createElement("img");
+    img.src = message;
+    var encodedMsg = user + " dit ";
+    li.textContent = encodedMsg;
+    li.appendChild(img);
     document.getElementById("messagesList").appendChild(li);
 });
 

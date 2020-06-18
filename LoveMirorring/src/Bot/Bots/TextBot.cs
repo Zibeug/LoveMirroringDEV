@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using IdentityModel.Client;
 using GiphySharp;
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
@@ -23,13 +24,15 @@ namespace Microsoft.BotBuilderSamples.Bots
         private IHttpContextAccessor _httpContextAccessor;
         private BotState _userState;
         private readonly IHttpClientFactory _httpClientFactory;
+        private ILogger<TextBot> _logger;
 
-        public TextBot(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, UserState userState, IHttpClientFactory httpClientFactory)
+        public TextBot(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, UserState userState, IHttpClientFactory httpClientFactory, ILogger<TextBot> logger)
         {
             Configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
             _userState = userState;
             _httpClientFactory = httpClientFactory;
+            _logger = logger;
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
@@ -130,11 +133,28 @@ namespace Microsoft.BotBuilderSamples.Bots
                     }
                 }
 
-                //if (command.Contains("/giphy"))
-                //{
-                //    GiphyClient giphyClient = new GiphyClient();
-                //    await giphyClient.Gifs.SearchAsync("")
-                //}
+                if (command.Contains("/giphy"))
+                {
+                    string[] line = command.Split(" ");
+                    string searchName = line[1];
+                    GiphyClient giphyClient = new GiphyClient(Configuration["GIPHY"]);
+                    GiphyObject gif = await giphyClient.Gifs.SearchAsync(searchName, 1);
+                    _logger.LogInformation("GIPHYYYYYY");
+
+                    if(gif != null)
+                    {
+                        foreach(var f in gif.Gifs)
+                        {
+                            text = f.Images.Original.Url;
+                            
+                        }
+                    }
+                    else
+                    {
+                        text = "Aucun GIF ne correspond";
+                    }
+                    break;
+                }
             }
 
             return text;

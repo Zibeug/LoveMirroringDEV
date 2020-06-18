@@ -28,6 +28,8 @@ namespace mvc.Hubs
     {
         public static HashSet<string> ConnectedIds = new HashSet<string>();
         public static HashSet<string> UserNames = new HashSet<string>();
+        public static string ConversationId;
+        public static ChannelAccount channelAccount;
     }
 
 
@@ -36,13 +38,16 @@ namespace mvc.Hubs
         private IConfiguration _configuration { get; set; }
         private DirectLineClient tokenClient;
         private Conversation _conversation;
+        private ChannelAccount account;
 
         public ChatHub(IConfiguration configuration)
         {
             _configuration = configuration;
             tokenClient = new DirectLineClient(new Uri("https://directline.botframework.com/"), new DirectLineClientCredentials("H-mIGKOIXJ8.M0P2_afqawnF1Yzbur8kVYgkrbaGtcoSnjP1nv11NZU"));
-            tokenClient.Tokens.GenerateTokenForNewConversation();
-            _conversation = tokenClient.Conversations.StartConversation();
+            if (UserHandler.ConversationId != null)
+            {
+                tokenClient.Conversations.ReconnectToConversation(UserHandler.ConversationId);
+            }
         }
 
         public async Task SendMessage(string user, string message)
@@ -54,33 +59,46 @@ namespace mvc.Hubs
             // Récurération des données et convertion des données dans le bon type
             string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/Insults");
             string content1 = await client.GetStringAsync(_configuration["URLAPI"] + "api/account/getUserInfo");
+            string content2 = await client.GetStringAsync(_configuration["URLAPI"] + "api/Data/BotCommands");
+            List<BotCommand> botCommands = JsonConvert.DeserializeObject<List<BotCommand>>(content2);
 
             AspNetUser user1 = JsonConvert.DeserializeObject<AspNetUser>(content1);
             var httpContent = new StringContent("test", Encoding.UTF8, "application/json");
 
-            var account = new ChannelAccount() { Id = user1.Id, Name = user1.UserName };
-            var response = await tokenClient.Conversations.PostActivityAsync(_conversation.ConversationId,
+            var response = await tokenClient.Conversations.PostActivityAsync(UserHandler.ConversationId,
                 new Activity()
                 {
                     Type = "message",
                     Text = message,
-                    From = account
+                    From = UserHandler.channelAccount,
+                    
                 }).ConfigureAwait(false);
 
-            ActivitySet activites = await tokenClient.Conversations.GetActivitiesAsync(_conversation.ConversationId);
-            string bot = ReceiveBotActivities(activites, "lovemirroring-bot");
-            await Clients.All.SendAsync("ReceiveMessage", "bot", bot);
 
+            ActivitySet activites = await tokenClient.Conversations.GetActivitiesAsync(UserHandler.ConversationId);
             List<Insult> insults = JsonConvert.DeserializeObject<List<Insult>>(content);
-
             List<string> words = insults.Select(i => i.InsultName).ToList();
 
+            
             ProfanityFilter.ProfanityFilter filter = new ProfanityFilter.ProfanityFilter();
             filter.AddProfanity(words);
             //string censored = 
             string censored = filter.CensorString(ReceiveActivities(activites, user1.UserName));
 
             await Clients.All.SendAsync("ReceiveMessage", user, censored);
+
+            ActivitySet botActivites = await tokenClient.Conversations.GetActivitiesAsync(UserHandler.ConversationId);
+            string bot = null;
+            if (message.Contains("/giphy"))
+            {
+                bot = ReceiveBotActivities(botActivites, "lovemirroring-bot");
+                await Clients.All.SendAsync("ImageReceive", "bot", bot);
+            }
+            else
+            {
+                bot = ReceiveBotActivities(botActivites, "lovemirroring-bot");
+                await Clients.All.SendAsync("ReceiveMessage", "bot", bot);
+            }
         }
 
         public override async Task OnConnectedAsync()
@@ -97,11 +115,13 @@ namespace mvc.Hubs
             UserHandler.ConnectedIds.Add(Context.ConnectionId);
             UserHandler.UserNames.Add(user1.UserName);
 
-            await base.OnConnectedAsync();
+            await tokenClient.Tokens.GenerateTokenForNewConversationAsync();
+            _conversation = await tokenClient.Conversations.StartConversationAsync();
+            UserHandler.channelAccount = new ChannelAccount() { Id = user1.Id, Name = user1.UserName };
 
-            ActivitySet activites = await tokenClient.Conversations.GetActivitiesAsync(_conversation.ConversationId);
-            string bot = ReceiveBotActivities(activites, "lovemirroring-bot");
-            await Clients.All.SendAsync("ReceiveMessage", "bot", bot);
+            UserHandler.ConversationId = _conversation.ConversationId;
+
+            await base.OnConnectedAsync();
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
@@ -123,6 +143,7 @@ namespace mvc.Hubs
 
         private string ReceiveActivities(ActivitySet activitySet, string username)
         {
+            List<Activity> list = new List<Activity>();
             string text = "";
             if (activitySet != null)
             {
@@ -130,11 +151,12 @@ namespace mvc.Hubs
                 {
                     if (a.Type == Microsoft.Bot.Connector.DirectLine.ActivityTypes.Message && a.From.Name.Contains(username))
                     {
-                        text = a.Text;
-                        break;
+                        list.Add(a);
                     }
                 }
             }
+
+            text = list.Where(x => x.From.Name == username).OrderByDescending(f => f.Timestamp).First().Text;
             return text;
         }
 
@@ -147,6 +169,7 @@ namespace mvc.Hubs
 
         private string ReceiveBotActivities(ActivitySet activitySet, string username)
         {
+            List<Activity> list = new List<Activity>();
             string text = "";
             if (activitySet != null)
             {
@@ -154,11 +177,12 @@ namespace mvc.Hubs
                 {
                     if (a.Type == Microsoft.Bot.Connector.DirectLine.ActivityTypes.Message && a.From.Name.Contains(username))
                     {
-                        text = a.Text;
-                        break;
+                        list.Add(a);
                     }
                 }
             }
+
+            text = list.Where(x => x.From.Name == username).OrderByDescending(f => f.Timestamp).First().Text;
             return text;
         }
     }

@@ -79,6 +79,7 @@ namespace mvc.Hubs
             List<Insult> insults = JsonConvert.DeserializeObject<List<Insult>>(content);
             List<string> words = insults.Select(i => i.InsultName).ToList();
 
+            
             ProfanityFilter.ProfanityFilter filter = new ProfanityFilter.ProfanityFilter();
             filter.AddProfanity(words);
             //string censored = 
@@ -86,12 +87,16 @@ namespace mvc.Hubs
 
             await Clients.All.SendAsync("ReceiveMessage", user, censored);
 
-            BotCommand command = botCommands.Where(x => x.Slug == message).Single();
-
-            if (command != null)
+            ActivitySet botActivites = await tokenClient.Conversations.GetActivitiesAsync(UserHandler.ConversationId);
+            string bot = null;
+            if (message.Contains("/giphy"))
             {
-                ActivitySet botActivites = await tokenClient.Conversations.GetActivitiesAsync(UserHandler.ConversationId);
-                string bot = ReceiveBotActivities(botActivites, "lovemirroring-bot");
+                bot = ReceiveBotActivities(botActivites, "lovemirroring-bot");
+                await Clients.All.SendAsync("ImageReceive", "bot", bot);
+            }
+            else
+            {
+                bot = ReceiveBotActivities(botActivites, "lovemirroring-bot");
                 await Clients.All.SendAsync("ReceiveMessage", "bot", bot);
             }
         }

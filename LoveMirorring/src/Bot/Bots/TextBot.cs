@@ -130,11 +130,25 @@ namespace Microsoft.BotBuilderSamples.Bots
                     }
                 }
 
-                //if (command.Contains("/giphy"))
-                //{
-                //    GiphyClient giphyClient = new GiphyClient();
-                //    await giphyClient.Gifs.SearchAsync("")
-                //}
+                if (command.Contains("/giphy"))
+                {
+                    string[] line = command.Split(" ");
+                    string searchName = line[1];
+                    GiphyClient giphyClient = new GiphyClient(Configuration["GIPHY"]);
+                    GiphyObject gif = await giphyClient.Gifs.SearchAsync(searchName, 1);
+
+                    if(gif != null)
+                    {
+                        foreach(var f in gif.Gifs)
+                        {
+                            text = f.Images.Original.Url;
+                        }
+                    }
+                    else
+                    {
+                        text = "Aucun GIF ne correspond";
+                    }
+                }
             }
 
             return text;

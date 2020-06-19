@@ -1,10 +1,12 @@
-﻿
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "AccessDenied";
+    ViewData["Title"] = Localizer["TitlePage"];
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>AccessDenied</h1>
+    <h1>@ViewData["Title"]</h1>
 
-<p>Vous ne pouvez pas accéder à cette partie</p>
+    <p>@Localizer["Message"]</p>
 <img src="~/img/non.jpg" />

@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using mvc.Models;
 using mvc.ViewModels;
 using Newtonsoft.Json;
@@ -25,10 +26,12 @@ namespace mvc.Controllers
     {
         private HttpClient client = new HttpClient();
         private IConfiguration Configuration { get; }
+        public IStringLocalizer<MatchingController> _localizer;
 
-        public MatchingController(IConfiguration configuration)
+        public MatchingController(IConfiguration configuration, IStringLocalizer<MatchingController> localizer)
         {
             Configuration = configuration;
+            localizer = _localizer;
         }
 
 

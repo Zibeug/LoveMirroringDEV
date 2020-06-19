@@ -49,7 +49,7 @@ namespace mvc.Controllers
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             string content = await client.GetStringAsync(_configuration["URLAPI"] + "api/account/getUserInfo");
-         
+
             AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(content);
 
             if (user == null)
@@ -80,6 +80,23 @@ namespace mvc.Controllers
 
             Response.Headers.Add("Content-Disposition", "attachment; filename=PersonalData.json");
             return new FileContentResult(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(user)), "text/json");
+        }
+
+        // Paul Gillet 16.06.2020
+        // Permet de recuperer les infos de l'utilisateur donné
+        // GET: Account/GetGivenUser/5
+        public async Task<IActionResult> GetGivenUserInfos(string? id)
+        {
+            // Préparation de l'appel à l'API
+            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            // Récurération des données et convertion des données dans le bon type
+            string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/Account/getGivenUserInfo/{id}");
+            AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(content);
+
+            return null;
         }
 
         // Met à jour le profil de l'utilisateur

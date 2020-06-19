@@ -70,8 +70,18 @@
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.UserStyles.Single(d => d.Id == model.Id).Style.StyleName)
     </dd>
+    <dt class="col-sm-2">
+        <a>Vos points communs:</a>
+    </dt>
+    <dd class="col-sm-10">
+        @foreach (var preference in ViewData["commonPreferences"] as IList<string>)
+        {
+            <li>
+                @preference
+            </li>
+        }
+    </dd>
 </dl>
-
 @if (ViewData["userLike"].Equals("Like"))
 {
     <form asp-route="Search" method="post">

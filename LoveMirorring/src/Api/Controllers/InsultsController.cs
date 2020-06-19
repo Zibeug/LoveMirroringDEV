@@ -30,6 +30,7 @@ namespace Api.Controllers
 
         // GET: api/Insults
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Insult>>> GetInsult()
         {
             return await _context.Insults.ToListAsync();

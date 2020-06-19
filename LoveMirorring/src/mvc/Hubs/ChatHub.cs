@@ -29,25 +29,19 @@ namespace mvc.Hubs
         public static HashSet<string> ConnectedIds = new HashSet<string>();
         public static HashSet<string> UserNames = new HashSet<string>();
         public static string ConversationId;
-        public static ChannelAccount channelAccount;
+        public static List<ChannelAccount> channelAccount = new List<ChannelAccount>();
+        public static DirectLineClient tokenClient;
     }
 
 
     public class ChatHub : Hub
     {
         private IConfiguration _configuration { get; set; }
-        private DirectLineClient tokenClient;
         private Conversation _conversation;
-        private ChannelAccount account;
 
         public ChatHub(IConfiguration configuration)
         {
-            _configuration = configuration;
-            tokenClient = new DirectLineClient(new Uri("https://directline.botframework.com/"), new DirectLineClientCredentials("H-mIGKOIXJ8.M0P2_afqawnF1Yzbur8kVYgkrbaGtcoSnjP1nv11NZU"));
-            if (UserHandler.ConversationId != null)
-            {
-                tokenClient.Conversations.ReconnectToConversation(UserHandler.ConversationId);
-            }
+            _configuration = configuration; 
         }
 
         public async Task SendMessage(string user, string message)
@@ -65,17 +59,17 @@ namespace mvc.Hubs
             AspNetUser user1 = JsonConvert.DeserializeObject<AspNetUser>(content1);
             var httpContent = new StringContent("test", Encoding.UTF8, "application/json");
 
-            var response = await tokenClient.Conversations.PostActivityAsync(UserHandler.ConversationId,
+            var response = await UserHandler.tokenClient.Conversations.PostActivityAsync(UserHandler.ConversationId,
                 new Activity()
                 {
                     Type = "message",
                     Text = message,
-                    From = UserHandler.channelAccount,
+                    From = UserHandler.channelAccount.Where(x => x.Name.Equals(user1.UserName)).FirstOrDefault(),
                     
                 }).ConfigureAwait(false);
 
 
-            ActivitySet activites = await tokenClient.Conversations.GetActivitiesAsync(UserHandler.ConversationId);
+            ActivitySet activites = await UserHandler.tokenClient.Conversations.GetActivitiesAsync(UserHandler.ConversationId);
             List<Insult> insults = JsonConvert.DeserializeObject<List<Insult>>(content);
             List<string> words = insults.Select(i => i.InsultName).ToList();
 
@@ -87,7 +81,7 @@ namespace mvc.Hubs
 
             await Clients.All.SendAsync("ReceiveMessage", user, censored);
 
-            ActivitySet botActivites = await tokenClient.Conversations.GetActivitiesAsync(UserHandler.ConversationId);
+            ActivitySet botActivites = await UserHandler.tokenClient.Conversations.GetActivitiesAsync(UserHandler.ConversationId);
             string bot = null;
             if (message.Contains("/giphy"))
             {
@@ -114,10 +108,10 @@ namespace mvc.Hubs
 
             UserHandler.ConnectedIds.Add(Context.ConnectionId);
             UserHandler.UserNames.Add(user1.UserName);
-
-            await tokenClient.Tokens.GenerateTokenForNewConversationAsync();
-            _conversation = await tokenClient.Conversations.StartConversationAsync();
-            UserHandler.channelAccount = new ChannelAccount() { Id = user1.Id, Name = user1.UserName };
+            UserHandler.tokenClient = new DirectLineClient(new Uri("https://directline.botframework.com/"), new DirectLineClientCredentials("H-mIGKOIXJ8.M0P2_afqawnF1Yzbur8kVYgkrbaGtcoSnjP1nv11NZU"));
+            await UserHandler.tokenClient.Tokens.GenerateTokenForNewConversationAsync();
+            _conversation = await UserHandler.tokenClient.Conversations.StartConversationAsync();
+            UserHandler.channelAccount.Add(new ChannelAccount() { Id = user1.Id, Name = user1.UserName });
 
             UserHandler.ConversationId = _conversation.ConversationId;
 
@@ -149,7 +143,7 @@ namespace mvc.Hubs
             {
                 foreach (var a in activitySet.Activities)
                 {
-                    if (a.Type == Microsoft.Bot.Connector.DirectLine.ActivityTypes.Message && a.From.Name.Contains(username))
+                    if (a.Type == Microsoft.Bot.Connector.DirectLine.ActivityTypes.Message && a.From.Name.Equals(username))
                     {
                         list.Add(a);
                     }

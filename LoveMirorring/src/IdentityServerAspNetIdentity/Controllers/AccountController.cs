@@ -158,7 +158,6 @@ namespace IdentityServerAspNetIdentity.Controllers
                             int dob = int.Parse(input.Birthday.ToString("yyyyMMdd"));
                             int age = (now - dob) / 10000;
 
-
                             if (age < 18)
                             {
                                 throw new Exception("Vous devez avoir 18 ans pour vous inscrire");
@@ -185,7 +184,7 @@ namespace IdentityServerAspNetIdentity.Controllers
                             user.ReligionId = input.ReligionId;
                             user.AccountCompleted = true;
                             checkUser = user;
-
+                            
                             var result = userMgr.CreateAsync(checkUser, user.PasswordHash).Result;
                             if (!result.Succeeded)
                             {

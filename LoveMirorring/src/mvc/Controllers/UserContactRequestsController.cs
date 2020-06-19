@@ -184,18 +184,26 @@ namespace mvc.Controllers
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-                if (ModelState.IsValid)
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/ContactRequests/{id}");
+                ContactRequest oldContactRequest = JsonConvert.DeserializeObject<ContactRequest>(content);
+
+                if (oldContactRequest == null)
                 {
-                    // Préparation de la requête update à l'API
-                    StringContent httpContent = new StringContent(contactRequest.ToJson(), Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/UserContactRequests/{id}", httpContent);
-                    if (response.StatusCode != HttpStatusCode.NoContent)
-                    {
-                        return BadRequest();
-                    }
-                    return RedirectToAction(nameof(Index));
+                    return NotFound();
                 }
-                return View(contactRequest);
+
+                contactRequest.Id = oldContactRequest.Id;
+                contactRequest.RequestDate = oldContactRequest.RequestDate;
+
+                // Préparation de la requête update à l'API
+                StringContent httpContent = new StringContent(contactRequest.ToJson(), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/UserContactRequests/{id}", httpContent);
+                if (response.StatusCode != HttpStatusCode.NoContent)
+                {
+                    return BadRequest();
+                }
+                return RedirectToAction(nameof(Index));
+                
             }
             catch (HttpRequestException e)
             {

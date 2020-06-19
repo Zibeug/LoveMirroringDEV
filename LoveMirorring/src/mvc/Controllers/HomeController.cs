@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using mvc.Models;
 using Newtonsoft.Json;
@@ -28,10 +29,13 @@ namespace mvc.Controllers
 
         private IConfiguration Configuration { get; }
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
+        public IStringLocalizer<HomeController> _localizer;
+
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration, IStringLocalizer<HomeController> localizer)
         {
             _logger = logger;
             Configuration = configuration;
+            _localizer = localizer;
         }
 
         [Authorize]

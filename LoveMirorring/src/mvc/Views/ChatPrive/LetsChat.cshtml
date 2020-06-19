@@ -1,0 +1,112 @@
+﻿<partial name="PartAds" />
+<div class="container">
+    <div class="row">&nbsp;</div>
+    <input type="hidden" id="userInput" value="@ViewData["Username"]" />
+    <div class="text-danger" id="spamText"></div>
+    <div class="row">
+        <div class="col-2">Message</div>
+        <div class="col-10">
+            <div class="form-group">
+                <textarea class="form-control" id="messageInput" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-6">
+            <input type="button" id="sendButton" value="Send Message" />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <ul id="messagesList">
+            <hr />
+            @foreach (mvc.ViewModels.Chat.GetMessagesViewModel message in (IEnumerable<mvc.ViewModels.Chat.GetMessagesViewModel>)ViewData["messages"])
+            {
+                <li>
+                    (@message.Date.ToString("yyyy-MM-dd hh:mm")) @message.Username dit : @message.Message
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script>
+    "use strict";
+
+    var connection = new signalR.HubConnectionBuilder().withUrl("/letschathub").build();
+
+    var dateSpam = Date.now();
+    var cptSpam = 0;
+    //Disable send button until connection is established
+    document.getElementById("sendButton").disabled = true;
+
+    connection.on("ReceiveMessage", function (user, message) {
+        var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var encodedMsg = user + " dit : " + msg;
+        var li = document.createElement("li");
+        li.textContent = encodedMsg;
+        var eElement = document.getElementById("messagesList");
+        eElement.insertBefore(li, eElement.firstChild);
+        if (user != "@ViewData["username"]") {
+            document.getElementById("sendButton").disabled = false;
+            document.getElementById("spamText").innerText = "";
+            cptSpam = 0;
+            dateSpam = Date.now();
+        }
+
+    });
+
+    connection.start().then(function () {
+        document.getElementById("sendButton").disabled = false;
+        // Enregistrer la connection dans le singleton
+        var userConnection = connection.connectionId;
+        var friendName = "@ViewData["friendname"]";
+        var userName = "@ViewData["username"]";
+        connection.invoke("AddConnection", userName, friendName, userConnection).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    document.getElementById("sendButton").addEventListener("click", function (event) {
+        var now = Date.now();
+        var checkDateSpam = addSecondes(dateSpam, 5);
+        if (checkDateSpam >= now) {
+            cptSpam += 1;
+        } else {
+            cptSpam = 0;
+        }
+        dateSpam = now;
+        console.log(cptSpam);
+        console.log(checkDateSpam);
+        console.log(now);
+        if (cptSpam > 4) {
+            document.getElementById("sendButton").disabled = true;
+            document.getElementById("spamText").innerText = "Pas si vite mon coco, maintenant tu attends de recevoir une réponse";
+        }
+        var userConnection = connection.connectionId;
+        var friendName = "@ViewData["friendname"]";
+        var userName = "@ViewData["username"]";
+        var talkId = "@ViewData["talkId"]";
+        var userId = "@ViewData["userId"]";
+        var message = document.getElementById("messageInput").value;
+        connection.invoke("SendMessage", userName, userId, friendName, message, userConnection, talkId).catch(function (err) {
+            return console.error(err.toString());
+            location.reload();
+        });
+        event.preventDefault();
+    });
+
+    function addSecondes(date, secondes) {
+        return new Date(new Date(date).getTime() + secondes * 1000);
+    }
+
+</script>

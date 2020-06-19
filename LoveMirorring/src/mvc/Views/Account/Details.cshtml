@@ -1,21 +1,23 @@
-﻿@model mvc.Models.AspNetUser
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model mvc.Models.AspNetUser
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Localizer["TitlePage"];
 }
 
-@if(ViewData["Account"] != null && ViewData["Account"].Equals("NOK"))
+@if (ViewData["Account"] != null && ViewData["Account"].Equals("NOK"))
 {
     <div class="alert-warning">
-        <p> Veuillez modifier votre profil pour qu'il vous corresponde</p>
+        <p>@Localizer["NewExternalAccount"]</p>
         <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
     </div>
 }
 
-<h1>Details</h1>
+<h1>@ViewData["Title"]</h1>
 
 <div>
-    <h4>AspNetUser</h4>
+    <h4>@Localizer["Title1"]</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -119,24 +121,24 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.UserStyles.First(d => d.Id == model.Id).Style.StyleName)
-            <a asp-action="EditStyle" asp-route-id="@Model.Id">Edit Style</a>
+            <a asp-action="EditStyle" asp-route-id="@Model.Id">@Localizer["EditStyle"]</a>
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="GetUserInfoInJson">Get Personal Data</a> |
-    <a asp-action="Delete">Delete</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">@Localizer["Edit"]</a> |
+    <a asp-action="GetUserInfoInJson">@Localizer["GetPersonalData"]</a> |
+    <a asp-action="Delete">@Localizer["Delete"]</a>
 </div>
 <div>
-    <a asp-controller="UserSubscriptions" asp-action="Index">Voir mon type d'abonnement</a>
+    <a asp-controller="UserSubscriptions" asp-action="Index">@Localizer["SubscriptionType"]</a>
 </div>
 <div>
-    <a asp-controller="Pictures" asp-action="Index">Voir mes images de profils</a>
+    <a asp-controller="Pictures" asp-action="Index">@Localizer["ProfilePictures"]</a>
 </div>
 @*<div>
-    @foreach (var item in Model.Pictures)
-    {
-        <img class="img-fluid" src="@(ViewData["URLAPI"] + item.PictureView)" alt="Alternate Text" />
-    }
-</div>*@
+        @foreach (var item in Model.Pictures)
+        {
+            <img class="img-fluid" src="@(ViewData["URLAPI"] + item.PictureView)" alt="Alternate Text" />
+        }
+    </div>*@

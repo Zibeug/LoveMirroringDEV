@@ -1,14 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - LoveMirroring</title>
+    <title>@ViewData["Title"] = @Localizer["TitlePage"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/quizz.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" />
-    <linkk rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.css" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     @* Chat vocal *@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
@@ -31,37 +34,37 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Accueil</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Menu1"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Search" asp-action="Index">Search</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Search" asp-action="Index">@Localizer["Menu2"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Search" asp-action="Like">Like</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Search" asp-action="Like">@Localizer["Menu3"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="PrivateChat" asp-action="Index">Chat</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="PrivateChat" asp-action="Index">@Localizer["Menu4"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ChatGeneral" asp-action="Index">Chat général</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ChatGeneral" asp-action="Index">@Localizer["Menu5"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Conditions générales</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["Menu6"]</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mon compte</a>
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@Localizer["Menu7"]</a>
                             <div class="dropdown-menu">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Details">Details</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Matching" asp-action="Matching">Mes préférences de recherche</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Quiz" asp-action="Quiz">Etablir un profil</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Spotify" asp-action="Spotify">Préférences musicales</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Administration</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="UserContactRequests" asp-action="Index">Mes demandes de contact</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Details">@Localizer["Menu7.1"]</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Matching" asp-action="Matching">@Localizer["Menu7.2"]</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Quiz" asp-action="Quiz">@Localizer["Menu7.3"]</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Spotify" asp-action="Spotify">@Localizer["Menu7.4"]</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">@Localizer["Menu7.5"]</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="UserContactRequests" asp-action="Index">@Localizer["Menu7.6"]</a>
                                 <div class="dropdown-divider"></div>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">@Localizer["BtnLogout"]</a>
                         </li>
                     </ul>
                 </div>
@@ -77,7 +80,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - mvc - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - LoveMirrorring - <a asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["BtnPrivacy"]</a>
         </div>
     </footer>
 
@@ -100,4 +103,4 @@
         });
     </script>
 </body>
-    </html>
+</html>

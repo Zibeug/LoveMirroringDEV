@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Auteur : Allemann Tim
+ * Date : 16.06.2020
+ * Description : Contrôleur pour afficher et traiter les insultes
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,9 +12,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Api.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
+    [Authorize(Policy = "Administrateur")]
     [Route("api/[controller]")]
     [ApiController]
     public class InsultsController : ControllerBase
@@ -22,6 +30,7 @@ namespace Api.Controllers
 
         // GET: api/Insults
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Insult>>> GetInsult()
         {
             return await _context.Insults.ToListAsync();

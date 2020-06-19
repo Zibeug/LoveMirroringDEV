@@ -23,8 +23,7 @@ namespace IdentityServerAspNetIdentity
         public static IEnumerable<ApiResource> Apis =>
             new ApiResource[]
             {
-                new ApiResource("api1", "My API #1"),
-                new ApiResource("bot1", "My Bot #1")
+                new ApiResource("api1", "My API #1")
             };
             
 
@@ -41,6 +40,37 @@ namespace IdentityServerAspNetIdentity
                     ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
 
                     AllowedScopes = { "api1" }
+                },
+
+                //// interactive ASP.NET Core MVC client
+                //new Client
+                //{
+                //    ClientId = "bot",
+                //    ClientName = "Bot Framework",
+                //    ClientUri = "http://localhost:3978",
+
+                //    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                //    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                //    AllowedScopes = { "api1" }
+                //},
+
+                new Client
+                {
+                    ClientId = "bot",
+                    ClientName = "Bot Framewok",
+                    ClientUri = Startup.Configuration["BOT"],
+
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                    RequirePkce = true,
+                    ClientSecrets = {new Secret("secret".Sha256())},
+                    RedirectUris = { Startup.Configuration["BOT"] },
+                    FrontChannelLogoutUri = Startup.Configuration["BOT"] + "signout-oidc",
+                    PostLogoutRedirectUris = { Startup.Configuration["BOT"] + "signout-callback-oidc" },
+
+                    AllowOfflineAccess = true,
+                    AllowedScopes = { "openid", "profil", "api1"}
+
                 },
 
                 // MVC client using code flow + pkce

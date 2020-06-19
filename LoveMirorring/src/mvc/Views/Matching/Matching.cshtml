@@ -1,8 +1,11 @@
-﻿@model mvc.ViewModels.UserChoiceViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model mvc.ViewModels.UserChoiceViewModel
 @{
-    ViewData["Title"] = "Matching";
+    ViewData["Title"] = Localizer["TitlePage"];
 }
-@{ 
+@{
     int? hairSizeId = null;
     int? hairColorId = null;
     int? religionId = null;
@@ -10,16 +13,16 @@
     Preference pref = null;
     int? styleId = null;
 }
-<h1>Matching</h1>
+    <h1>@ViewData["Title"]</h1>
 <br />
 @if (ViewData["PrefenresCheck"].Equals("success"))
 {
     <div class="row">
-        <p>Vous avez déjà enregistré vos préférences.</p>
+        <p>@Localizer["MessageSuccess"]</p>
         <div class="col-md-4">
             <form asp-route="Matching" method="post">
                 <div class="form-group">
-                    <button class="btn btn-primary" id="editPref" asp-action="UpdateProfil">Modifier mes préférences</button>
+                    <button class="btn btn-primary" id="editPref" asp-action="UpdateProfil">@Localizer["BtnUpdate"]</button>
                 </div>
             </form>
         </div>
@@ -43,13 +46,13 @@ else
     <div class="row">
         <div class="col-md-4">
             <form asp-route="Matching" method="post">
-                <h4>Quel type de personnes cherchez vous?</h4>
+                <h4>@Localizer["Title1"]</h4>
                 <hr />
                 <input type="hidden" asp-for="@Model.UserName" value="@ViewData["username"]" />
                 <div asp-validation-summary="All" class="text-danger"></div>
-                
+
                 <div class="form-group">
-                    <label asp-for="@Model.CorpulenceId">Corpulence</label><br />
+                    <label asp-for="@Model.CorpulenceId">@Localizer["Choice1"]</label><br />
                     @foreach (Corpulence corpulence in ViewData["corpulences"] as List<Corpulence>)
                     {
                         if (corpulenceId != null && corpulence.CorpulenceId == corpulenceId)
@@ -66,7 +69,7 @@ else
                     }
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.ReligionId">Religion</label><br />
+                    <label asp-for="@Model.ReligionId">@Localizer["Choice2"]</label><br />
                     @foreach (Religion religion in ViewData["religions"] as List<Religion>)
                     {
                         if (religionId != null && religion.ReligionId == religionId)
@@ -83,7 +86,7 @@ else
                     }
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.HairColorId"> Couleur de cheveux</label><br />
+                    <label asp-for="@Model.HairColorId">@Localizer["Choice3"]</label><br />
                     @foreach (HairColor hairColor in ViewData["hairColor"] as List<HairColor>)
                     {
                         if (hairColorId != null && hairColor.HairColorId == hairColorId)
@@ -99,7 +102,7 @@ else
                     }
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.HairSizeId"> Taille de cheveux</label><br />
+                    <label asp-for="@Model.HairSizeId">@Localizer["Choice4"]</label><br />
 
                     @foreach (HairSize hairSize in ViewData["hairSize"] as List<HairSize>)
                     {
@@ -117,7 +120,7 @@ else
                     }
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.SexualityId"> Sexualité</label><br />
+                    <label asp-for="@Model.SexualityId">@Localizer["Choice5"]</label><br />
                     @foreach (Sexuality sexuality in ViewData["sexuality"] as List<Sexuality>)
                     {
                         if (pref != null && pref.SexualityId == sexuality.SexualityId)
@@ -133,7 +136,7 @@ else
                     }
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.StyleId">Style</label><br />
+                    <label asp-for="@Model.StyleId">@Localizer["Choice6"]</label><br />
                     @foreach (Style style in ViewData["styles"] as List<Style>)
                     {
                         if (styleId != null && style.StyleId == styleId)
@@ -149,15 +152,15 @@ else
                     }
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.Age"></label>
+                    <label asp-for="@Model.Age">@Localizer["Choice7"]</label>
                     @if (pref != null && pref.AgeMax != 0)
                     {
-                        <input type="number" asp-for="@Model.Age" class="form-control" min="18" max="100" value="@pref.AgeMax"/>
+                        <input type="number" asp-for="@Model.Age" class="form-control" min="18" max="100" value="@pref.AgeMax" />
                         <span asp-validation-for="@Model.Age" class="text-danger"></span>
                     }
                     else
                     {
-                        <input type="number" asp-for="@Model.Age" class="form-control" min="18" max="100"/>
+                        <input type="number" asp-for="@Model.Age" class="form-control" min="18" max="100" />
                         <span asp-validation-for="@Model.Age" class="text-danger"></span>
                     }
 
@@ -165,11 +168,11 @@ else
                 <div class="form-group">
                     @if (pref != null)
                     {
-                        <button class="btn btn-primary" id="actionPref" asp-action="UpdatedProfil">Modifier</button>
+                    <button class="btn btn-primary" id="actionPref" asp-action="UpdatedProfil">@Localizer["BtnEdit"]</button>
                     }
                     else
                     {
-                        <button class="btn btn-primary" id="actionPref" asp-action="SaveProfil">Enregistrer</button>
+                <button class="btn btn-primary" id="actionPref" asp-action="SaveProfil">@Localizer["BtnSave"]</button>
                     }
 
                 </div>

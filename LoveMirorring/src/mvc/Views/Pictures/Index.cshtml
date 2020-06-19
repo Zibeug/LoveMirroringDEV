@@ -1,33 +1,36 @@
-﻿@model IEnumerable<mvc.Models.Picture>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model IEnumerable<mvc.Models.Picture>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = Localizer["TitlePage"];
 }
 
-<h1>Index</h1>
+ <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">@Localizer["CreateNew"]</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                Image
+                @Localizer["Image"]
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <img class="img-fluid" src="@(ViewData["URLAPI"] + item.PictureView)" alt="Alternate Text" />
-            </td>
-            <td>
-                <a asp-action="Delete" asp-route-id="@item.PictureId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img class="img-fluid" src="@(ViewData["URLAPI"] + item.PictureView)" alt="Alternate Text" />
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.PictureId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

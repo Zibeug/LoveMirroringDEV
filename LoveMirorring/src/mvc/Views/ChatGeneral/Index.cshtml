@@ -1,22 +1,24 @@
-﻿@{
-    ViewData["Title"] = "Index";
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["TitlePage"];
 }
 
 <partial name="PartAds" />
 <div class="container">
     <div class="row">&nbsp;</div>
     <input type="hidden" id="userInput" value="@ViewData["Username"]" />
-    <button id="show-all-connections">Show Connections</button>
+    <button id="show-all-connections">@Localizer["BtnShowConnections"]</button>
     <ul id="user-list">
     </ul>
     <div class="row">
-        <div class="col-2">Message</div>
+        <div class="col-2">@Localizer["Message"]</div>
         <div class="col-4"><textarea class="form-control" id="messageInput" rows="3"></textarea></div>
     </div>
     <div class="row">&nbsp;</div>
     <div class="row">
         <div class="col-6">
-            <input type="button" id="sendButton" value="Send Message" />
+            <input type="button" id="sendButton" value=@Localizer["SendMessage"]/>
         </div>
     </div>
 </div>

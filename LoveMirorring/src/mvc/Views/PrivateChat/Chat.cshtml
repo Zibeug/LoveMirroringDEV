@@ -1,11 +1,13 @@
-﻿@using mvc.ViewModels.Chat
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@using mvc.ViewModels.Chat
 @model CreateMessageViewModel
 @{
-    ViewData["Title"] = "Chat";
+    ViewData["Title"] = Localizer["TitlePage"];
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Chat</h1>
+    <h1>@ViewData["Title"]</h1>
 <div class="container">
     <form asp-controller="PrivateChat" asp-action="CreateMessage" method="post">
         <div class="row">
@@ -13,7 +15,7 @@
             <div class="col">
 
                 <div class="form-group row">
-                    <label for="message" class="col-sm-2 col-form-label">Message</label>
+                    <label for="message" class="col-sm-2 col-form-label">@Localizer["Message"]</label>
                     <div class="col-sm-10">
                         <textarea asp-for="NewMessage.MessageText"></textarea>
                     </div>
@@ -25,7 +27,7 @@
                         <input type="hidden" asp-for="NewMessage.TalkId" value="@Model.Talk.TalkId" />
                         <input type="hidden" asp-for="NewMessage.Id" value="@Model.UserId" />
                         <input type="hidden" asp-for="UserLikedId" value="@Model.UserLikedId" />
-                        <input type="submit" name="Envoyer" value="Envoyer">
+                        <input type="submit" name="Envoyer" value=@Localizer["Send"]>
                     </div>
                 </div>
             </div>
@@ -39,12 +41,12 @@
     <div class="row">
 
         <div class="col">
-            <h1>Votre conversation</h1>
+            <h1>@Localizer["Title1"]</h1>
 
             <div class="form-group row">
                 @if (Model == null)
                 {
-                    <p>Aucun message à afficher</p>
+                <p>@Localizer["NoMessage"]</p>
                 }
                 else
                 {
@@ -52,9 +54,9 @@
                     <table class="table">
                         <thead class="">
                             <tr>
-                                <th>Pseudo</th>
-                                <th>Message</th>
-                                <th>Date</th>
+                                <th>@Localizer["Name"]</th>
+                                <th>@Localizer["Message"]</th>
+                                <th>@Localizer["Date"]</th>
                             </tr>
                         </thead>
                         <tbody>

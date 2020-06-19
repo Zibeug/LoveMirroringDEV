@@ -10,15 +10,18 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Streaming;
 using Microsoft.Bot.Connector.DirectLine;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Localization;
 
 namespace mvc.Controllers
 {
     public class ChatClient : Controller
     {
         private ILogger<ChatClient> _logger;
-        public ChatClient(ILogger<ChatClient> logger)
+        public IStringLocalizer<MatchingController> _localizer;
+        public ChatClient(ILogger<ChatClient> logger, IStringLocalizer<MatchingController> localizer)
         {
             _logger = logger;
+            _localizer = localizer;
         }
 
         public async Task<IActionResult> Index()

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using mvc.Models;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -24,10 +25,12 @@ namespace mvc.Controllers
     public class QuestionsController : Controller
     {
         private readonly IConfiguration _configuration;
+        public IStringLocalizer<MatchingController> _localizer;
 
-        public QuestionsController(IConfiguration configuration)
+        public QuestionsController(IConfiguration configuration, IStringLocalizer<MatchingController> localizer)
         {
             _configuration = configuration;
+            _localizer = localizer;
         }
 
         // GET: Questions

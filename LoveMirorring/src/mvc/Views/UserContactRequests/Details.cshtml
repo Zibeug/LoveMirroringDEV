@@ -1,14 +1,16 @@
-﻿@model mvc.Models.ContactRequest
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model mvc.Models.ContactRequest
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Localizer["TitlePage"];
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+    <h1>@ViewData["Title"]</h1>
 
 <div>
-    <h4>ContactRequest</h4>
+    <h4>@Localizer["ContactRequest"]</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -35,10 +37,10 @@
     }
 </div>
 <div>
-    <a asp-action="Index">Back to List</a> |
+    <a asp-action="Index">@Localizer["Back"]</a> |
     @if (Model.RequestAnswered == false)
     {
-        <a asp-action="Edit" asp-route-id="@Model.RequestId">Edit</a> 
-        <a asp-action="RedirectToAnswerCreate" asp-route-id="@Model.RequestId">Answer to request</a>
+<a asp-action="Edit" asp-route-id="@Model.RequestId">@Localizer["Edit"]</a>
+<a asp-action="RedirectToAnswerCreate" asp-route-id="@Model.RequestId">@Localizer["Answer"]</a>
     }
 </div>

@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using mvc.Models;
 using mvc.ViewModels.Chat;
 using Newtonsoft.Json;
@@ -27,10 +28,12 @@ namespace mvc.Controllers
     {
 
         private IConfiguration Configuration { get; set; }
+        public IStringLocalizer<MatchingController> _localizer;
 
-        public PrivateChatController(IConfiguration configuration)
+        public PrivateChatController(IConfiguration configuration, IStringLocalizer<MatchingController> localizer)
         {
             Configuration = configuration;
+            _localizer = localizer;
         }
 
         public async Task<IActionResult> IndexAsync()

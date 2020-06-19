@@ -1,37 +1,38 @@
-﻿
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Localizer["TitlePage"];
 }
 
 <div id="toastSuccess" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header bg-success text-white">
-        <strong class="mr-auto">Paiement effectué avec succès !</strong>
+        <strong class="mr-auto">@Localizer["Success"]</strong>
         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="toast-body">
-        Merci beaucoup de votre paiement, vous recevrez un mail de confirmation sous peu.
+        @Localizer["Thanks"]
         <br />
-        <a asp-controller="UserSubscriptions" asp-action="Index">Vérifier mon abonnement</a>
+        <a asp-controller="UserSubscriptions" asp-action="Index">@Localizer["SubscriptionCheck"]</a>
     </div>
 </div>
 <div id="toastError" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header bg-danger text-white">
-        <strong class="mr-auto">Erreur !</strong>
+        <strong class="mr-auto">@Localizer["Error"]</strong>
         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div id="toastErrorMessage" class="toast-body">
-        Merci beaucoup de votre paiement, vous recevrez un mail de confirmation sous peu.
+        @Localizer["Thanks"]
     </div>
 </div>
 
 <div class="row">
     <div class="col text-center">
-        <h1>Paiement Abonnement</h1>
-        <h2>Pour : @ViewData["SubscriptionName"]</h2>
+        <h1>@Localizer["Title1"]</h1>
+        <h2>@Localizer["For"] @ViewData["SubscriptionName"]</h2>
     </div>
 </div>
 <br />
@@ -47,7 +48,7 @@
             <!-- We'll put the error messages in this element -->
             <div id="card-errors" role="alert"></div>
             <br />
-            <button class="btn btn-block btn-primary" id="submit">Payer @ViewData["Amount"] CHF</button>
+            <button class="btn btn-block btn-primary" id="submit">@Localizer["Pay"] @ViewData["Amount"] @Localizer["Currency"]</button>
         </form>
     </div>
     <div class="col-md-3"></div>

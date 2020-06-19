@@ -221,7 +221,7 @@ namespace mvc.Controllers
             string userToDisplay = await client.GetStringAsync(client.BaseAddress);
             string userList = await client.GetStringAsync(Configuration["URLAPI"] + "api/Search/GetLike");
             string userMatch = await client.GetStringAsync(Configuration["URLAPI"] + "api/Search/CheckMatch/" + username);
-
+            
             string userMatched = JsonConvert.DeserializeObject<string>(userMatch);
             List<AspNetUser> userLike = JsonConvert.DeserializeObject<List<AspNetUser>>(userList);
             AspNetUser user = JsonConvert.DeserializeObject<AspNetUser>(userToDisplay);
@@ -237,7 +237,103 @@ namespace mvc.Controllers
 
             ViewData["match"] = userMatched;
 
+            /* Paul Gillet
+             * 16.06.2020 
+             * Permet de retourner les preferences en commun
+             */
+            string userInfos = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
+            AspNetUser currentUser = JsonConvert.DeserializeObject<AspNetUser>(userInfos);
+
+            string selectedUserInfos = await client.GetStringAsync(Configuration["URLAPI"] + $"api/Account/GetGivenUser/{user.Id}");
+            AspNetUser selectedUser = JsonConvert.DeserializeObject<AspNetUser>(selectedUserInfos);
+
+            List<string> listCommonPreferences = new List<string>();
+            listCommonPreferences = GetCommonPreferences(currentUser, selectedUser);
+            
+
+            // afficher quoi ? 
+            // les preferences que lui et la personne connectée on en commun (on aime les 2 les gros même si l'un et/ou l'autre ne l'est pas) 
+
+            ViewData["commonPreferences"] = listCommonPreferences;
+
             return View(user);
+        }
+
+        /* Paul Gillet
+        * 16.06.2020 
+        * Permet de retourner les preferences en commun
+        */
+        private List<string> GetCommonPreferences(AspNetUser connectedUser,AspNetUser selectedUSer)
+        {
+            List<string> listCommonPreferences = new List<string>();
+
+            foreach (var preferenceSelectedUser in selectedUSer.Preferences)
+            {
+                foreach (var preferenceConnectedUser in connectedUser.Preferences)
+                {
+                    if(preferenceConnectedUser.PreferenceReligions.Count > 0 || preferenceSelectedUser.PreferenceReligions.Count > 0) 
+                    {
+                        var religionConnectedUser = preferenceConnectedUser.PreferenceReligions.First();
+                        var religionSelectedUser = preferenceSelectedUser.PreferenceReligions.First();
+                        if (religionConnectedUser.ReligionId.Equals(religionSelectedUser.ReligionId))
+                        {
+                            listCommonPreferences.Add(religionConnectedUser.Religion.ReligionName);
+                        }
+                    }
+                    
+                    if(preferenceConnectedUser.PreferenceCorpulences.Count > 0 || preferenceSelectedUser.PreferenceCorpulences.Count > 0)
+                    {
+                        var corpulenceConnectedUser = preferenceConnectedUser.PreferenceCorpulences.First();
+                        var corpulenceSelectedUser = preferenceSelectedUser.PreferenceCorpulences.First();
+                        if (corpulenceConnectedUser.CorpulenceId.Equals(corpulenceSelectedUser.CorpulenceId))
+                        {
+                            listCommonPreferences.Add(corpulenceSelectedUser.Corpulence.CorpulenceName);
+                        }
+                    }
+
+                    if(preferenceConnectedUser.PreferenceHairColors.Count > 0 || preferenceSelectedUser.PreferenceHairColors.Count > 0)
+                    {
+                        var haircolorConnectedUser = preferenceConnectedUser.PreferenceHairColors.First();
+                        var haircolorSelectedUser = preferenceSelectedUser.PreferenceHairColors.First();
+                        if (haircolorConnectedUser.HairColorId.Equals(haircolorSelectedUser.HairColorId))
+                        {
+                            listCommonPreferences.Add(haircolorConnectedUser.HairColor.HairColorName);
+                        }
+                    }
+
+                    if(preferenceConnectedUser.PreferenceHairSizes.Count > 0 || preferenceSelectedUser.PreferenceHairSizes.Count > 0)
+                    {
+                        var hairsizeConnectedUser = preferenceConnectedUser.PreferenceHairSizes.First();
+                        var hairsizeSelectedUser = preferenceSelectedUser.PreferenceHairSizes.First();
+                        if (hairsizeConnectedUser.HairSizeId.Equals(hairsizeSelectedUser.HairSizeId))
+                        {
+                            listCommonPreferences.Add(hairsizeConnectedUser.HairSize.HairSizeName);
+                        }
+                    }
+                   
+                    if(preferenceConnectedUser.PreferenceMusics.Count > 0  || preferenceSelectedUser.PreferenceMusics.Count > 0)
+                    {
+                        var musicConnectedUser = preferenceConnectedUser.PreferenceMusics.First();
+                        var musicSelectedUser = preferenceSelectedUser.PreferenceMusics.First();
+                        if (musicConnectedUser.MusicId.Equals(musicSelectedUser.MusicId))
+                        {
+                            listCommonPreferences.Add(musicConnectedUser.Music.MusicName);
+                        }
+                    }
+                    
+                    if(preferenceConnectedUser.PreferenceStyles.Count > 0 || preferenceSelectedUser.PreferenceStyles.Count > 0)
+                    {
+                        var styleConnectedUser = preferenceConnectedUser.PreferenceStyles.First();
+                        var styleSelectedUser = preferenceSelectedUser.PreferenceStyles.First();
+                        if (styleConnectedUser.StyleId.Equals(styleSelectedUser.StyleId))
+                        {
+                            listCommonPreferences.Add(styleConnectedUser.Style.StyleName);
+                        }
+                    }
+                }
+            }
+
+            return listCommonPreferences;
         }
 
         private string RandomPicture(List<Ad> ads)
@@ -248,8 +344,6 @@ namespace mvc.Controllers
 
             return tabAd[nb - 1].AdView;
         }
-
-
 
         // Permet de signaler un utilisateur
         [HttpGet]

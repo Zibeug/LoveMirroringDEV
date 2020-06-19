@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using mvc.Models;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -120,11 +121,11 @@ namespace mvc.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(short id, [Bind("RequestId,RequestDate,RequestText,UserId")] ContactRequest contactRequest)
+        public async Task<IActionResult> Edit(short? id, [Bind("RequestId,RequestDate,RequestText,RequestAnswered,UserId")] ContactRequest contactRequest)
         {
             try
             {
-                if (id != contactRequest.RequestId)
+                if (id != contactRequest.RequestId || id == null)
                 {
                     return NotFound();
                 }
@@ -134,18 +135,25 @@ namespace mvc.Controllers
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-                if (ModelState.IsValid)
+                string content = await client.GetStringAsync(_configuration["URLAPI"] + $"api/ContactRequests/{id}");
+                ContactRequest oldContactRequest = JsonConvert.DeserializeObject<ContactRequest>(content);
+
+                if (oldContactRequest == null)
                 {
-                    // Préparation de la requête update à l'API
-                    StringContent httpContent = new StringContent(contactRequest.ToJson(), Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/ContactRequests/{id}", httpContent);
-                    if (response.StatusCode != HttpStatusCode.NoContent)
-                    {
-                        return BadRequest();
-                    }
-                    return RedirectToAction(nameof(Index));
+                    return NotFound();
                 }
-                return View(contactRequest);
+
+                contactRequest.Id = oldContactRequest.Id;
+                contactRequest.RequestDate = oldContactRequest.RequestDate;
+
+                // Préparation de la requête update à l'API
+                StringContent httpContent = new StringContent(contactRequest.ToJson(), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PutAsync(_configuration["URLAPI"] + $"api/ContactRequests/{id}", httpContent);
+                if (response.StatusCode != HttpStatusCode.NoContent)
+                {
+                    return BadRequest();
+                }
+                return RedirectToAction(nameof(Index));
             }
             catch (HttpRequestException e)
             {

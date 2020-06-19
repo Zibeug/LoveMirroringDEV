@@ -64,6 +64,8 @@ namespace mvc.Models
         public bool QuizCompleted { get; set; }
         public bool AccountCompleted { get; set; }
         public bool? IsFacebookAccount { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime? LastConnection { get; set; }
 
         [ForeignKey(nameof(CorpulenceId))]
         [InverseProperty("AspNetUsers")]

@@ -91,6 +91,8 @@ namespace Api.Controllers
                                     .ThenInclude(u => u.PreferenceReligions)
                                 .Include(u => u.Preferences)
                                     .ThenInclude(u => u.PreferenceStyles)
+                                .Include(u => u.Preferences)
+                                    .ThenInclude(u => u.PreferenceMusics)
                                 .Include(u => u.UserProfils)
                                     .ThenInclude(u => u.Profil)
                                 .Include(u => u.UserStyles)
@@ -107,7 +109,74 @@ namespace Api.Controllers
             {
                 return user;
             }
+        }
 
+        // Paul Gillet 16.06.2020
+        // Renvoie les données de l'utilisateur donné
+        // GET: api/Account/5
+        [Route("GetGivenUser/{id}")]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AspNetUser>> GetGivenUserInfos(string? id)
+        {
+            AspNetUser user = null;
+            try
+            {
+                if(id == null)
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+            user = await _context.AspNetUsers
+                            .Include(a => a.Corpulence)
+                            .Include(a => a.HairColor)
+                            .Include(a => a.HairSize)
+                            .Include(a => a.Sexe)
+                            .Include(a => a.Sexuality)
+                            .Include(a => a.Subscription)
+                            .Include(a => a.UserStyles)
+                                .ThenInclude(a => a.Style)
+                            .Include(a => a.UserSubscriptions)
+                            .Include(a => a.UserTraces)
+                            .Include(a => a.Religion)
+                            .Include(a => a.Pictures)
+                            .Include(a => a.UserProfils)
+                                .ThenInclude(a => a.Profil)
+                            .Include(u => u.UserSubscriptions)
+                                    .ThenInclude(u => u.Subscriptions)
+                                 // Ses préférences
+                                 .Include(u => u.Preferences)
+                                     .ThenInclude(u => u.PreferenceCorpulences)
+                                 .Include(u => u.Preferences)
+                                     .ThenInclude(u => u.PreferenceHairColors)
+                                 .Include(u => u.Preferences)
+                                     .ThenInclude(u => u.PreferenceHairSizes)
+                                 .Include(u => u.Preferences)
+                                     .ThenInclude(u => u.PreferenceMusics)
+                                 .Include(u => u.Preferences)
+                                     .ThenInclude(u => u.PreferenceReligions)
+                                 .Include(u => u.Preferences)
+                                     .ThenInclude(u => u.PreferenceStyles)
+                                 .Include(u => u.UserProfils)
+                                     .ThenInclude(u => u.Profil)
+                                 .Include(u => u.UserStyles)
+                                     .ThenInclude(u => u.Style)
+                                 .Include(u => u.UserMusics)
+                                     .ThenInclude(u => u.Music)
+                             .SingleOrDefaultAsync(a => a.Id == id);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return user;
+            }
         }
 
         // Met à jour les données de l'utilisateur

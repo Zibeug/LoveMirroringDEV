@@ -71,7 +71,9 @@ namespace Api.Controllers
             {
                 return BadRequest();
             }
-
+            var detailOldContactRequest = _context.ContactRequests.Where(x => x.RequestId == contactRequest.RequestId).SingleOrDefault();
+            contactRequest.Id = detailOldContactRequest.Id;
+            contactRequest.RequestDate = detailOldContactRequest.RequestDate;
             _context.Entry(contactRequest).State = EntityState.Modified;
 
             try

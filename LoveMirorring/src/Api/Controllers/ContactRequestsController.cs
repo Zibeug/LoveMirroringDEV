@@ -61,9 +61,10 @@ namespace Api.Controllers
             }
 
             _context.Entry(contactRequest).State = EntityState.Modified;
-
+            
             try
             {
+                _context.SaveChanges();
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

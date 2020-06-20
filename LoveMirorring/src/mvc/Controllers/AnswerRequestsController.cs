@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using mvc.Models;
 using Newtonsoft.Json;
 using System;
@@ -26,10 +27,12 @@ namespace mvc.Controllers
     public class AnswerRequestsController : Controller
     {
         private readonly IConfiguration _configuration;
+        public IStringLocalizer<MatchingController> _localizer;
 
-        public AnswerRequestsController(IConfiguration configuration)
+        public AnswerRequestsController(IConfiguration configuration, IStringLocalizer<MatchingController> localizer)
         {
             _configuration = configuration;
+            _localizer = localizer;
         }
 
         // GET: AnswerRequests

@@ -1,6 +1,7 @@
-﻿
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Validation";
+    ViewData["Title"] = Localizer["TitlePage"];
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
@@ -9,7 +10,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Validation</h1>
+        <h1 class="h3 mb-0 text-gray-800">@ViewData["Title"]</h1>
     </div>
 
     <!-- Content Row -->
@@ -18,16 +19,16 @@
             <thead>
                 <tr>
                     <th>
-                        UserName
+                        @Localizer["UserName"]
                     </th>
                     <th>
-                        Email Confirmed
+                        @Localizer["EmailConfirmed"]
                     </th>
                     <th>
-                        Phone Number Confirmed
+                        @Localizer["PhoneNumberConfirmed"]
                     </th>
                     <th>
-                        Actions
+                        @Localizer["Actions"]
                     </th>
                 </tr>
             </thead>
@@ -45,7 +46,7 @@
                             @user.PhoneNumberConfirmed
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
+                            <a asp-action="Edit" asp-route-id="@user.Id">@Localizer["Edit"]</a> |
                         </td>
                     </tr>
                 }

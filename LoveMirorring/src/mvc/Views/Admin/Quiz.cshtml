@@ -1,6 +1,7 @@
-﻿
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Quiz";
+    ViewData["Title"] = Localizer["TitlePage"];
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
@@ -9,7 +10,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Reset Quiz</h1>
+        <h1 class="h3 mb-0 text-gray-800">@Localizer["Title1"]</h1>
     </div>
 
     <!-- Content Row -->
@@ -18,13 +19,13 @@
             <thead>
                 <tr>
                     <th>
-                        UserName
+                        @Localizer["UserName"]
                     </th>
                     <th>
-                        QuizCompleted
+                        @Localizer["QuizCompleted"]
                     </th>
                     <th>
-                        Actions
+                        @Localizer["Actions"]
                     </th>
                 </tr>
             </thead>
@@ -39,7 +40,7 @@
                             @user.QuizCompleted
                         </td>
                         <td>
-                            <a asp-action="ResetQuiz" asp-route-id="@user.UserName">Reset</a> |
+                            <a asp-action="ResetQuiz" asp-route-id="@user.UserName">@Localizer["Reset"]</a> |
                         </td>
                     </tr>
                 }

@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using mvc.Models;
 using mvc.ViewModels;
 using Newtonsoft.Json;
@@ -31,9 +32,11 @@ namespace mvc.Controllers
     public class AdsController : Controller
     {
         private IConfiguration Configuration { get; set; }
-        public AdsController(IConfiguration configuration)
+        public IStringLocalizer<MatchingController> _localizer;
+        public AdsController(IConfiguration configuration, IStringLocalizer<MatchingController> localizer)
         {
             Configuration = configuration;
+            _localizer = localizer;
         }
 
         // GET: Ads

@@ -1,13 +1,15 @@
-﻿@model mvc.Models.Answer
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model mvc.Models.Answer
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = Localizer["TitlePage"];
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Create</h1>
+<h1>@ViewData["Title"]</h1>
 
-<h4>Answer</h4>
+<h4>@Localizer["Title1"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,11 +17,11 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ProfilId" class="control-label"></label>
-                <select asp-for="ProfilId" class ="form-control" asp-items="ViewBag.ProfilId"></select>
+                <select asp-for="ProfilId" class="form-control" asp-items="ViewBag.ProfilId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="QuestionId" class="control-label"></label>
-                <select asp-for="QuestionId" class ="form-control" asp-items="ViewBag.QuestionId"></select>
+                <select asp-for="QuestionId" class="form-control" asp-items="ViewBag.QuestionId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="AnswerText" class="control-label"></label>
@@ -32,13 +34,13 @@
                 <span asp-validation-for="AnswerValue" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value=@ViewData["Title"] class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["Back"]</a>
 </div>
 

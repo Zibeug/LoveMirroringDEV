@@ -1,7 +1,8 @@
-﻿
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    ViewData["Title"] = "Users";
+    ViewData["Title"] = Localizer["TitlePage"];
 }
 
 <!-- Begin Page Content -->
@@ -9,7 +10,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Users</h1>
+        <h1 class="h3 mb-0 text-gray-800">@ViewData["Title"]</h1>
     </div>
 
     <!-- Content Row -->
@@ -18,10 +19,10 @@
             <thead>
                 <tr>
                     <th>
-                        UserName
+                        @Localizer["Message"]
                     </th>
                     <th>
-                        Actions
+                        @Localizer["Actions"]
                     </th>
                 </tr>
             </thead>
@@ -33,14 +34,14 @@
                             @user.UserName
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@user.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@user.Id">@Localizer["Edit"]</a> |
+                            <a asp-action="Details" asp-route-id="@user.Id">@Localizer["Details"]</a> |
+                            <a asp-action="Delete" asp-route-id="@user.Id">@Localizer["Delete"]</a>
                         </td>
                     </tr>
                 }
-                    
-                </tbody>
+
+            </tbody>
         </table>
     </div>
 </div>

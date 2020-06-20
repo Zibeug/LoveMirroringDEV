@@ -1,13 +1,15 @@
-﻿@model mvc.Models.AspNetRole
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model mvc.Models.AspNetRole
 
 @{
-    ViewData["Title"] = "Create new Role";
+    ViewData["Title"] = Localizer["TitlePage"];
 }
 
 <div>
     <form asp-controller="Admin" asp-action="CreateRole" method="post" class="form-text">
-        <label>Create new Role</label>
+        <label>@ViewData["Title"]</label>
         <input asp-for="Name" />
-        <input type="submit" value="Create" />
+        <input type="submit" value=@ViewData["Create"] />
     </form>
 </div>

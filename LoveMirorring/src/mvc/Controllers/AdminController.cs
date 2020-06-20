@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using mvc.Models;
 using mvc.ViewModels;
 using mvc.ViewModels.Admin;
@@ -30,10 +31,12 @@ namespace mvc.Controllers
     public class AdminController : Controller
     {
         private IConfiguration _configuration { get; }
+        public IStringLocalizer<MatchingController> _localizer;
 
-        public AdminController(IConfiguration configuration)
+        public AdminController(IConfiguration configuration, IStringLocalizer<MatchingController> localizer)
         {
             _configuration = configuration;
+            _localizer = localizer;
         }
 
         public async Task<IActionResult> Index()

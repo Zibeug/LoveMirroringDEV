@@ -16,6 +16,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Net.WebSockets;
+using Microsoft.Extensions.Localization;
 
 namespace mvc.Controllers
 {
@@ -23,10 +24,12 @@ namespace mvc.Controllers
     public class ChatGeneralController : Controller
     {
         private readonly IConfiguration _configuration;
+        public IStringLocalizer<MatchingController> _localizer;
 
-        public ChatGeneralController(IConfiguration configuration)
+        public ChatGeneralController(IConfiguration configuration, IStringLocalizer<MatchingController> localizer)
         {
             _configuration = configuration;
+            _localizer = localizer;
         }
 
         // GET: ChatGeneral

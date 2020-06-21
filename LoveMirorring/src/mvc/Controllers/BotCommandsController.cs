@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using mvc.Models;
 using Newtonsoft.Json;
 using Unosquare.Swan;
@@ -22,10 +23,12 @@ namespace mvc.Controllers
     public class BotCommandsController : Controller
     {
         private IConfiguration _configuration { get; set; }
+        public IStringLocalizer<MatchingController> _localizer;
 
-        public BotCommandsController(IConfiguration configuration)
+        public BotCommandsController(IConfiguration configuration, IStringLocalizer<MatchingController> localizer)
         {
             _configuration = configuration;
+            _localizer = localizer;
         }
 
         // GET: BotCommands

@@ -1103,7 +1103,6 @@ C:\DEV\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.Facebook.dll
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Views\Account\Banned.cshtml.g.cs
 C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\Razor\Views\External\ExternalForm.cshtml.g.cs
-C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.csprojAssemblyReference.cache
 C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\appsettings.Production.json
@@ -1625,3 +1624,5 @@ C:\Users\paugillet\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\IdentityS
 C:\Users\paugillet\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.csproj.CopyComplete
 C:\Users\paugillet\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.dll
 C:\Users\paugillet\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\obj\Debug\netcoreapp3.1\IdentityServerAspNetIdentity.pdb
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\IdentityServerAspNetIdentity\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll

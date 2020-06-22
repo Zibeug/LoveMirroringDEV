@@ -1,113 +1,115 @@
-﻿@model mvc.Models.AspNetUser
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model mvc.Models.AspNetUser
 
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = Localizer["TitlePage"];
 }
 
 <div class="container-fluid">
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">AspNetUser</h1>
+        <h1 class="h3 mb-0 text-gray-800">@Localizer["Title1"]</h1>
     </div>
-        
+
     <!-- Content Row -->
     <div class="row">
         <hr />
-            <div class="col-md-12">
-                <form asp-action="Edit">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="Id" />
-                    <div class="form-group">
-                        <label asp-for="AccessFailedCount" class="control-label"></label>
-                        <input asp-for="AccessFailedCount" class="form-control" />
-                        <span asp-validation-for="AccessFailedCount" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="ConcurrencyStamp" class="control-label"></label>
-                        <input asp-for="ConcurrencyStamp" class="form-control" />
-                        <span asp-validation-for="ConcurrencyStamp" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Email" class="control-label"></label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" asp-for="EmailConfirmed" /> @Html.DisplayNameFor(model => model.EmailConfirmed)
-                        </label>
-                    </div>
-                    <div class="form-group form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" asp-for="LockoutEnabled" /> @Html.DisplayNameFor(model => model.LockoutEnabled)
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="LockoutEnd" class="control-label"></label>
-                        @if (Model.LockoutEnd != null)
-                        {
-                            <input type="text" asp-for="LockoutEnd" value="@Model.LockoutEnd.Value.ToString("yyyy-MM-dd")" class="form-control datetimepicker" />
-                        }
-                        else
-                        {
-                            <input type="text" asp-for="LockoutEnd" class="form-control datetimepicker" />
-                        }
-                        <span asp-validation-for="LockoutEnd" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="NormalizedEmail" class="control-label"></label>
-                        <input asp-for="NormalizedEmail" class="form-control" />
-                        <span asp-validation-for="NormalizedEmail" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="NormalizedUserName" class="control-label"></label>
-                        <input asp-for="NormalizedUserName" class="form-control" />
-                        <span asp-validation-for="NormalizedUserName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="PhoneNumber" class="control-label"></label>
-                        <input asp-for="PhoneNumber" class="form-control" />
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                    </div>
-                    <div class="form-group form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" asp-for="PhoneNumberConfirmed" /> @Html.DisplayNameFor(model => model.PhoneNumberConfirmed)
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="SecurityStamp" class="control-label"></label>
-                        <input asp-for="SecurityStamp" class="form-control" />
-                        <span asp-validation-for="SecurityStamp" class="text-danger"></span>
-                    </div>
-                    <div class="form-group form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" asp-for="TwoFactorEnabled" /> @Html.DisplayNameFor(model => model.TwoFactorEnabled)
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="UserName" class="control-label"></label>
-                        <input asp-for="UserName" class="form-control" />
-                        <span asp-validation-for="UserName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Birthday" class="control-label"></label>
-                        <input asp-for="Birthday" class="form-control" />
-                        <span asp-validation-for="Birthday" class="text-danger"></span>
-                    </div>
-                    <div class="form-group form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" asp-for="QuizCompleted" /> @Html.DisplayNameFor(model => model.QuizCompleted)
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary" />
-                    </div>
-                </form>
-            </div>
+        <div class="col-md-12">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="AccessFailedCount" class="control-label"></label>
+                    <input asp-for="AccessFailedCount" class="form-control" />
+                    <span asp-validation-for="AccessFailedCount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConcurrencyStamp" class="control-label"></label>
+                    <input asp-for="ConcurrencyStamp" class="form-control" />
+                    <span asp-validation-for="ConcurrencyStamp" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="EmailConfirmed" /> @Html.DisplayNameFor(model => model.EmailConfirmed)
+                    </label>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="LockoutEnabled" /> @Html.DisplayNameFor(model => model.LockoutEnabled)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LockoutEnd" class="control-label"></label>
+                    @if (Model.LockoutEnd != null)
+                    {
+                        <input type="text" asp-for="LockoutEnd" value="@Model.LockoutEnd.Value.ToString("yyyy-MM-dd")" class="form-control datetimepicker" />
+                    }
+                    else
+                    {
+                        <input type="text" asp-for="LockoutEnd" class="form-control datetimepicker" />
+                    }
+                    <span asp-validation-for="LockoutEnd" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NormalizedEmail" class="control-label"></label>
+                    <input asp-for="NormalizedEmail" class="form-control" />
+                    <span asp-validation-for="NormalizedEmail" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NormalizedUserName" class="control-label"></label>
+                    <input asp-for="NormalizedUserName" class="form-control" />
+                    <span asp-validation-for="NormalizedUserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber" class="control-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="PhoneNumberConfirmed" /> @Html.DisplayNameFor(model => model.PhoneNumberConfirmed)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SecurityStamp" class="control-label"></label>
+                    <input asp-for="SecurityStamp" class="form-control" />
+                    <span asp-validation-for="SecurityStamp" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="TwoFactorEnabled" /> @Html.DisplayNameFor(model => model.TwoFactorEnabled)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserName" class="control-label"></label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Birthday" class="control-label"></label>
+                    <input asp-for="Birthday" class="form-control" />
+                    <span asp-validation-for="Birthday" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="QuizCompleted" /> @Html.DisplayNameFor(model => model.QuizCompleted)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value=@Localizer["Save"] class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
         <div>
-            <a asp-action="Details">Back to List</a>
+            <a asp-action="Details">@Localizer["Back"]</a>
         </div>
     </div>
 </div>

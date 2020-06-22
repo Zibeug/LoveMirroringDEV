@@ -1,27 +1,29 @@
-﻿@model IEnumerable<mvc.Models.UserSubscription>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model IEnumerable<mvc.Models.UserSubscription>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = Localizer["TitlePage"];
 }
 
-<h1>Mes abonnements</h1>
+    <h1>@ViewData["Title"]</h1>
 
 @if ((bool)ViewData["HasSubscription"])
 {
-    <p>
-        Tu as déjà un abonnement valable jusqu'au @ViewData["FirstSubscriptionDate"]
-    </p>
+<p>
+    @Localizer["Subscriber"] @ViewData["FirstSubscriptionDate"]
+</p>
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    Date
+                    @Localizer["Date"]
                 </th>
                 <th>
-                    Montant
+                    @Localizer["Amount"]
                 </th>
                 <th>
-                    Type d'abonnement
+                    @Localizer["SubscriptionType"]
                 </th>
                 <th></th>
             </tr>
@@ -46,11 +48,11 @@
 }
 else
 {
-    <p>
-        Tu as un compte gratuit
-    </p>
-    <a class="btn btn-block btn-primary" asp-controller="Stripe" asp-action="Details" asp-route-subscriptionName="1 Mois"> Acheter un abonnement d'un mois</a>
-    <a class="btn btn-block btn-primary" asp-controller="Stripe" asp-action="Details" asp-route-subscriptionName="1 Année"> Acheter un abonnement d'une année</a>
+<p>
+    @Localizer["Free"]
+</p>
+<a class="btn btn-block btn-primary" asp-controller="Stripe" asp-action="Details" asp-route-subscriptionName="1 Mois">@Localizer["1Month"]</a>
+<a class="btn btn-block btn-primary" asp-controller="Stripe" asp-action="Details" asp-route-subscriptionName="1 Année">@Localizer["1Year"]</a>
 }
 
 

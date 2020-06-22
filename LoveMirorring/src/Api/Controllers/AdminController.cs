@@ -413,7 +413,7 @@ namespace Api.Controllers
                 {
                     return new JsonResult(null);
                 }
-
+                
                 string userRole = await _context.AspNetUserRoles
                     .Where(r => r.UserId.Equals(id))
                     .Select(r => r.RoleId)
@@ -428,7 +428,7 @@ namespace Api.Controllers
                     {
                         return NotFound();
                     }
-                    if (roles.Count() <= 2)
+                    if (roles.Count() == 1)
                     {
                         return Unauthorized();
                     }

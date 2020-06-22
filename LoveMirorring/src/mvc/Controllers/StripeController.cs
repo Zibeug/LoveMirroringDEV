@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using mvc.Models;
 using Newtonsoft.Json;
@@ -25,12 +26,14 @@ namespace mvc.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly ILogger<AccountController> _logger;
+        public IStringLocalizer<MatchingController> _localizer;
 
         public StripeController(IConfiguration configuration,
-                                 ILogger<AccountController> logger)
+                                 ILogger<AccountController> logger, IStringLocalizer<MatchingController> localizer)
         {
             _configuration = configuration;
             _logger = logger;
+            _localizer = localizer;
         }
 
         // GET: Stripe

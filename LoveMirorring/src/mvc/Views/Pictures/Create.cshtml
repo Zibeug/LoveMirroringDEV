@@ -1,41 +1,43 @@
-﻿@model mvc.ViewModels.UserPictures
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model mvc.ViewModels.UserPictures
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = Localizer["TitlePage"];
 }
-    <div aria-live="polite" aria-atomic="true" style="position: relative;">
-        <!-- Position it -->
-        <div style="position: absolute; top: 0; right: 0;">
+<div aria-live="polite" aria-atomic="true" style="position: relative;">
+    <!-- Position it -->
+    <div style="position: absolute; top: 0; right: 0;">
 
-            <!-- Then put toasts within -->
-            <div id="toastSuccess" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header bg-success text-white">
-                    <strong class="mr-auto">Photo de profil chargée !</strong>
-                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="toast-body">
-                    <a asp-action="Index">Voir vos photos chargées</a>
-                </div>
+        <!-- Then put toasts within -->
+        <div id="toastSuccess" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-success text-white">
+                <strong class="mr-auto">@Localizer["PictureLoaded"]</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div id="toastError" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header bg-danger text-white">
-                    <strong class="mr-auto">Erreur !</strong>
-                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div id="toastErrorMessage" class="toast-body">
-                    Erreur.
-                </div>
+            <div class="toast-body">
+                <a asp-action="Index">@Localizer["PictureUploaded"]</a>
+            </div>
+        </div>
+        <div id="toastError" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-danger text-white">
+                <strong class="mr-auto">@Localizer["Error"]</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="toastErrorMessage" class="toast-body">
+                @Localizer["ErrorMessage"]
             </div>
         </div>
     </div>
+</div>
 
-<h1>Create</h1>
+<h1>@ViewData["Title"]</h1>
 
-<h4>Picture</h4>
+<h4>@Localizer["Title1"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -47,18 +49,18 @@
                 <span asp-validation-for="Pictures" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value=@Localizer["Create"] class="btn btn-primary" />
             </div>
         </form>
     </div>
     <div class="col-md-4">
         <div class="panel panel-default">
-            <div class="panel-heading">Camera</div>
+            <div class="panel-heading">@Localizer["Camera"]</div>
             <div class="panel-body">
                 <div id="my_camera"></div>
                 <!-- A button for taking snaps -->
                 <form>
-                    <input type="button" class="btn btn-success" value="Take Snapshot" onClick="take_snapshot()">
+                    <input type="button" class="btn btn-success" value=@Localizer["TakeSnapshot"] onClick="take_snapshot()">
                 </form>
 
             </div>
@@ -66,9 +68,9 @@
     </div>
     <div class="col-md-4">
         <div class="panel panel-default">
-            <div class="panel-heading">Captured Photo</div>
+            <div class="panel-heading">@Localizer["CapturedPicture"]</div>
             <div class="panel-body">
-                <div id="results">Your captured image will appear here...</div>
+                <div id="results">@Localizer["Message"]</div>
             </div>
             <br />
             <br />
@@ -77,7 +79,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["Back"]</a>
 </div>
 
 @section Scripts {

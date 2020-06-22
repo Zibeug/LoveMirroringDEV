@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using mvc.Models;
 using Newtonsoft.Json;
 using System;
@@ -26,10 +27,12 @@ namespace mvc.Controllers
     public class AnswerRequestsController : Controller
     {
         private readonly IConfiguration _configuration;
+        public IStringLocalizer<MatchingController> _localizer;
 
-        public AnswerRequestsController(IConfiguration configuration)
+        public AnswerRequestsController(IConfiguration configuration, IStringLocalizer<MatchingController> localizer)
         {
             _configuration = configuration;
+            _localizer = localizer;
         }
 
         // GET: AnswerRequests
@@ -205,96 +208,5 @@ namespace mvc.Controllers
                 return Unauthorized();
             }
         }
-
-        //// GET: AnswerRequests/Edit/5
-        //public async Task<IActionResult> Edit(short? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var answerRequest = await _context.AnswerRequests.FindAsync(id);
-        //    if (answerRequest == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["Id"] = new SelectList(_context.AspNetUsers, "Id", "Id", answerRequest.Id);
-        //    ViewData["RequestId"] = new SelectList(_context.ContactRequests, "RequestId", "Id", answerRequest.RequestId);
-        //    return View(answerRequest);
-        //}
-
-        //// POST: AnswerRequests/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(short id, [Bind("AnswerId,AnswerDate,AnswerText,Id,RequestId")] AnswerRequest answerRequest)
-        //{
-        //    if (id != answerRequest.AnswerId)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(answerRequest);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!AnswerRequestExists(answerRequest.AnswerId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["Id"] = new SelectList(_context.AspNetUsers, "Id", "Id", answerRequest.Id);
-        //    ViewData["RequestId"] = new SelectList(_context.ContactRequests, "RequestId", "Id", answerRequest.RequestId);
-        //    return View(answerRequest);
-        //}
-
-        //// GET: AnswerRequests/Delete/5
-        //public async Task<IActionResult> Delete(short? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var answerRequest = await _context.AnswerRequests
-        //        .Include(a => a.IdNavigation)
-        //        .Include(a => a.Request)
-        //        .FirstOrDefaultAsync(m => m.AnswerId == id);
-        //    if (answerRequest == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(answerRequest);
-        //}
-
-        //// POST: AnswerRequests/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(short id)
-        //{
-        //    var answerRequest = await _context.AnswerRequests.FindAsync(id);
-        //    _context.AnswerRequests.Remove(answerRequest);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        //private bool AnswerRequestExists(short id)
-        //{
-        //    return _context.AnswerRequests.Any(e => e.AnswerId == id);
-        //}
     }
 }

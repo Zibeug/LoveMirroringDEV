@@ -1,12 +1,13 @@
-﻿
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Chat";
+    ViewData["Title"] = Localizer["TitlePage"];
 }
 
-<h1>Chat</h1>
+<h1>@ViewData["Title"]</h1>
 @if (ViewData["UserList"] == null)
 {
-    <p>Aucune conversation à afficher</p>
+<p>@Localizer["NoTalks"]</p>
 }
 else
 {
@@ -14,10 +15,10 @@ else
         <thead>
             <tr>
                 <th>
-                    Pseudo
+                    @Localizer["Name"]
                 </th>
                 <th>
-                    Consulter
+                    @Localizer["Consult"]
                 </th>
             </tr>
         </thead>
@@ -31,12 +32,12 @@ else
                     <td>
                         <form asp-route="Chat" method="post">
                             <input type="hidden" name="id" value="@user.Id" />
-                            <button class="btn btn-secondary btn-block" asp-action="Chat">Messages</button>
+                            <button class="btn btn-secondary btn-block" asp-action="Chat">@Localizer["Messages"]</button>
                         </form>
                         <form asp-controller="ChatPrive" asp-action="LetsChat" method="post">
                             <input type="hidden" name="friendName" value="@user.UserName" />
                             <input type="hidden" name="friendId" value="@user.Id" />
-                            <button class="btn btn-secondary btn-block">Messages (Signal R)</button>
+                            <button class="btn btn-secondary btn-block">@Localizer["Messages"] (Signal R)</button>
                         </form>
                     </td>
 

@@ -1,13 +1,15 @@
-﻿@model mvc.Models.AnswerRequest
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model mvc.Models.AnswerRequest
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = Localizer["TitlePage"];
     Layout = ViewData["layout"].ToString();
 }
 
-<h1>Create</h1>
+    <h1>@ViewData["Title"]</h1>
 
-<h4>AnswerRequest</h4>
+    <h4>@Localizer["Title1"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -19,12 +21,12 @@
                 <span asp-validation-for="AnswerText" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" asp-for="@ViewData["id"]"/>
+                <input type="submit" value=@ViewData["Title"] class="btn btn-primary" asp-for="@ViewData["id"]" />
             </div>
         </form>
     </div>
 </div>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["Back"]</a>
 </div>
 

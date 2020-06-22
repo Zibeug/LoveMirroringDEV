@@ -1,8 +1,10 @@
-﻿@model mvc.ViewModels.Admin.RolesModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model mvc.ViewModels.Admin.RolesModel
 
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    ViewData["Title"] = "Roles and Users Manager";
+    ViewData["Title"] = Localizer["TitlePage"];
 }
 
 <!-- Begin Page Content -->
@@ -10,14 +12,14 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Roles and users manager</h1>
+        <h1 class="h3 mb-0 text-gray-800">@ViewData["Title"]</h1>
     </div>
 
     <!-- Content Row -->
     <div class="row">
         <p>
             <div>
-                <h2>Existing role list</h2>
+                <h2>@Localizer["Roles"]</h2>
                 <ul class="list-group-item">
                     @foreach (var role in Model.Roles)
                     {
@@ -37,4 +39,4 @@
     </div>
 </div>
 
-        
+

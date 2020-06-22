@@ -61,7 +61,6 @@ namespace Api.Controllers
             string content = await client.GetStringAsync(Configuration["URLAPI"] + "api/Account/getUserInfo");
             user = JsonConvert.DeserializeObject<AspNetUser>(content);
 
-
             // Déterminer s'il y a des matchs
             List<MatchingModel> usersChoices = new List<MatchingModel>();
 
@@ -75,6 +74,7 @@ namespace Api.Controllers
             // Ajouter et calculer le potentiel du match : 100% = couple parfait
             foreach (AspNetUser potentialUserMatch in potentialUserMatchs)
             {
+                int nbPreferenceCommun = 0;
                 // Le potentiel commence à 0.2 car age et profil obligatoire (chacun vaut 0.125
                 double potentielPourcentage = MATCHING * 2;
 
@@ -294,7 +294,6 @@ namespace Api.Controllers
 
             return new JsonResult(usersChoices);
         }
-
 
         // Permet de liker un utilisateur
         // POST: api/Search/Like

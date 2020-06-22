@@ -1,4 +1,5 @@
-﻿
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "BannedUsers";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -9,7 +10,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Banned Users</h1>
+        <h1 class="h3 mb-0 text-gray-800">@Localizer["Banned"]</h1>
     </div>
 
     <!-- Content Row -->
@@ -18,13 +19,13 @@
             <thead>
                 <tr>
                     <th>
-                        UserName
+                        @Localizer["Username"]
                     </th>
                     <th>
-                        Date of Lockout
+                        @Localizer["Date"]
                     </th>
                     <th>
-                        Actions
+                        @Localizer["Actions"]
                     </th>
                 </tr>
             </thead>
@@ -39,9 +40,9 @@
                             @user.LockoutEnd
                         </td>
                         <td>
-                            <a asp-action="UnBan" asp-route-id="@user.UserName">UnBan</a> |
-                            <a asp-action="Details" asp-route-id="@user.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                            <a asp-action="UnBan" asp-route-id="@user.UserName">@Localizer["UnBan"]</a> |
+                            <a asp-action="Details" asp-route-id="@user.Id">@Localizer["Details"]</a> |
+                            <a asp-action="Delete" asp-route-id="@user.Id">@Localizer["Delete"]</a>
                         </td>
                     </tr>
                 }

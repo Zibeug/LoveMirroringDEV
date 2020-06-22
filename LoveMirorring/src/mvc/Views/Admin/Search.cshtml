@@ -1,7 +1,9 @@
-﻿@model mvc.ViewModels.Admin.SearchModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model mvc.ViewModels.Admin.SearchModel
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    ViewData["Title"] = "Search";
+    ViewData["Title"] = Localizer["TitlePage"];
 }
 
 <!-- Begin Page Content -->
@@ -9,9 +11,9 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Search</h1>
+        <h1 class="h3 mb-0 text-gray-800">@ViewData["Title"]</h1>
     </div>
-        
+
     <!-- Content Row -->
     <div class="row">
         @Html.ValidationSummary(false, "", new { @class = "text-danger" })
@@ -19,7 +21,7 @@
             @using (Html.BeginForm("Search", "Admin", FormMethod.Get))
             {
 
-                <b>Search Username:</b>
+            <b>@Localizer["Title1"]</b>
                 @Html.TextBox("username")<input type="submit" value="Search" id="UserName"
                                                 name="UserName" />
 
@@ -34,22 +36,22 @@
                 <thead>
                     <tr>
                         <th>
-                            UserName
+                            @Localizer["UserName"]
                         </th>
                         <th>
-                            Email
+                            @Localizer["Email"]                     
                         </th>
                         <th>
-                            EmailConfirmed
+                            @Localizer["EmailConfirmed"]
                         </th>
                         <th>
-                            PhoneNumber
+                            @Localizer["PhoneNumber"]
                         </th>
                         <th>
-                            PhoneNumberConfirmed
+                            @Localizer["PhoneNumberConfirmed"]
                         </th>
                         <th>
-                            QuizCompleted
+                            @Localizer["QuizCompleted"]
                         </th>
                     </tr>
                 </thead>
@@ -74,9 +76,9 @@
                             @Html.DisplayFor(modelItem => modelItem.QuizCompleted)
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@Model.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@Model.Id">@Localizer["Edit"]</a> |
+                            <a asp-action="Details" asp-route-id="@Model.Id">@Localizer["Details"]</a> |
+                            <a asp-action="Delete" asp-route-id="@Model.Id">@Localizer["Delete"]</a>
                         </td>
                     </tr>
                 </tbody>
@@ -87,10 +89,3 @@
 
 </div>
 <!-- /.container-fluid -->
-
-
-
-
-
-
-

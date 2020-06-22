@@ -1,14 +1,15 @@
-﻿
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Quizz";
+    ViewData["Title"] = Localizer["TitlePage"];
 }
 
-<h1>Laissez nous établir votre plan de match</h1>
+    <h1>@Localizer["Title1"]</h1>
 <pre>@ViewBag.Json</pre>
 
 @if (ViewData["message"] != null && ViewData["message"].Equals("success"))
 {
-    <p>Bien joué vous avez répondu au Quizz</p>
+<p>@Localizer["QuizSuccess"]</p>
 }
 else
 {
@@ -62,7 +63,7 @@ else
             cpt++;
         }
         <div class="form-group">
-            <button class="btn btn-primary" name="button" asp-action="QuizSubmit">Soumettre mes réponses</button>
+            <button class="btn btn-primary" name="button" asp-action="QuizSubmit">@Localizer["QuizSubmit"]</button>
         </div>
     </form>
 }

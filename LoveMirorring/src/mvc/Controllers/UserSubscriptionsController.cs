@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using mvc.Models;
 using Newtonsoft.Json;
 
@@ -21,10 +22,12 @@ namespace mvc.Controllers
     public class UserSubscriptionsController : Controller
     {
         private readonly IConfiguration _configuration;
+        public IStringLocalizer<MatchingController> _localizer;
 
-        public UserSubscriptionsController(IConfiguration configuration)
+        public UserSubscriptionsController(IConfiguration configuration, IStringLocalizer<MatchingController> localizer)
         {
             _configuration = configuration;
+            _localizer = localizer;
         }
 
         // GET: UserSubscriptions

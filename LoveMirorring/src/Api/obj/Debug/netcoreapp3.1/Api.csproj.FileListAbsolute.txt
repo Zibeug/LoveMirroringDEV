@@ -1256,6 +1256,7 @@ C:\Users\paugillet\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\Api\bin\D
 C:\Users\paugillet\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\ProfanityFilter.dll
 C:\Users\paugillet\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\System.IO.Pipelines.dll
 C:\Users\paugillet\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\System.Threading.Channels.dll
+<<<<<<< Updated upstream
 C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Connections.Abstractions.dll
 C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Http.Connections.Common.dll
 C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Http.Features.dll
@@ -1278,3 +1279,28 @@ C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\
 C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\en\mvc.resources.dll
 C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\fr\mvc.resources.dll
 C:\Users\Paul\Documents\GitHub\LoveMirroringDEV\LoveMirorring\src\Api\obj\Debug\netcoreapp3.1\Api.csprojAssemblyReference.cache
+=======
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Connections.Abstractions.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Http.Connections.Common.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Http.Features.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.SignalR.Client.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.SignalR.Client.Core.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.SignalR.Common.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.Bot.Builder.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.Bot.Builder.Integration.AspNet.Core.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.Bot.Configuration.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.Bot.Connector.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.Bot.Connector.DirectLine.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.Bot.Schema.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.Bot.Streaming.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Clients.ActiveDirectory.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\Microsoft.Rest.ClientRuntime.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\ProfanityFilter.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\System.IO.Pipelines.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\System.Threading.Channels.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\en\mvc.resources.dll
+C:\repositories\LoveMirroringDEV\LoveMirorring\src\Api\bin\Debug\netcoreapp3.1\fr\mvc.resources.dll
+>>>>>>> Stashed changes

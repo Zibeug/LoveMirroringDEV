@@ -1,5 +1,5 @@
 ﻿/*
- * Auteur : Sébastien Berger
+ * Auteur : Sébastien Berger, Tim Allemann
  * Date : 31.05.2020
  * Description : permet d'afficher la page d'accueil
  */
@@ -42,7 +42,20 @@ namespace mvc.Controllers
         public async Task<IActionResult> IndexAsync()
         {
             // Préparation de l'appel à l'API
-            string accessToken = await HttpContext.GetTokenAsync("access_token");
+            string accessToken = "";
+            try
+            {
+                accessToken = await HttpContext.GetTokenAsync("access_token");
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return SignOut("Cookies", "oidc");
+            }
+            catch (Exception)
+            {
+                // Si pour une raison ou pour une la récupération du token ne fonctionne pas déconnecter l'utilisateur également
+                return SignOut("Cookies", "oidc");
+            }
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 

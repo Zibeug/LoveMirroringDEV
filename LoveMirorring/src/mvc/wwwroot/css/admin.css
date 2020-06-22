@@ -10369,6 +10369,7 @@ a:focus {
 
         #wrapper #content-wrapper #content {
             flex: 1 0 auto;
+            margin-left: 30px;
         }
 
 .container,
@@ -10734,6 +10735,7 @@ a:focus {
 
 .topbar {
     height: 4.375rem;
+    margin-left: -29px;
 }
 
     .topbar #sidebarToggleTop {

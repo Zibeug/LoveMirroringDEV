@@ -11,7 +11,8 @@ connection.on("ReceiveMessage", function (user, message) {
     var li = document.createElement("li");
     li.textContent = encodedMsg;
     console.log(li.textContent);
-    document.getElementById("messagesList").appendChild(li);
+    var eElement = document.getElementById("messagesList");
+    eElement.insertBefore(li, eElement.firstChild);
 });
 
 connection.on("ImageReceive", function (user, message) {
@@ -21,7 +22,8 @@ connection.on("ImageReceive", function (user, message) {
     var encodedMsg = user + " dit ";
     li.textContent = encodedMsg;
     li.appendChild(img);
-    document.getElementById("messagesList").appendChild(li);
+    var eElement = document.getElementById("messagesList");
+    eElement.insertBefore(li, eElement.firstChild);
 });
 
 connection.start().then(function () {

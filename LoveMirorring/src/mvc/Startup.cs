@@ -183,7 +183,7 @@ namespace mvc
 
             var localizationOptions = new RequestLocalizationOptions
             {
-                DefaultRequestCulture = new RequestCulture("en-GB"),
+                DefaultRequestCulture = new RequestCulture("fr-CH"),
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures
             };

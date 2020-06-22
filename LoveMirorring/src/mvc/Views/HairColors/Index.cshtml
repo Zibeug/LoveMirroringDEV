@@ -1,14 +1,16 @@
-﻿@model IEnumerable<mvc.Models.HairColor>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model IEnumerable<mvc.Models.HairColor>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = Localizer["TitlePage"];
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">@Localizer["Create"]</a>
 </p>
 <table class="table">
     <thead>
@@ -20,17 +22,18 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.HairColorName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.HairColorId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.HairColorId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.HairColorId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HairColorName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.HairColorId">@Localizer["Edit"]</a> |
+                    <a asp-action="Details" asp-route-id="@item.HairColorId">@Localizer["Details"]</a> |
+                    <a asp-action="Delete" asp-route-id="@item.HairColorId">@Localizer["Delete"]</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

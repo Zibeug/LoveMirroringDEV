@@ -1,25 +1,27 @@
-﻿@model mvc.Models.HairColor
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model mvc.Models.HairColor
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Localizer["TitlePage"];
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Details</h1>
+<h1>@ViewData["Title"]</h1>
 
 <div>
-    <h4>HairColor</h4>
+    <h4>@Localizer["Title1"]</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.HairColorName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.HairColorName)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.HairColorId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.HairColorId">@Localizer["Edit"]</a> |
+    <a asp-action="Index">@Localizer["Back"]</a>
 </div>

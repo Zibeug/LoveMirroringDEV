@@ -99,7 +99,7 @@ namespace mvc.Hubs
         }
 
         // Ajoute une connexion au singleton
-        public async Task AddConnection(string username, string friendname, string connId)
+        public void AddConnection(string username, string friendname, string connId)
         {
             if (!_connectionPCs.Any(c => c.connectionId == connId))
             {
@@ -109,7 +109,7 @@ namespace mvc.Hubs
                         connectionId = Context.ConnectionId,
                         username = username,
                         friendname = friendname,
-                        dateConnection = DateTime.Now                      
+                        dateConnection = DateTime.Now
                     }
                 );
             }

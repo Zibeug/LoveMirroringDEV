@@ -1,4 +1,10 @@
-﻿using mvc.ViewModels;
+﻿/*
+ * Auteur : Allemann Tim
+ * Date : 16.06.2020
+ * Description : Singleton renvoyant la listes des connections du chat privé
+ */
+ 
+using mvc.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

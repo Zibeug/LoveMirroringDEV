@@ -1,12 +1,13 @@
-﻿
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Like";
+    ViewData["Title"] = Localizer["TitlePage"];
 }
 
-<h1>Like</h1>
+<h1>@ViewData["Title"]</h1>
 @if (ViewData["UserList"] == null)
 {
-    <p>Aucun like a afficher</p>
+<p>@Localizer["Null"]</p>
 }
 else
 {
@@ -14,19 +15,19 @@ else
         <thead>
             <tr>
                 <th>
-                    Prénom
+                    @Localizer["FirstName"]
                 </th>
                 <th>
-                    Email
+                    @Localizer["Email"]
                 </th>
                 <th>
-                    Age
+                    @Localizer["Age"]
                 </th>
                 <th>
-                    Details
+                    @Localizer["Details"]
                 </th>
                 <th>
-                    Choix
+                    @Localizer["Choice"]
                 </th>
             </tr>
         </thead>
@@ -51,13 +52,13 @@ else
                     <td>
                         <form asp-route="Search" method="post">
                             <input type="hidden" name="username" value="@user.UserName" />
-                            <button class="btn btn-secondary" asp-action="Details">Voir le compte</button>
+                            <button class="btn btn-secondary" asp-action="Details">@Localizer["SeeAccount"]</button>
                         </form>
                     </td>
                     <td>
                         <form asp-route="Search" method="post">
                             <input type="hidden" name="username" value="@user.UserName" />
-                            <button type="submit" asp-action="UnLike" class="btn-secondary">Unlike</button>
+                            <button type="submit" asp-action="UnLike" class="btn-secondary">@Localizer["Unlike"]</button>
                         </form>
                     </td>
                 </tr>

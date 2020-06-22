@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using mvc.Models;
 using mvc.ViewModels;
 using Newtonsoft.Json;
@@ -26,10 +27,12 @@ namespace mvc.Controllers
     public class SearchController : Controller
     {
         private IConfiguration Configuration { get; set; }
+        public IStringLocalizer<MatchingController> _localizer;
 
-        public SearchController(IConfiguration configuration)
+        public SearchController(IConfiguration configuration,IStringLocalizer<MatchingController> localizer)
         {
             Configuration = configuration;
+            _localizer = localizer;
         }
 
         public async Task<IActionResult> IndexAsync()

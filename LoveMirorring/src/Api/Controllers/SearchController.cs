@@ -76,7 +76,7 @@ namespace Api.Controllers
             {
                 int nbPreferenceCommun = 0;
                 // Le potentiel commence à 0.2 car age et profil obligatoire (chacun vaut 0.125
-                double potentielPourcentage = MATCHING * 2;
+                double potentielPourcentage = MATCHING * 200;
 
                 // Vérifier si le profil correspond
                 List<string> potentialUserMatchProfil = new List<string>();

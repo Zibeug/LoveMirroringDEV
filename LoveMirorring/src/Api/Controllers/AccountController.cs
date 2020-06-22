@@ -62,6 +62,7 @@ namespace Api.Controllers
             }
 
             user = await _context.AspNetUsers
+                            .Include(a => a.Pictures)
                             .Include(a => a.Corpulence)
                             .Include(a => a.HairColor)
                             .Include(a => a.HairSize)
@@ -132,6 +133,7 @@ namespace Api.Controllers
             }
 
             user = await _context.AspNetUsers
+                            .Include(a => a.Pictures)
                             .Include(a => a.Corpulence)
                             .Include(a => a.HairColor)
                             .Include(a => a.HairSize)

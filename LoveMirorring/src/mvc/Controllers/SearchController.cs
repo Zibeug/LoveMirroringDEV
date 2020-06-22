@@ -258,6 +258,7 @@ namespace mvc.Controllers
             // les preferences que lui et la personne connectée on en commun (on aime les 2 les gros même si l'un et/ou l'autre ne l'est pas) 
 
             ViewData["commonPreferences"] = listCommonPreferences;
+            ViewData["APIURL"] = Configuration["URLAPI"];
 
             return View(user);
         }

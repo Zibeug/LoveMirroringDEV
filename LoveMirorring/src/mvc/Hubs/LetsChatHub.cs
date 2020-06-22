@@ -62,18 +62,18 @@ namespace mvc.Hubs
 
             // Récupérer la connexion du récepteur
             string connectionFriendId = _connectionPCs
-                                            .Where(c => c.username == friendname)
+                                            .Where(c => c.username == friendname && c.friendname == username)
                                             .OrderByDescending(c => c.dateConnection)
                                             .Select(c => c.connectionId)
                                             .FirstOrDefault();
 
-            // Récupérer la connexion de l'expéditeur
+            // Si existant envoyer au récepteur
             if (connectionFriendId != null && connectionFriendId != "")
             {
                 await Clients.Client(connectionFriendId).SendAsync("ReceiveMessage", username, censored);
             }
 
-            // Si existant envoyer au récepteur
+            // Récupérer la connexion de l'expéditeur
             string connectionUserId = _connectionPCs
                                             .Where(c => c.username == username)
                                             .OrderByDescending(c => c.dateConnection)

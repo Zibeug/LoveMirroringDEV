@@ -3072,6 +3072,14 @@
         "runtime": {
           "mvc.dll": {}
         },
+        "resources": {
+          "en/mvc.resources.dll": {
+            "locale": "en"
+          },
+          "fr/mvc.resources.dll": {
+            "locale": "fr"
+          }
+        },
         "compile": {
           "mvc.dll": {}
         }

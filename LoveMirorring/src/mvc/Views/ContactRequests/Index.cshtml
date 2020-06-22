@@ -1,59 +1,60 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
-@inject IViewLocalizer Localizer
-@model IEnumerable<mvc.Models.ContactRequest>
+﻿@model IEnumerable<mvc.Models.ContactRequest>
 
-@{
-    ViewData["Title"] = Localizer["TitlePage"];
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-}
+    @{
+        ViewData["Title"] = "Index";
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
 
-<h1>@ViewData["Title"]</h1>
+    <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">@Localizer["Create"]</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RequestText)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RequestDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RequestAnswered)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RequestText)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RequestDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RequestAnswered)
-                </td>
-                <td>
-                    @if (item.RequestAnswered == false)
-                    {
-                    <a asp-action="Edit" asp-route-id="@item.RequestId">@Localizer["Edit"] | </a>
-                    }
-                <a asp-action="Details" asp-route-id="@item.RequestId">@Localizer["Details"]| </a>
-                <a asp-action="Delete" asp-route-id="@item.RequestId">@Localizer["Delete"]</a>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RequestText)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RequestDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RequestAnswered)
+                </th>
+                <th>
+                    Nombre de réponse
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequestText)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequestDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequestAnswered)
+                    </td>
+                    <td>
+                        @item.AnswerRequests.Count()
+                    </td>
+                    <td>
+                        @if (item.RequestAnswered == false)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.RequestId">Edit | </a>
+                        }
+                        <a asp-action="Details" asp-route-id="@item.RequestId">Details| </a>
+                        <a asp-action="Delete" asp-route-id="@item.RequestId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
